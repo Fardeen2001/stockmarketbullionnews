@@ -2,23 +2,23 @@
   "crons": [
     {
       "path": "/api/cron/update-stocks",
-      "schedule": "0 * * * *"
+      "schedule": "0 0 * * *"
     },
     {
       "path": "/api/cron/update-metals",
-      "schedule": "5 * * * *"
+      "schedule": "0 3 * * *"
     },
     {
       "path": "/api/cron/scrape-news-v2",
-      "schedule": "10 * * * *"
+      "schedule": "0 6 * * *"
     },
     {
       "path": "/api/cron/detect-trends",
-      "schedule": "20 * * * *"
+      "schedule": "0 9 * * *"
     },
     {
       "path": "/api/cron/generate-articles-v2",
-      "schedule": "30 * * * *"
+      "schedule": "0 12 * * *"
     },
     {
       "path": "/api/cron/update-sharia",

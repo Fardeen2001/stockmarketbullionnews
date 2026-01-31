@@ -1,6 +1,5 @@
-import StockCard from '@/components/StockCard';
+import StocksList from '@/components/StocksList';
 import AdSense from '@/components/AdSense';
-import Pagination from '@/components/Pagination';
 import { getBaseUrl } from '@/lib/utils/getBaseUrl';
 
 async function getStocks(page = 1, limit = 12) {
@@ -50,38 +49,13 @@ export default async function StocksPage({ searchParams }) {
         </div>
       )}
 
-      {/* Stocks Grid */}
-      {stocks.length > 0 ? (
-        <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-            {stocks.map((stock, index) => (
-              <div
-                key={stock._id}
-                className="animate-fade-in"
-                style={{ animationDelay: `${index * 0.05}s` }}
-              >
-                <StockCard stock={stock} />
-              </div>
-            ))}
-          </div>
-
-          {/* Pagination */}
-          {pagination && pagination.totalPages > 0 && (
-            <Pagination
-              currentPage={page}
-              totalPages={pagination.totalPages}
-              totalItems={pagination.total || 0}
-              currentLimit={limit}
-              limitOptions={[12, 24, 48, 96]}
-              basePath="/stocks"
-            />
-          )}
-        </>
-      ) : (
-        <div className="text-center py-16 glass rounded-2xl animate-fade-in">
-          <p className="text-gray-600 text-xl">No stocks available. Data is being updated.</p>
-        </div>
-      )}
+      {/* Stocks List with Refresh Button */}
+      <StocksList
+        initialStocks={stocks}
+        initialPagination={pagination}
+        currentPage={page}
+        currentLimit={limit}
+      />
     </div>
   );
 }

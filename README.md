@@ -112,12 +112,15 @@ curl http://localhost:3000/api/cron/update-sharia?authorization=Bearer YOUR_CRON
 
 ### 3. Vercel Cron Jobs
 
-For production, set up cron jobs in `vercel.json`. The cron jobs are configured to run:
-- Stock updates: Every hour
-- Metal updates: Every hour
-- News scraping: Every hour
-- Article generation: Every hour
+For production, set up cron jobs in `vercel.json`. The cron jobs are configured to run (daily - Hobby plan compatible):
+- Stock updates: Daily at midnight
+- Metal updates: Daily at 3:00 AM
+- News scraping: Daily at 6:00 AM
+- Trend detection: Daily at 9:00 AM
+- Article generation: Daily at noon
 - Sharia compliance: Weekly (Sunday)
+
+**Note:** Vercel's free Hobby plan only allows daily cron jobs. Upgrade to Pro for hourly execution.
 
 ## Project Structure
 

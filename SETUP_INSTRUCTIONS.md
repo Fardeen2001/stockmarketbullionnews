@@ -147,14 +147,16 @@ npm run cron
 
 ### Cron Job Schedules
 
-The following cron jobs run automatically:
+The following cron jobs run automatically (configured for Vercel Hobby plan - daily):
 
-- **Update Stocks**: Every hour at minute 0
-- **Update Metals**: Every hour at minute 5
-- **Scrape News**: Every hour at minute 10
-- **Detect Trends**: Every hour at minute 20
-- **Generate Articles**: Every hour at minute 30
+- **Update Stocks**: Daily at midnight (00:00)
+- **Update Metals**: Daily at 3:00 AM
+- **Scrape News**: Daily at 6:00 AM
+- **Detect Trends**: Daily at 9:00 AM
+- **Generate Articles**: Daily at noon (12:00)
 - **Update Sharia**: Every Sunday at midnight
+
+**Note:** Vercel's free Hobby plan only allows daily cron jobs. To run more frequently (hourly), upgrade to Vercel Pro ($20/month).
 
 ### Manual Trigger (Optional)
 
