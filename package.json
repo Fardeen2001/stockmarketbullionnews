@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "dev:with-cron": "concurrently \"next dev\" \"node scripts/cron-runner.js\" --names \"SERVER,CRON\" --prefix-colors \"blue,green\"",
+    "postinstall": "npx playwright install chromium || echo 'Playwright install failed, will use fallback methods'",
     "build": "next build",
     "start": "next start",
     "start:with-cron": "concurrently \"next start\" \"node scripts/cron-runner.js\" --names \"SERVER,CRON\" --prefix-colors \"blue,green\"",
