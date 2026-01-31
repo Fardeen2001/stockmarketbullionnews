@@ -43,47 +43,46 @@ export async function GET(request, { params }) {
       if (quote) {
         // Get company overview for additional data
         const overview = await stockAPI.getCompanyOverview(validatedSymbol, exchange);
-          
-          // Build live data object
-          liveData = {
-            currentPrice: quote.price,
-            previousClose: quote.previousClose,
-            change: quote.change,
-            changePercent: parseFloat(quote.changePercent),
-            volume: quote.volume,
-            open: quote.open,
-            high: quote.high,
-            low: quote.low,
-            lastUpdated: new Date(),
-            ...(overview && {
-              name: overview.name,
-              sector: overview.sector,
-              industry: overview.industry,
-              description: overview.description,
-              marketCap: overview.marketCap,
-              peRatio: overview.peRatio,
-              high52Week: overview.high52Week,
-              low52Week: overview.low52Week,
-            }),
-          };
+        
+        // Build live data object
+        liveData = {
+          currentPrice: quote.price,
+          previousClose: quote.previousClose,
+          change: quote.change,
+          changePercent: parseFloat(quote.changePercent),
+          volume: quote.volume,
+          open: quote.open,
+          high: quote.high,
+          low: quote.low,
+          lastUpdated: new Date(),
+          ...(overview && {
+            name: overview.name,
+            sector: overview.sector,
+            industry: overview.industry,
+            description: overview.description,
+            marketCap: overview.marketCap,
+            peRatio: overview.peRatio,
+            high52Week: overview.high52Week,
+            low52Week: overview.low52Week,
+          }),
+        };
 
-          // Merge with cached data if it exists
-          if (stock) {
-            stock = {
-              ...stock,
-              ...liveData,
-              // Preserve fields that shouldn't be overwritten
-              imageUrl: stock.imageUrl,
-              isShariaCompliant: stock.isShariaCompliant,
-              priceHistory: stock.priceHistory,
-              fundamentals: stock.fundamentals,
-            };
-          }
+        // Merge with cached data if it exists
+        if (stock) {
+          stock = {
+            ...stock,
+            ...liveData,
+            // Preserve fields that shouldn't be overwritten
+            imageUrl: stock.imageUrl,
+            isShariaCompliant: stock.isShariaCompliant,
+            priceHistory: stock.priceHistory,
+            fundamentals: stock.fundamentals,
+          };
         }
-      } catch (apiError) {
-        console.error(`Error fetching live data for ${validatedSymbol}:`, apiError.message);
-        // Continue with cached data if live fetch fails
       }
+    } catch (apiError) {
+      console.error(`Error fetching live data for ${validatedSymbol}:`, apiError.message);
+      // Continue with cached data if live fetch fails
     }
 
     // If no stock data found (neither cached nor live)
