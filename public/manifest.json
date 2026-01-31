@@ -1,0 +1,21 @@
+{
+  "name": "StockMarket Bullion",
+  "short_name": "SMB",
+  "description": "Stock market news, gold and silver prices, and Sharia-compliant stock analysis",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563EB",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

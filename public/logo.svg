@@ -1,0 +1,21 @@
+<svg width="200" height="60" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="30" cy="30" r="25" fill="#2563EB" opacity="0.1"/>
+  <circle cx="30" cy="30" r="20" fill="#2563EB"/>
+  
+  <!-- Chart/Graph icon -->
+  <path d="M20 35 L25 30 L30 32 L35 25 L40 28" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="20" cy="35" r="2" fill="white"/>
+  <circle cx="25" cy="30" r="2" fill="white"/>
+  <circle cx="30" cy="32" r="2" fill="white"/>
+  <circle cx="35" cy="25" r="2" fill="white"/>
+  <circle cx="40" cy="28" r="2" fill="white"/>
+  
+  <!-- Gold coin icon -->
+  <circle cx="30" cy="20" r="6" fill="#FBBF24" stroke="white" stroke-width="1.5"/>
+  <path d="M30 14 L30 26 M24 20 L36 20" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+  
+  <!-- Text -->
+  <text x="55" y="25" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#1F2937">StockMarket</text>
+  <text x="55" y="42" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#2563EB">Bullion</text>
+</svg>
