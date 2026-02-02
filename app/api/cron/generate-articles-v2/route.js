@@ -2,21 +2,20 @@ import { NextResponse } from 'next/server';
 import { ContentGenerationAgent } from '@/lib/ai/agents/contentGenerationAgent';
 import { getTrendingTopicsCollection } from '@/lib/db';
 import { logger } from '@/lib/utils/logger';
-
-function verifyCronSecret(request) {
-  const authHeader = request.headers.get('authorization');
-  const cronSecret = process.env.CRON_SECRET;
-  
-  if (!cronSecret) return true;
-  if (authHeader === `Bearer ${cronSecret}`) return true;
-  if (request.headers.get('x-vercel-cron') === 'true') return true;
-  
-  return false;
-}
+import { verifyCronRequest } from '@/lib/utils/cronAuth';
 
 export async function GET(request) {
+  const authResult = verifyCronRequest(request);
+  const timestamp = new Date().toISOString();
+  
+  logger.info('Cron job triggered: generate-articles-v2', { 
+    source: authResult.source,
+    timestamp 
+  });
+  
   try {
-    if (!verifyCronSecret(request)) {
+    if (!authResult.authorized) {
+      logger.warn('Unauthorized cron request: generate-articles-v2', { timestamp });
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

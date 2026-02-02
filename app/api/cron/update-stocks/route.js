@@ -3,22 +3,25 @@ import { getStocksCollection } from '@/lib/db';
 import { YahooFinanceAPI, AlphaVantageAPI, INDIAN_STOCKS, GLOBAL_STOCKS } from '@/lib/api/stockAPI';
 import { UnsplashAPI } from '@/lib/api/imageAPI';
 import { logger } from '@/lib/utils/logger';
-
-// Protect cron endpoint
-function verifyCronSecret(request) {
-  const authHeader = request.headers.get('authorization');
-  const cronSecret = process.env.CRON_SECRET;
-  
-  if (!cronSecret) return true; // Allow if no secret set (development)
-  if (authHeader === `Bearer ${cronSecret}`) return true;
-  if (request.headers.get('x-vercel-cron') === 'true') return true; // Vercel cron
-  
-  return false;
-}
+import { verifyCronRequest } from '@/lib/utils/cronAuth';
 
 export async function GET(request) {
+  const authResult = verifyCronRequest(request);
+  const timestamp = new Date().toISOString();
+  
+  // Log cron job trigger
+  logger.info('Cron job triggered: update-stocks', { 
+    source: authResult.source,
+    timestamp,
+    headers: {
+      'x-vercel-cron': request.headers.get('x-vercel-cron'),
+      'authorization': request.headers.get('authorization') ? 'present' : 'missing'
+    }
+  });
+  
   try {
-    if (!verifyCronSecret(request)) {
+    if (!authResult.authorized) {
+      logger.warn('Unauthorized cron request: update-stocks', { timestamp });
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

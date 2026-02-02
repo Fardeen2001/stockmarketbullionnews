@@ -1,21 +1,21 @@
 import { NextResponse } from 'next/server';
 import { getStocksCollection } from '@/lib/db';
 import { NewsScraper } from '@/lib/scrapers/newsScraper';
-
-function verifyCronSecret(request) {
-  const authHeader = request.headers.get('authorization');
-  const cronSecret = process.env.CRON_SECRET;
-  
-  if (!cronSecret) return true;
-  if (authHeader === `Bearer ${cronSecret}`) return true;
-  if (request.headers.get('x-vercel-cron') === 'true') return true;
-  
-  return false;
-}
+import { verifyCronRequest } from '@/lib/utils/cronAuth';
+import { logger } from '@/lib/utils/logger';
 
 export async function GET(request) {
+  const authResult = verifyCronRequest(request);
+  const timestamp = new Date().toISOString();
+  
+  logger.info('Cron job triggered: update-sharia', { 
+    source: authResult.source,
+    timestamp 
+  });
+  
   try {
-    if (!verifyCronSecret(request)) {
+    if (!authResult.authorized) {
+      logger.warn('Unauthorized cron request: update-sharia', { timestamp });
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -146,7 +146,7 @@ export async function GET(request) {
       totalHalalStocks: verifiedCompliant,
     });
   } catch (error) {
-    console.error('Cron update-sharia error:', error);
+    logger.error('Cron update-sharia error', { error: error.message, timestamp });
     return NextResponse.json(
       { success: false, error: error.message },
       { status: 500 }
