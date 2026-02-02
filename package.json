@@ -14,7 +14,7 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@huggingface/inference": "^2.6.0",
+    "@huggingface/inference": "^4.13.11",
     "@langchain/core": "^0.3.0",
     "axios": "^1.6.2",
     "chart.js": "^4.4.0",
