@@ -182,7 +182,7 @@ export default async function NewsDetailPage({ params }) {
                   .filter(p => p.trim())
                   .map((paragraph, index) => {
                     // Remove any remaining markdown
-                    const cleanParagraph = paragraph
+                    let cleanParagraph = paragraph
                       .replace(/^#+\s*/g, '')
                       .replace(/^[-*+]\s+/g, '')
                       .replace(/^\d+\.\s+/g, '')
@@ -190,10 +190,28 @@ export default async function NewsDetailPage({ params }) {
                       .replace(/\*(.+?)\*/g, '$1')
                       .trim();
                     
+                    // Process internal links: [INTERNAL_LINK:text|url]
+                    cleanParagraph = cleanParagraph.replace(
+                      /\[INTERNAL_LINK:([^\|]+)\|([^\]]+)\]/g,
+                      (match, text, url) => {
+                        return `<a href="${url}" class="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 underline-offset-2 transition-colors">${text}</a>`;
+                      }
+                    );
+
+                    // Process external links: [EXTERNAL_LINK:text|url]
+                    cleanParagraph = cleanParagraph.replace(
+                      /\[EXTERNAL_LINK:([^\|]+)\|([^\]]+)\]/g,
+                      (match, text, url) => {
+                        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-green-600 hover:text-green-700 font-semibold underline decoration-2 underline-offset-2 transition-colors">${text}</a>`;
+                      }
+                    );
+                    
                     return cleanParagraph && (
-                      <p key={index} className="mb-6 text-gray-700 leading-relaxed text-lg">
-                        {cleanParagraph}
-                      </p>
+                      <p 
+                        key={index} 
+                        className="mb-6 text-gray-700 leading-relaxed text-lg"
+                        dangerouslySetInnerHTML={{ __html: cleanParagraph }}
+                      />
                     );
                   })}
               </div>
