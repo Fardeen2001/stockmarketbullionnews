@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Enable instrumentation hook for root-level deprecation suppression
+  experimental: {
+    instrumentationHook: true,
+  },
+  
   // Production optimizations
   compress: true,
   poweredByHeader: false,
