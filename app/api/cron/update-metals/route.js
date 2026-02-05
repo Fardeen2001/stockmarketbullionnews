@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getMetalsCollection } from '@/lib/db';
-import { YahooFinanceMetalsAPI, MetalpriceAPI, GoldAPI, METAL_TYPES } from '@/lib/api/metalsAPI';
+import { YahooFinanceMetalsAPI, MetalpriceAPI, GoldAPI, getAllMetals } from '@/lib/api/metalsAPI';
 import { UnsplashAPI } from '@/lib/api/imageAPI';
 import { logger } from '@/lib/utils/logger';
 import { verifyCronRequest } from '@/lib/utils/cronAuth';
@@ -31,14 +31,28 @@ export async function GET(request) {
     let updated = 0;
     let errors = 0;
 
+    // Dynamically discover all available metals - no hardcoding
+    logger.info('Discovering all available metals dynamically...');
+    const allMetals = await getAllMetals();
+    logger.info(`Found ${allMetals.length} metals to update`);
+    
     // Try Yahoo Finance first (free, no API key needed)
     try {
       const prices = await yahooMetalsAPI.getAllMetalsPrices('INR');
       
       if (prices) {
         for (const [metalType, priceData] of Object.entries(prices)) {
-          const metal = METAL_TYPES.find(m => m.type === metalType);
-          if (!metal) continue;
+          // Safety check: ensure priceData is valid
+          if (!priceData || typeof priceData !== 'object' || !priceData.price) {
+            logger.warn(`Skipping invalid price data for metal: ${metalType}`);
+            continue;
+          }
+          
+          // Find metal info from discovered metals or use defaults
+          const metal = allMetals.find(m => m.type === metalType) || {
+            type: metalType,
+            name: metalType.charAt(0).toUpperCase() + metalType.slice(1),
+          };
 
           // Get image
           let imageUrl = null;
@@ -112,8 +126,18 @@ export async function GET(request) {
         
         if (prices) {
           for (const [metalType, priceData] of Object.entries(prices)) {
-            const metal = METAL_TYPES.find(m => m.symbol === metalType);
-            if (!metal) continue;
+            // Map metal symbols to types
+            const symbolToType = {
+              'XAU': 'gold',
+              'XAG': 'silver',
+              'XPT': 'platinum',
+              'XPD': 'palladium',
+            };
+            const metalTypeFromSymbol = symbolToType[metalType] || metalType.toLowerCase();
+            const metal = allMetals.find(m => m.type === metalTypeFromSymbol) || {
+              type: metalTypeFromSymbol,
+              name: metalTypeFromSymbol.charAt(0).toUpperCase() + metalTypeFromSymbol.slice(1),
+            };
 
             // Get image
             let imageUrl = null;
@@ -180,7 +204,15 @@ export async function GET(request) {
     if (goldKey && errors > 0) {
       try {
         const goldAPI = new GoldAPI(goldKey);
-        for (const metal of METAL_TYPES) {
+        // Use discovered metals or fallback to common ones
+        const metalsToProcess = allMetals.length > 0 ? allMetals : [
+          { type: 'gold', name: 'Gold', symbol: 'XAU' },
+          { type: 'silver', name: 'Silver', symbol: 'XAG' },
+          { type: 'platinum', name: 'Platinum', symbol: 'XPT' },
+          { type: 'palladium', name: 'Palladium', symbol: 'XPD' },
+        ];
+        
+        for (const metal of metalsToProcess) {
           const priceData = await goldAPI.getMetalPrice(metal.symbol, 'INR');
           if (priceData) {
             let imageUrl = null;

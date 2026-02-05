@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getStocksCollection } from '@/lib/db';
-import { YahooFinanceAPI, AlphaVantageAPI, INDIAN_STOCKS, GLOBAL_STOCKS } from '@/lib/api/stockAPI';
+import { YahooFinanceAPI, AlphaVantageAPI, getAllStocks } from '@/lib/api/stockAPI';
 import { UnsplashAPI } from '@/lib/api/imageAPI';
 import { logger } from '@/lib/utils/logger';
 import { verifyCronRequest } from '@/lib/utils/cronAuth';
@@ -34,13 +34,35 @@ export async function GET(request) {
       ? new AlphaVantageAPI(process.env.ALPHA_VANTAGE_API_KEY) 
       : null;
 
-    const allStocks = [...INDIAN_STOCKS, ...GLOBAL_STOCKS];
+    // Dynamically fetch all stocks from NSE and BSE - no hardcoding
+    logger.info('Fetching all stocks dynamically from NSE and BSE...');
+    const allStocks = await getAllStocks(true); // Use database as fallback
+    logger.info(`Found ${allStocks.length} stocks to update`);
+    
+    if (allStocks.length === 0) {
+      logger.warn('No stocks found. This might be due to API rate limits or network issues.');
+      return NextResponse.json({
+        success: false,
+        message: 'No stocks found. Please check API availability.',
+        updated: 0,
+        errors: 0,
+      });
+    }
+
     let updated = 0;
     let errors = 0;
 
     // Process stocks - Yahoo Finance doesn't have strict rate limits like Alpha Vantage
     for (let i = 0; i < allStocks.length; i++) {
       const stock = allStocks[i];
+      
+      // Safety check: ensure stock has required properties
+      if (!stock || !stock.symbol) {
+        logger.warn(`Skipping invalid stock at index ${i}: missing symbol`);
+        errors++;
+        continue;
+      }
+      
       const isIndianStock = stock.exchange === 'NSE' || stock.exchange === 'BSE';
       
       try {
