@@ -1,7 +1,9 @@
 import NewsCard from '@/components/NewsCard';
 import AdSense from '@/components/AdSense';
 import Pagination from '@/components/Pagination';
+import StructuredData from '@/components/StructuredData';
 import { getBaseUrl } from '@/lib/utils/getBaseUrl';
+import { generateMetadata as generateSEOMetadata, generateWebPageSchema, generateKeywords, SITE_URL } from '@/lib/utils/seo';
 
 async function getNews(page = 1, limit = 12, category = null) {
   try {
@@ -18,10 +20,37 @@ async function getNews(page = 1, limit = 12, category = null) {
   }
 }
 
-export const metadata = {
-  title: 'Latest Stock Market & Bullion News - StockMarket Bullion',
-  description: 'Stay updated with the latest stock market news, gold and silver prices, and Sharia-compliant stock analysis.',
-};
+export async function generateMetadata({ searchParams }) {
+  const params = await searchParams;
+  const category = params.category || null;
+  
+  const categoryName = category ? category.charAt(0).toUpperCase() + category.slice(1) : '';
+  const title = category 
+    ? `${categoryName} News - StockMarket Bullion | Latest Financial News`
+    : 'Latest Stock Market & Bullion News - StockMarket Bullion';
+  
+  const description = category
+    ? `Stay updated with the latest ${categoryName.toLowerCase()} news, market updates, and financial insights. Real-time news coverage for stocks, metals, and Sharia-compliant investments.`
+    : 'Stay updated with the latest stock market news, gold and silver prices, and Sharia-compliant stock analysis. Real-time financial news, market updates, and AI-powered insights.';
+
+  return generateSEOMetadata({
+    title,
+    description,
+    keywords: generateKeywords({
+      baseKeywords: ["financial news", "market news", "stock news", "investment news", "market updates", "financial insights"],
+      category: category || "news",
+      location: "India",
+    }),
+    url: category ? `/news?category=${category}` : '/news',
+    type: 'website',
+    image: '/og-image.jpg',
+    section: category || 'News',
+    geo: {
+      region: 'IN',
+      country: 'India',
+    },
+  });
+}
 
 export default async function NewsPage({ searchParams }) {
   const params = await searchParams;
@@ -30,8 +59,22 @@ export default async function NewsPage({ searchParams }) {
   const category = params.category || null;
   const { data: news, pagination } = await getNews(page, limit, category);
 
+  // Generate structured data
+  const pageSchema = generateWebPageSchema({
+    name: category ? `${category.charAt(0).toUpperCase() + category.slice(1)} News` : 'Latest News',
+    description: 'Stay updated with the latest stock market and financial news.',
+    url: `${SITE_URL}/news${category ? `?category=${category}` : ''}`,
+    breadcrumb: [
+      { name: "Home", url: SITE_URL },
+      { name: "News", url: `${SITE_URL}/news` },
+      ...(category ? [{ name: category.charAt(0).toUpperCase() + category.slice(1), url: `${SITE_URL}/news?category=${category}` }] : []),
+    ],
+  });
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <>
+      <StructuredData data={pageSchema} />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="mb-12 animate-fade-in">
         <h1 className="text-5xl md:text-6xl font-extrabold mb-4">
           <span className="gradient-text bg-gradient-primary bg-clip-text text-transparent">
@@ -130,5 +173,6 @@ export default async function NewsPage({ searchParams }) {
         </div>
       )}
     </div>
+    </>
   );
 }

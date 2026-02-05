@@ -1,13 +1,37 @@
-import { Metadata } from 'next';
+import StructuredData from '@/components/StructuredData';
+import { generateMetadata as generateSEOMetadata, generateWebPageSchema, generateKeywords, SITE_URL } from '@/lib/utils/seo';
 
-export const metadata = {
+export const metadata = generateSEOMetadata({
   title: 'About Us - StockMarket Bullion',
-  description: 'Learn about StockMarket Bullion - Your trusted source for stock market news, gold and silver prices, and Sharia-compliant stock analysis.',
-};
+  description: 'Learn about StockMarket Bullion - Your trusted source for stock market news, gold and silver prices, and Sharia-compliant stock analysis. Real-time market data, AI-powered insights, and comprehensive financial coverage.',
+  keywords: generateKeywords({
+    baseKeywords: ["about", "company", "mission", "stock market", "financial news", "precious metals", "sharia stocks"],
+    location: "India",
+  }),
+  url: '/about',
+  type: 'website',
+  image: '/og-image.jpg',
+  geo: {
+    region: 'IN',
+    country: 'India',
+  },
+});
 
 export default function AboutPage() {
+  const pageSchema = generateWebPageSchema({
+    name: 'About Us - StockMarket Bullion',
+    description: 'Learn about StockMarket Bullion and our mission.',
+    url: `${SITE_URL}/about`,
+    breadcrumb: [
+      { name: "Home", url: SITE_URL },
+      { name: "About", url: `${SITE_URL}/about` },
+    ],
+  });
+
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <>
+      <StructuredData data={pageSchema} />
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <h1 className="text-4xl font-bold text-gray-900 mb-8">About StockMarket Bullion</h1>
       
       <div className="prose prose-lg max-w-none">
@@ -100,5 +124,6 @@ export default function AboutPage() {
         </section>
       </div>
     </div>
+    </>
   );
 }

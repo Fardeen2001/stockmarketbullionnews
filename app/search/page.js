@@ -4,6 +4,8 @@ import MetalCard from '@/components/MetalCard';
 import NewsCard from '@/components/NewsCard';
 import Pagination from '@/components/Pagination';
 import AdSense from '@/components/AdSense';
+import StructuredData from '@/components/StructuredData';
+import { generateMetadata as generateSEOMetadata, generateWebPageSchema, generateKeywords, SITE_URL } from '@/lib/utils/seo';
 
 async function search(query, type = 'all', page = 1, limit = 12) {
   try {
@@ -20,10 +22,44 @@ async function search(query, type = 'all', page = 1, limit = 12) {
   }
 }
 
-export const metadata = {
-  title: 'Search - StockMarket Bullion',
-  description: 'Search for stocks, metals, and news articles',
-};
+export async function generateMetadata({ searchParams }) {
+  const params = await searchParams;
+  const query = params.q || '';
+  
+  if (query) {
+    return generateSEOMetadata({
+      title: `Search Results for "${query}" - StockMarket Bullion`,
+      description: `Search results for "${query}" - Find stocks, metals, and news articles related to your search query.`,
+      keywords: generateKeywords({
+        baseKeywords: ["search", query, "stocks", "metals", "news"],
+        location: "India",
+      }),
+      url: `/search?q=${encodeURIComponent(query)}`,
+      type: 'website',
+      noindex: true, // Search results pages typically shouldn't be indexed
+      geo: {
+        region: 'IN',
+        country: 'India',
+      },
+    });
+  }
+
+  return generateSEOMetadata({
+    title: 'Search - StockMarket Bullion',
+    description: 'Search for stocks, metals, and news articles. Find real-time stock prices, precious metals rates, and financial news.',
+    keywords: generateKeywords({
+      baseKeywords: ["search", "stocks", "metals", "news", "financial search"],
+      location: "India",
+    }),
+    url: '/search',
+    type: 'website',
+    image: '/og-image.jpg',
+    geo: {
+      region: 'IN',
+      country: 'India',
+    },
+  });
+}
 
 export default async function SearchPage({ searchParams }) {
   const params = await searchParams;
@@ -32,14 +68,29 @@ export default async function SearchPage({ searchParams }) {
   const page = parseInt(params.page || '1');
   const limit = parseInt(params.limit || '12');
 
+  // Generate structured data
+  const pageSchema = generateWebPageSchema({
+    name: query ? `Search Results for "${query}"` : 'Search - StockMarket Bullion',
+    description: query ? `Search results for "${query}"` : 'Search for stocks, metals, and news articles.',
+    url: query ? `${SITE_URL}/search?q=${encodeURIComponent(query)}` : `${SITE_URL}/search`,
+    breadcrumb: [
+      { name: "Home", url: SITE_URL },
+      { name: "Search", url: `${SITE_URL}/search` },
+      ...(query ? [{ name: `Results for "${query}"`, url: `${SITE_URL}/search?q=${encodeURIComponent(query)}` }] : []),
+    ],
+  });
+
   if (!query || query.trim().length === 0) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <>
+        <StructuredData data={pageSchema} />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center py-16 glass rounded-2xl animate-fade-in">
           <h1 className="text-3xl font-bold text-gray-900 mb-4">Search</h1>
           <p className="text-gray-600">Enter a search query to find stocks, metals, and news</p>
         </div>
       </div>
+      </>
     );
   }
 
@@ -66,7 +117,9 @@ export default async function SearchPage({ searchParams }) {
   const paginatedResults = allResults.slice(startIndex, endIndex);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <>
+      <StructuredData data={pageSchema} />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Header */}
       <div className="mb-12 animate-fade-in">
         <h1 className="text-5xl md:text-6xl font-extrabold mb-4">
@@ -150,5 +203,6 @@ export default async function SearchPage({ searchParams }) {
         </div>
       )}
     </div>
+    </>
   );
 }

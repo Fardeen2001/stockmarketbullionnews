@@ -1,7 +1,27 @@
 import Link from 'next/link';
 import NewsCard from '@/components/NewsCard';
 import AdSense from '@/components/AdSense';
+import StructuredData from '@/components/StructuredData';
 import { getBaseUrl } from '@/lib/utils/getBaseUrl';
+import { generateMetadata as generateSEOMetadata, generateWebPageSchema, generateKeywords, SITE_URL } from '@/lib/utils/seo';
+
+export const metadata = generateSEOMetadata({
+  title: "StockMarket Bullion - Latest Stocks, Gold, Silver & Sharia Compliant Stocks",
+  description: "Your trusted source for stock market news, precious metals prices, and Sharia-compliant stock analysis. Real-time market data, AI-powered insights, and comprehensive financial coverage for India and global markets.",
+  keywords: generateKeywords({
+    baseKeywords: ["stock market", "stocks", "gold price", "silver price", "sharia compliant stocks", "NSE", "BSE", "market news", "financial news", "investment", "trading", "precious metals", "bullion", "halal stocks", "islamic finance", "real-time prices", "stock analysis"],
+    location: "India",
+  }),
+  url: '/',
+  type: 'website',
+  image: '/og-image.jpg',
+  geo: {
+    region: 'IN',
+    country: 'India',
+    latitude: '28.6139',
+    longitude: '77.2090',
+  },
+});
 
 async function getTrendingNews() {
   try {
@@ -20,8 +40,20 @@ async function getTrendingNews() {
 export default async function Home() {
   const trendingNews = await getTrendingNews();
 
+  // Generate structured data for homepage
+  const pageSchema = generateWebPageSchema({
+    name: "StockMarket Bullion - Home",
+    description: "Your trusted source for stock market news, precious metals prices, and Sharia-compliant stock analysis.",
+    url: SITE_URL,
+    breadcrumb: [
+      { name: "Home", url: SITE_URL },
+    ],
+  });
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <>
+      <StructuredData data={pageSchema} />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Hero Section */}
       <div className="text-center mb-16 animate-fade-in">
         <div className="inline-block mb-6 animate-float">
@@ -142,5 +174,6 @@ export default async function Home() {
         </Link>
       </div>
     </div>
+    </>
   );
 }

@@ -1,13 +1,37 @@
-import { Metadata } from 'next';
+import StructuredData from '@/components/StructuredData';
+import { generateMetadata as generateSEOMetadata, generateWebPageSchema, generateKeywords, SITE_URL } from '@/lib/utils/seo';
 
-export const metadata = {
+export const metadata = generateSEOMetadata({
   title: 'Privacy Policy - StockMarket Bullion',
-  description: 'Privacy Policy for StockMarket Bullion - Learn how we collect, use, and protect your personal information.',
-};
+  description: 'Privacy Policy for StockMarket Bullion - Learn how we collect, use, and protect your personal information. Our commitment to data security and user privacy.',
+  keywords: generateKeywords({
+    baseKeywords: ["privacy policy", "data protection", "privacy", "GDPR", "data security", "user privacy"],
+    location: "India",
+  }),
+  url: '/privacy-policy',
+  type: 'website',
+  image: '/og-image.jpg',
+  geo: {
+    region: 'IN',
+    country: 'India',
+  },
+});
 
 export default function PrivacyPolicyPage() {
+  const pageSchema = generateWebPageSchema({
+    name: 'Privacy Policy - StockMarket Bullion',
+    description: 'Privacy Policy for StockMarket Bullion.',
+    url: `${SITE_URL}/privacy-policy`,
+    breadcrumb: [
+      { name: "Home", url: SITE_URL },
+      { name: "Privacy Policy", url: `${SITE_URL}/privacy-policy` },
+    ],
+  });
+
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <>
+      <StructuredData data={pageSchema} />
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <h1 className="text-4xl font-bold text-gray-900 mb-8">Privacy Policy</h1>
       
       <div className="prose prose-lg max-w-none">
@@ -123,5 +147,6 @@ export default function PrivacyPolicyPage() {
         </section>
       </div>
     </div>
+    </>
   );
 }

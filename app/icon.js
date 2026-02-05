@@ -17,46 +17,86 @@ export default function Icon() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #fbbf24 100%)',
+          background: 'linear-gradient(135deg, #1e40af 0%, #2563eb 50%, #fbbf24 100%)',
           position: 'relative',
-          borderRadius: '6px',
+          borderRadius: '8px',
+          overflow: 'hidden',
         }}
       >
-        {/* Stock Chart - Upward Trend Line */}
+        {/* Background Pattern - Subtle grid */}
         <div
           style={{
             position: 'absolute',
-            width: '20px',
-            height: '20px',
-            top: '6px',
-            left: '6px',
-            display: 'flex',
-            alignItems: 'flex-end',
-            justifyContent: 'space-between',
-            padding: '2px',
-          }}
-        >
-          {/* Chart bars representing upward trend */}
-          <div style={{ width: '3px', height: '4px', background: 'white', borderRadius: '1px' }} />
-          <div style={{ width: '3px', height: '7px', background: 'white', borderRadius: '1px' }} />
-          <div style={{ width: '3px', height: '10px', background: 'white', borderRadius: '1px' }} />
-          <div style={{ width: '3px', height: '14px', background: 'white', borderRadius: '1px' }} />
-        </div>
-        
-        {/* Bullion/Gold Coin Symbol */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '4px',
-            right: '4px',
-            width: '10px',
-            height: '10px',
-            borderRadius: '50%',
-            background: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)',
-            border: '1.5px solid rgba(255,255,255,0.9)',
-            boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.3), 0 1px 2px rgba(0,0,0,0.2)',
+            width: '100%',
+            height: '100%',
+            opacity: 0.1,
+            backgroundImage: 'linear-gradient(0deg, transparent 24%, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.1) 26%, transparent 27%, transparent 74%, rgba(255,255,255,0.1) 75%, rgba(255,255,255,0.1) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.1) 26%, transparent 27%, transparent 74%, rgba(255,255,255,0.1) 75%, rgba(255,255,255,0.1) 76%, transparent 77%, transparent)',
+            backgroundSize: '8px 8px',
           }}
         />
+        
+        {/* Main Icon Container */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
+            height: '100%',
+            position: 'relative',
+          }}
+        >
+          {/* Stock Chart - Upward Trend (Left side) */}
+          <div
+            style={{
+              position: 'absolute',
+              left: '3px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              width: '14px',
+              height: '14px',
+              display: 'flex',
+              alignItems: 'flex-end',
+              justifyContent: 'space-between',
+              padding: '1px',
+            }}
+          >
+            {/* Chart bars representing upward trend */}
+            <div style={{ width: '2px', height: '4px', background: 'white', borderRadius: '1px', opacity: 0.9 }} />
+            <div style={{ width: '2px', height: '6px', background: 'white', borderRadius: '1px', opacity: 0.9 }} />
+            <div style={{ width: '2px', height: '8px', background: 'white', borderRadius: '1px', opacity: 0.9 }} />
+            <div style={{ width: '2px', height: '11px', background: 'white', borderRadius: '1px', opacity: 0.9 }} />
+            <div style={{ width: '2px', height: '14px', background: 'white', borderRadius: '1px', opacity: 1 }} />
+          </div>
+          
+          {/* Gold Bullion Bar (Right side) */}
+          <div
+            style={{
+              position: 'absolute',
+              right: '3px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              width: '10px',
+              height: '14px',
+              background: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%)',
+              borderRadius: '2px',
+              border: '1px solid rgba(255,255,255,0.4)',
+              boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.4), 0 1px 2px rgba(0,0,0,0.3)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '1.5px 1px',
+            }}
+          >
+            {/* Gold bar shine effects */}
+            <div style={{ width: '6px', height: '1px', background: 'rgba(255,255,255,0.6)', borderRadius: '0.5px' }} />
+            <div style={{ width: '6px', height: '1px', background: 'rgba(255,255,255,0.4)', borderRadius: '0.5px' }} />
+            <div style={{ width: '6px', height: '1px', background: 'rgba(255,255,255,0.3)', borderRadius: '0.5px' }} />
+            <div style={{ width: '6px', height: '1px', background: 'rgba(255,255,255,0.4)', borderRadius: '0.5px' }} />
+            <div style={{ width: '6px', height: '1px', background: 'rgba(255,255,255,0.6)', borderRadius: '0.5px' }} />
+          </div>
+        </div>
       </div>
     ),
     {

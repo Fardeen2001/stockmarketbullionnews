@@ -6,8 +6,8 @@ import AdSense from '@/components/AdSense';
 import EnhancedPriceChart from '@/components/EnhancedPriceChart';
 import StockAnalysis from '@/components/StockAnalysis';
 import StructuredData from '@/components/StructuredData';
-
 import { getBaseUrl } from '@/lib/utils/getBaseUrl';
+import { generateMetadata as generateSEOMetadata, generateStockSchema, generateBreadcrumbSchema, generateKeywords, SITE_URL } from '@/lib/utils/seo';
 
 async function getStock(symbol) {
   try {
@@ -45,10 +45,27 @@ export async function generateMetadata({ params }) {
     return { title: 'Stock Not Found' };
   }
 
-  return {
-    title: `${stock.name} (${stock.symbol}) - StockMarket Bullion | Stock Price & Analysis`,
-    description: `${stock.name} stock price, analysis, and latest news. Current price: ₹${stock.currentPrice}, Change: ${stock.changePercent}%`,
-  };
+  const title = `${stock.name} (${stock.symbol}) - Stock Price & Analysis | StockMarket Bullion`;
+  const description = `${stock.name} (${stock.symbol}) stock price, analysis, and latest news. Current price: ₹${stock.currentPrice?.toLocaleString('en-IN') || 'N/A'}, Change: ${stock.changePercent?.toFixed(2) || 0}%. Real-time stock data for ${stock.exchange || 'NSE/BSE'}.`;
+
+  return generateSEOMetadata({
+    title,
+    description,
+    keywords: generateKeywords({
+      baseKeywords: [stock.name, stock.symbol, "stock price", "stock analysis", "share price"],
+      category: "stocks",
+      symbol: stock.symbol,
+      location: "India",
+    }),
+    image: stock.imageUrl,
+    url: `/stocks/${stock.symbol}`,
+    type: 'website',
+    section: 'Stocks',
+    geo: {
+      region: 'IN',
+      country: 'India',
+    },
+  });
 }
 
 export default async function StockDetailPage({ params }) {
@@ -64,20 +81,34 @@ export default async function StockDetailPage({ params }) {
   const changeIcon = stock.change >= 0 ? '↑' : '↓';
 
   // Generate structured data
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'FinancialProduct',
+  const stockUrl = `${SITE_URL}/stocks/${stock.symbol}`;
+  const structuredData = generateStockSchema({
     name: stock.name,
-    tickerSymbol: stock.symbol,
+    symbol: stock.symbol,
     exchange: stock.exchange,
     price: stock.currentPrice,
-    priceCurrency: 'INR',
+    currency: 'INR',
     description: stock.description,
-  };
+    image: stock.imageUrl,
+    url: stockUrl,
+    priceChange: stock.change,
+    priceChangePercent: stock.changePercent,
+    marketCap: stock.marketCap,
+    sector: stock.sector,
+    industry: stock.industry,
+  });
+
+  // Generate breadcrumb schema
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: "Home", url: SITE_URL },
+    { name: "Stocks", url: `${SITE_URL}/stocks` },
+    { name: `${stock.name} (${stock.symbol})`, url: stockUrl },
+  ]);
 
   return (
     <>
       <StructuredData data={structuredData} />
+      <StructuredData data={breadcrumbSchema} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header */}
       <div className="mb-8">

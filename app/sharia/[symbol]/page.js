@@ -4,7 +4,9 @@ import Link from 'next/link';
 import NewsCard from '@/components/NewsCard';
 import AdSense from '@/components/AdSense';
 import PriceChart from '@/components/PriceChart';
+import StructuredData from '@/components/StructuredData';
 import { getBaseUrl } from '@/lib/utils/getBaseUrl';
+import { generateMetadata as generateSEOMetadata, generateStockSchema, generateBreadcrumbSchema, generateKeywords, SITE_URL } from '@/lib/utils/seo';
 
 async function getStock(symbol) {
   try {
@@ -52,16 +54,33 @@ export async function generateMetadata({ params }) {
     return { title: 'Stock Not Found' };
   }
 
-  return {
-    title: `${stock.name} (${stock.symbol}) - StockMarket Bullion | Sharia Compliant Stock`,
-    description: `${stock.name} is a Sharia-compliant stock. View compliance details, stock price, and analysis.`,
-  };
+  const title = `${stock.name} (${stock.symbol}) - Sharia Compliant Stock | StockMarket Bullion`;
+  const description = `${stock.name} (${stock.symbol}) is a verified Sharia-compliant stock. View compliance details, stock price (₹${stock.currentPrice?.toLocaleString('en-IN') || 'N/A'}), analysis, and halal investment information.`;
+
+  return generateSEOMetadata({
+    title,
+    description,
+    keywords: generateKeywords({
+      baseKeywords: [stock.name, stock.symbol, "sharia compliant", "halal stock", "islamic finance", "halal investment", "stock price"],
+      category: "sharia",
+      symbol: stock.symbol,
+      location: "India",
+    }),
+    image: stock.imageUrl,
+    url: `/sharia/${stock.symbol}`,
+    type: 'website',
+    section: 'Sharia Stocks',
+    geo: {
+      region: 'IN',
+      country: 'India',
+    },
+  });
 }
 
 export default async function ShariaStockDetailPage({ params }) {
   const { symbol } = await params;
   const stock = await getStock(symbol);
-  const news = await getStockNews(params.symbol);
+  const news = await getStockNews(symbol);
 
   if (!stock || !stock.isShariaCompliant) {
     notFound();
@@ -70,8 +89,36 @@ export default async function ShariaStockDetailPage({ params }) {
   const changeColor = stock.change >= 0 ? 'text-green-600' : 'text-red-600';
   const changeIcon = stock.change >= 0 ? '↑' : '↓';
 
+  // Generate structured data
+  const stockUrl = `${SITE_URL}/sharia/${stock.symbol}`;
+  const structuredData = generateStockSchema({
+    name: stock.name,
+    symbol: stock.symbol,
+    exchange: stock.exchange,
+    price: stock.currentPrice,
+    currency: 'INR',
+    description: stock.description || `${stock.name} - Sharia Compliant Stock`,
+    image: stock.imageUrl,
+    url: stockUrl,
+    priceChange: stock.change,
+    priceChangePercent: stock.changePercent,
+    marketCap: stock.marketCap,
+    sector: stock.sector,
+    industry: stock.industry,
+  });
+
+  // Generate breadcrumb schema
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: "Home", url: SITE_URL },
+    { name: "Sharia Stocks", url: `${SITE_URL}/sharia` },
+    { name: `${stock.name} (${stock.symbol})`, url: stockUrl },
+  ]);
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <>
+      <StructuredData data={structuredData} />
+      <StructuredData data={breadcrumbSchema} />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header */}
       <div className="mb-8">
         <Link href="/sharia" className="text-green-600 hover:underline mb-4 inline-block">
@@ -209,5 +256,6 @@ export default async function ShariaStockDetailPage({ params }) {
         </div>
       )}
     </div>
+    </>
   );
 }

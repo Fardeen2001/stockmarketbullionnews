@@ -4,7 +4,9 @@ import Link from 'next/link';
 import NewsCard from '@/components/NewsCard';
 import AdSense from '@/components/AdSense';
 import PriceChart from '@/components/PriceChart';
+import StructuredData from '@/components/StructuredData';
 import { getBaseUrl } from '@/lib/utils/getBaseUrl';
+import { generateMetadata as generateSEOMetadata, generateMetalSchema, generateBreadcrumbSchema, generateKeywords, SITE_URL } from '@/lib/utils/seo';
 
 async function getMetal(type) {
   try {
@@ -48,10 +50,27 @@ export async function generateMetadata({ params }) {
   }
 
   const metalName = metal.metalType.charAt(0).toUpperCase() + metal.metalType.slice(1);
-  return {
-    title: `${metalName} Price - StockMarket Bullion | Latest Rates & News`,
-    description: `${metalName} current price: ₹${metal.currentPrice} ${metal.currency}. Latest ${metalName.toLowerCase()} news and price analysis.`,
-  };
+  const title = `${metalName} Price - StockMarket Bullion | Latest Rates & News`;
+  const description = `${metalName} current price: ₹${metal.currentPrice?.toLocaleString('en-IN') || 'N/A'} ${metal.currency || 'INR'}. Latest ${metalName.toLowerCase()} news, price analysis, and market trends. Real-time bullion prices and investment insights.`;
+
+  return generateSEOMetadata({
+    title,
+    description,
+    keywords: generateKeywords({
+      baseKeywords: [metalName.toLowerCase(), `${metalName.toLowerCase()} price`, "precious metals", "bullion", "commodities"],
+      category: "metals",
+      type: metalName.toLowerCase(),
+      location: "India",
+    }),
+    image: metal.imageUrl,
+    url: `/metals/${type}`,
+    type: 'website',
+    section: 'Metals',
+    geo: {
+      region: 'IN',
+      country: 'India',
+    },
+  });
 }
 
 export default async function MetalDetailPage({ params }) {
@@ -67,8 +86,33 @@ export default async function MetalDetailPage({ params }) {
   const changeColor = metal.change >= 0 ? 'text-green-600' : 'text-red-600';
   const changeIcon = metal.change >= 0 ? '↑' : '↓';
 
+  // Generate structured data
+  const metalUrl = `${SITE_URL}/metals/${type}`;
+  const structuredData = generateMetalSchema({
+    name: metalName,
+    type: metal.metalType,
+    price: metal.currentPrice,
+    currency: metal.currency || 'INR',
+    unit: metal.unit === 'per_gram' ? 'gram' : 'ounce',
+    description: metal.description,
+    image: metal.imageUrl,
+    url: metalUrl,
+    priceChange: metal.change,
+    priceChangePercent: metal.changePercent,
+  });
+
+  // Generate breadcrumb schema
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: "Home", url: SITE_URL },
+    { name: "Metals", url: `${SITE_URL}/metals` },
+    { name: metalName, url: metalUrl },
+  ]);
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <>
+      <StructuredData data={structuredData} />
+      <StructuredData data={breadcrumbSchema} />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header */}
       <div className="mb-8">
         <Link href="/metals" className="text-blue-600 hover:underline mb-4 inline-block">
@@ -154,5 +198,6 @@ export default async function MetalDetailPage({ params }) {
         </div>
       )}
     </div>
+    </>
   );
 }

@@ -5,6 +5,7 @@ import AdSense from '@/components/AdSense';
 import StructuredData from '@/components/StructuredData';
 import RelatedArticles from '@/components/RelatedArticles';
 import { getBaseUrl } from '@/lib/utils/getBaseUrl';
+import { generateMetadata as generateSEOMetadata, generateNewsArticleSchema, generateFAQPageSchema, generateBreadcrumbSchema, generateKeywords, generateMetaDescription, SITE_URL } from '@/lib/utils/seo';
 
 async function getArticle(slug) {
   try {
@@ -27,18 +28,31 @@ export async function generateMetadata({ params }) {
     return { title: 'Article Not Found' };
   }
 
-  return {
-    title: article.seoMetadata?.metaTitle || article.title,
-    description: article.seoMetadata?.metaDescription || article.summary,
-    keywords: article.seoMetadata?.keywords?.join(', '),
-    openGraph: {
-      title: article.title,
-      description: article.summary,
-      images: article.imageUrl ? [article.imageUrl] : [],
-      type: 'article',
-      publishedTime: article.publishedAt,
+  const title = article.seoMetadata?.metaTitle || article.title;
+  const description = article.seoMetadata?.metaDescription || generateMetaDescription(article.summary || article.content);
+  const keywords = article.seoMetadata?.keywords || generateKeywords({
+    baseKeywords: article.tags || [],
+    category: article.category,
+    symbol: article.relatedSymbol,
+    location: "India",
+  });
+
+  return generateSEOMetadata({
+    title,
+    description,
+    keywords,
+    image: article.imageUrl,
+    url: `/news/${article.slug}`,
+    type: 'article',
+    publishedTime: article.publishedAt,
+    modifiedTime: article.updatedAt,
+    section: article.category,
+    tags: article.tags || [],
+    geo: {
+      region: 'IN',
+      country: 'India',
     },
-  };
+  });
 }
 
 // Helper function to get domain icon
@@ -68,31 +82,31 @@ export default async function NewsDetailPage({ params }) {
   }
 
   // Generate structured data
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'NewsArticle',
+  const articleUrl = `${SITE_URL}/news/${article.slug}`;
+  const structuredData = generateNewsArticleSchema({
     headline: article.title,
-    description: article.summary,
-    image: article.imageUrl ? [article.imageUrl] : [],
+    description: article.summary || generateMetaDescription(article.content),
+    image: article.imageUrl,
     datePublished: article.publishedAt,
     dateModified: article.updatedAt,
-    author: {
-      '@type': 'Organization',
-      name: 'StockMarket Bullion',
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'StockMarket Bullion',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://stockmarketbullion.com/logo.png',
-      },
-    },
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': `https://stockmarketbullion.com/news/${article.slug}`,
-    },
-  };
+    url: articleUrl,
+    category: article.category,
+    keywords: article.tags || [],
+    articleBody: article.content,
+    wordCount: article.content ? article.content.split(/\s+/).length : null,
+  });
+
+  // Generate FAQ schema if available
+  const faqSchema = article.faqs && article.faqs.length > 0 
+    ? generateFAQPageSchema(article.faqs)
+    : null;
+
+  // Generate breadcrumb schema
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: "Home", url: SITE_URL },
+    { name: "News", url: `${SITE_URL}/news` },
+    { name: article.title, url: articleUrl },
+  ]);
 
   const publishedDate = new Date(article.publishedAt);
   const timeAgo = getTimeAgo(publishedDate);
@@ -100,6 +114,8 @@ export default async function NewsDetailPage({ params }) {
   return (
     <>
       <StructuredData data={structuredData} />
+      {faqSchema && <StructuredData data={faqSchema} />}
+      <StructuredData data={breadcrumbSchema} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Back Button */}
         <Link 

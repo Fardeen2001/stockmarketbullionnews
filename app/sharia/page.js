@@ -1,7 +1,9 @@
 import StockCard from '@/components/StockCard';
 import AdSense from '@/components/AdSense';
 import Pagination from '@/components/Pagination';
+import StructuredData from '@/components/StructuredData';
 import { getBaseUrl } from '@/lib/utils/getBaseUrl';
+import { generateMetadata as generateSEOMetadata, generateWebPageSchema, generateKeywords, SITE_URL } from '@/lib/utils/seo';
 
 async function getShariaStocks(page = 1, limit = 12) {
   try {
@@ -17,10 +19,23 @@ async function getShariaStocks(page = 1, limit = 12) {
   }
 }
 
-export const metadata = {
+export const metadata = generateSEOMetadata({
   title: 'Sharia Compliant Stocks - StockMarket Bullion | Halal Investment Options',
-  description: 'Browse Sharia-compliant stocks with detailed compliance analysis. Halal investment options for Islamic finance.',
-};
+  description: 'Browse Sharia-compliant stocks with detailed compliance analysis. Halal investment options for Islamic finance. Verified Sharia-compliant stocks for ethical investing.',
+  keywords: generateKeywords({
+    baseKeywords: ["sharia compliant stocks", "halal stocks", "islamic finance", "halal investment", "sharia stocks", "ethical investing", "islamic banking"],
+    category: "sharia",
+    location: "India",
+  }),
+  url: '/sharia',
+  type: 'website',
+  image: '/og-image.jpg',
+  section: 'Sharia Stocks',
+  geo: {
+    region: 'IN',
+    country: 'India',
+  },
+});
 
 export default async function ShariaPage({ searchParams }) {
   const params = await searchParams;
@@ -28,8 +43,21 @@ export default async function ShariaPage({ searchParams }) {
   const limit = parseInt(params.limit || '12');
   const { data: stocks, pagination } = await getShariaStocks(page, limit);
 
+  // Generate structured data
+  const pageSchema = generateWebPageSchema({
+    name: 'Sharia Compliant Stocks - StockMarket Bullion',
+    description: 'Browse Sharia-compliant stocks with detailed compliance analysis.',
+    url: `${SITE_URL}/sharia`,
+    breadcrumb: [
+      { name: "Home", url: SITE_URL },
+      { name: "Sharia Stocks", url: `${SITE_URL}/sharia` },
+    ],
+  });
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <>
+      <StructuredData data={pageSchema} />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">Sharia Compliant Stocks</h1>
         <p className="text-lg text-gray-600">
@@ -79,5 +107,6 @@ export default async function ShariaPage({ searchParams }) {
         </div>
       )}
     </div>
+    </>
   );
 }

@@ -1,13 +1,37 @@
-import { Metadata } from 'next';
+import StructuredData from '@/components/StructuredData';
+import { generateMetadata as generateSEOMetadata, generateWebPageSchema, generateKeywords, SITE_URL } from '@/lib/utils/seo';
 
-export const metadata = {
+export const metadata = generateSEOMetadata({
   title: 'Terms and Conditions - StockMarket Bullion',
-  description: 'Terms and Conditions for using StockMarket Bullion website and services.',
-};
+  description: 'Terms and Conditions for using StockMarket Bullion website and services. Read our terms of service, usage guidelines, and legal information.',
+  keywords: generateKeywords({
+    baseKeywords: ["terms and conditions", "terms of service", "legal", "user agreement", "terms"],
+    location: "India",
+  }),
+  url: '/terms-and-conditions',
+  type: 'website',
+  image: '/og-image.jpg',
+  geo: {
+    region: 'IN',
+    country: 'India',
+  },
+});
 
 export default function TermsAndConditionsPage() {
+  const pageSchema = generateWebPageSchema({
+    name: 'Terms and Conditions - StockMarket Bullion',
+    description: 'Terms and Conditions for using StockMarket Bullion.',
+    url: `${SITE_URL}/terms-and-conditions`,
+    breadcrumb: [
+      { name: "Home", url: SITE_URL },
+      { name: "Terms and Conditions", url: `${SITE_URL}/terms-and-conditions` },
+    ],
+  });
+
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <>
+      <StructuredData data={pageSchema} />
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <h1 className="text-4xl font-bold text-gray-900 mb-8">Terms and Conditions</h1>
       
       <div className="prose prose-lg max-w-none">
@@ -117,5 +141,6 @@ export default function TermsAndConditionsPage() {
         </section>
       </div>
     </div>
+    </>
   );
 }

@@ -14,38 +14,28 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = {
-  metadataBase: new URL('https://stockmarketbullion.com'),
+import { generateMetadata as generateSEOMetadata, generateOrganizationSchema, generateWebSiteSchema, generateKeywords, SITE_URL } from '@/lib/utils/seo';
+import StructuredData from '@/components/StructuredData';
+
+const rootMetadata = generateSEOMetadata({
   title: "StockMarket Bullion - Latest Stocks, Gold, Silver & Sharia Compliant Stocks",
   description: "Get the latest stock market news, gold and silver prices, and Sharia-compliant stock analysis. Real-time market data, AI-generated insights, and comprehensive financial coverage for India and global markets.",
-  keywords: "stock market, stocks, gold price, silver price, sharia compliant stocks, NSE, BSE, market news, financial news",
-  authors: [{ name: "StockMarket Bullion" }],
-  creator: "StockMarket Bullion",
-  publisher: "StockMarket Bullion",
-  openGraph: {
-    title: "StockMarket Bullion - Stock Market & Precious Metals News",
-    description: "Latest stocks, metals, and Sharia-compliant stock news",
-    url: "https://stockmarketbullion.com",
-    siteName: "StockMarket Bullion",
-    type: "website",
-    locale: "en_IN",
+  keywords: generateKeywords({
+    baseKeywords: ["stock market", "stocks", "gold price", "silver price", "sharia compliant stocks", "NSE", "BSE", "market news", "financial news", "investment", "trading", "precious metals", "bullion", "halal stocks", "islamic finance"],
+    location: "India",
+  }),
+  url: '/',
+  type: 'website',
+  geo: {
+    region: 'IN',
+    country: 'India',
+    latitude: '28.6139',
+    longitude: '77.2090',
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "StockMarket Bullion",
-    description: "Latest stock market and precious metals news",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
+});
+
+export const metadata = {
+  ...rootMetadata,
   icons: {
     icon: '/icon.png',
     apple: '/apple-icon.png',
@@ -54,6 +44,12 @@ export const metadata = {
   manifest: '/manifest.json',
 };
 
+// Generate organization and website schemas
+const organizationSchema = generateOrganizationSchema();
+const websiteSchema = generateWebSiteSchema({
+  searchAction: `${SITE_URL}/search?q={search_term_string}`,
+});
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en-IN" suppressHydrationWarning className="scroll-smooth">
@@ -61,6 +57,8 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
+        <StructuredData data={organizationSchema} />
+        <StructuredData data={websiteSchema} />
         {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
           <Script
             id="adsense-init"

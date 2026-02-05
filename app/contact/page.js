@@ -1,13 +1,37 @@
-import { Metadata } from 'next';
+import StructuredData from '@/components/StructuredData';
+import { generateMetadata as generateSEOMetadata, generateWebPageSchema, generateKeywords, SITE_URL } from '@/lib/utils/seo';
 
-export const metadata = {
+export const metadata = generateSEOMetadata({
   title: 'Contact Us - StockMarket Bullion',
-  description: 'Get in touch with StockMarket Bullion. We welcome your questions, feedback, and suggestions.',
-};
+  description: 'Get in touch with StockMarket Bullion. We welcome your questions, feedback, and suggestions. Contact us for support, inquiries, or business partnerships.',
+  keywords: generateKeywords({
+    baseKeywords: ["contact", "support", "customer service", "feedback", "inquiry", "help"],
+    location: "India",
+  }),
+  url: '/contact',
+  type: 'website',
+  image: '/og-image.jpg',
+  geo: {
+    region: 'IN',
+    country: 'India',
+  },
+});
 
 export default function ContactPage() {
+  const pageSchema = generateWebPageSchema({
+    name: 'Contact Us - StockMarket Bullion',
+    description: 'Get in touch with StockMarket Bullion.',
+    url: `${SITE_URL}/contact`,
+    breadcrumb: [
+      { name: "Home", url: SITE_URL },
+      { name: "Contact", url: `${SITE_URL}/contact` },
+    ],
+  });
+
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <>
+      <StructuredData data={pageSchema} />
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <h1 className="text-4xl font-bold text-gray-900 mb-8">Contact Us</h1>
       
       <div className="prose prose-lg max-w-none">
@@ -109,5 +133,6 @@ export default function ContactPage() {
         </section>
       </div>
     </div>
+    </>
   );
 }

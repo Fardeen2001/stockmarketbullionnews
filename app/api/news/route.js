@@ -57,7 +57,8 @@ export async function GET(request) {
 
     let sort = { publishedAt: -1 };
     if (trending) {
-      sort = { trendingScore: -1, publishedAt: -1 };
+      // Prioritize latest news first, then trending score as secondary sort
+      sort = { publishedAt: -1, trendingScore: -1 };
     }
 
     const skip = (page - 1) * limit;
