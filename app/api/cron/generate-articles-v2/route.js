@@ -79,8 +79,15 @@ export async function GET(request) {
           generated++;
         }
       } catch (error) {
-        // Log error but continue with other trends
-        console.error(`Error generating article for trend ${trend.topic}:`, error.message);
+        // ROOT CAUSE FIX: Log detailed error information for debugging
+        logger.error('Error generating article for trend', {
+          topic: trend.topic,
+          trendId: trend._id.toString(),
+          error: error.message,
+          stack: error.stack,
+          timestamp,
+        });
+        // Continue with other trends - don't let one failure stop the entire process
       }
     }
 
