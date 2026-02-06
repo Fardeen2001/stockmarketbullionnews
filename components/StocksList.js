@@ -26,7 +26,7 @@ export default function StocksList({ initialStocks, initialPagination, currentPa
       {/* Stocks Grid */}
       {stocks.length > 0 ? (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12">
             {stocks.map((stock, index) => (
               <div
                 key={stock._id || stock.symbol}
@@ -51,8 +51,8 @@ export default function StocksList({ initialStocks, initialPagination, currentPa
           )}
         </>
       ) : (
-        <div className="text-center py-16 glass rounded-2xl animate-fade-in">
-          <p className="text-gray-600 text-xl">No stocks available. Data is being updated.</p>
+        <div className="text-center py-16 md:py-20 glass rounded-3xl animate-fade-in border border-white/30">
+          <p className="text-gray-600 text-lg md:text-xl">No stocks available. Data is being updated.</p>
         </div>
       )}
     </>

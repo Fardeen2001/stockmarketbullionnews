@@ -1,8 +1,39 @@
 import { NextResponse } from 'next/server';
 import { ContentGenerationAgent } from '@/lib/ai/agents/contentGenerationAgent';
-import { getTrendingTopicsCollection } from '@/lib/db';
+import { getTrendingTopicsCollection, getScrapedContentCollection } from '@/lib/db';
 import { logger } from '@/lib/utils/logger';
 import { verifyCronRequest } from '@/lib/utils/cronAuth';
+
+/**
+ * Fallback: derive topics from unprocessed scraped content when no trending topics exist.
+ * Groups scraped items by related symbol/metal and returns topic configs for article generation.
+ */
+async function getTopicsFromScrapedContent() {
+  const scrapedCollection = await getScrapedContentCollection();
+  const unprocessed = await scrapedCollection
+    .find({ isProcessed: false })
+    .limit(50)
+    .toArray();
+
+  if (unprocessed.length === 0) return [];
+
+  const topicGroups = {};
+  for (const item of unprocessed) {
+    const symbols = item.relatedSymbols || [];
+    const metals = item.relatedMetals || [];
+    const topicKey = symbols.length > 0 ? symbols[0] : metals.length > 0 ? metals[0] : 'general';
+    if (!topicGroups[topicKey]) topicGroups[topicKey] = [];
+    topicGroups[topicKey].push(item);
+  }
+
+  return Object.entries(topicGroups).map(([topicKey, items]) => ({
+    topic: topicKey === 'general' ? 'Market Update' : `${topicKey} - Latest Market Updates`,
+    relatedSymbols: [...new Set(items.flatMap(i => i.relatedSymbols || []))],
+    relatedMetals: [...new Set(items.flatMap(i => i.relatedMetals || []))],
+    items,
+    isFromScraped: true,
+  }));
+}
 
 export async function GET(request) {
   const authResult = verifyCronRequest(request);
@@ -38,60 +69,67 @@ export async function GET(request) {
       .limit(10)
       .toArray();
 
-    if (trends.length === 0) {
+    // Fallback: if no trending topics, use unprocessed scraped content directly
+    const topicsToProcess = trends.length > 0
+      ? trends
+      : await getTopicsFromScrapedContent();
+
+    if (topicsToProcess.length === 0) {
       return NextResponse.json({
         success: true,
-        message: 'No trending topics found',
+        message: trends.length === 0
+          ? 'No trending topics or unprocessed scraped content found. Run scrape-news-v2 and detect-trends first.'
+          : 'No new topics to process',
         generated: 0,
       });
     }
 
     let generated = 0;
     const articles = [];
+    const useTrends = trends.length > 0;
 
-    // Generate articles for each trending topic
-    for (const trend of trends) {
+    for (const topicConfig of topicsToProcess) {
       try {
-        // Check if article already generated for this trend
-        if (trend.articlesGenerated && trend.articlesGenerated.length > 0) {
+        // Skip trends that already have articles
+        if (useTrends && topicConfig.articlesGenerated && topicConfig.articlesGenerated.length > 0) {
           continue;
         }
 
         const result = await agent.execute({
-          topic: trend.topic,
-          trendId: trend._id.toString(),
-          relatedSymbols: trend.relatedSymbols || [],
-          relatedMetals: trend.relatedMetals || [],
+          topic: topicConfig.topic,
+          trendId: topicConfig._id?.toString() || null,
+          relatedSymbols: topicConfig.relatedSymbols || [],
+          relatedMetals: topicConfig.relatedMetals || [],
         });
 
         if (result.success && result.article) {
-          // Update trend with generated article
-          await trendingCollection.updateOne(
-            { _id: trend._id },
-            {
-              $push: {
-                articlesGenerated: result.article._id,
-              },
-            }
-          );
+          if (useTrends) {
+            await trendingCollection.updateOne(
+              { _id: topicConfig._id },
+              { $push: { articlesGenerated: result.article._id } }
+            );
+          } else if (topicConfig.isFromScraped && topicConfig.items?.length > 0) {
+            const scrapedCollection = await getScrapedContentCollection();
+            await scrapedCollection.updateMany(
+              { _id: { $in: topicConfig.items.map(i => i._id) } },
+              { $set: { isProcessed: true, processedAt: new Date() } }
+            );
+          }
 
           articles.push(result.article);
           generated++;
         }
       } catch (error) {
-        // ROOT CAUSE FIX: Log detailed error information for debugging
-        logger.error('Error generating article for trend', {
-          topic: trend.topic,
-          trendId: trend._id.toString(),
+        logger.error('Error generating article', {
+          topic: topicConfig.topic,
           error: error.message,
           stack: error.stack,
           timestamp,
         });
-        // Continue with other trends - don't let one failure stop the entire process
       }
     }
 
-    logger.info('Article generation completed', { generated, totalTrends: trends.length });
+    logger.info('Article generation completed', { generated, totalTopics: topicsToProcess.length, usedFallback: !useTrends });
 
     return NextResponse.json({
       success: true,

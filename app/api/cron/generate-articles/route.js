@@ -54,10 +54,12 @@ export async function GET(request) {
     // Group by topic (simple: by related symbols/metals)
     const topicGroups = {};
     for (const item of unprocessed) {
-      const topicKey = item.relatedSymbols.length > 0 
-        ? item.relatedSymbols[0] 
-        : item.relatedMetals.length > 0 
-          ? item.relatedMetals[0] 
+      const symbols = item.relatedSymbols || [];
+      const metals = item.relatedMetals || [];
+      const topicKey = symbols.length > 0 
+        ? symbols[0] 
+        : metals.length > 0 
+          ? metals[0] 
           : 'general';
       
       if (!topicGroups[topicKey]) {
@@ -78,9 +80,11 @@ export async function GET(request) {
         let relatedMetalId = null;
         let category = 'stocks';
 
-        if (items[0].relatedSymbols.length > 0) {
+        const firstSymbols = items[0].relatedSymbols || [];
+        const firstMetals = items[0].relatedMetals || [];
+        if (firstSymbols.length > 0) {
           const stock = await stocksCollection.findOne({ 
-            symbol: items[0].relatedSymbols[0].toUpperCase() 
+            symbol: firstSymbols[0].toUpperCase() 
           });
           if (stock) {
             relatedData = {
@@ -92,9 +96,9 @@ export async function GET(request) {
             relatedStockId = stock._id;
             category = 'stocks';
           }
-        } else if (items[0].relatedMetals.length > 0) {
+        } else if (firstMetals.length > 0) {
           const metal = await metalsCollection.findOne({ 
-            metalType: items[0].relatedMetals[0].toLowerCase() 
+            metalType: firstMetals[0].toLowerCase() 
           });
           if (metal) {
             relatedData = {
@@ -104,7 +108,7 @@ export async function GET(request) {
             };
             relatedMetalId = metal._id;
             category = 'metals';
-            relatedSymbol = items[0].relatedMetals[0];
+            relatedSymbol = firstMetals[0];
           }
         }
 
@@ -182,12 +186,18 @@ export async function GET(request) {
           relatedMetalId,
           imageUrl,
           imageAlt,
-          sources: items.map(item => ({
-            url: item.sourceUrl,
-            domain: new URL(item.sourceUrl).hostname,
-            title: item.title,
-            scrapedAt: item.scrapedAt,
-          })),
+          sources: items.map(item => {
+            let domain = 'unknown';
+            try {
+              if (item.sourceUrl) domain = new URL(item.sourceUrl).hostname;
+            } catch (_) {}
+            return {
+              url: item.sourceUrl || item.url || '',
+              domain,
+              title: item.title,
+              scrapedAt: item.scrapedAt,
+            };
+          }),
           trendingScore: items.reduce((sum, item) => 
             sum + (item.engagement?.upvotes || 0) + (item.engagement?.comments || 0), 0
           ),
@@ -218,7 +228,9 @@ export async function GET(request) {
               relatedSymbols: items[0].relatedSymbols,
               relatedMetals: items[0].relatedMetals,
               mentionCount: items.length,
-              sources: [...new Set(items.map(i => new URL(i.sourceUrl).hostname))],
+              sources: [...new Set(items.map(i => {
+                try { return i.sourceUrl ? new URL(i.sourceUrl).hostname : 'unknown'; } catch (_) { return 'unknown'; }
+              }))],
               detectedAt: new Date(),
               peakTime: new Date(),
             },

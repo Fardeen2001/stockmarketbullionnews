@@ -74,14 +74,14 @@ export default async function NewsPage({ searchParams }) {
   return (
     <>
       <StructuredData data={pageSchema} />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
       <div className="mb-12 animate-fade-in">
-        <h1 className="text-5xl md:text-6xl font-extrabold mb-4">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4">
           <span className="gradient-text bg-gradient-primary bg-clip-text text-transparent">
             Latest News
           </span>
         </h1>
-        <p className="text-xl text-gray-700">
+        <p className="text-lg sm:text-xl text-gray-700">
           Stay updated with the latest stock market and precious metals news
         </p>
       </div>
@@ -90,40 +90,40 @@ export default async function NewsPage({ searchParams }) {
       <div className="flex flex-wrap gap-3 mb-8 animate-fade-in">
         <a
           href="/news"
-          className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover-lift ${
+          className={`px-5 py-2.5 md:px-6 md:py-3 rounded-xl font-semibold text-sm md:text-base transition-all duration-300 hover-lift ${
             !category 
-              ? 'bg-gradient-primary text-white shadow-lg' 
-              : 'glass text-gray-700 hover:bg-gradient-primary hover:text-white'
+              ? 'bg-gradient-primary text-white shadow-lg shadow-indigo-500/50' 
+              : 'glass text-gray-700 hover:bg-gradient-primary hover:text-white border border-white/30'
           }`}
         >
           All
         </a>
         <a
           href="/news?category=stocks"
-          className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover-lift ${
+          className={`px-5 py-2.5 md:px-6 md:py-3 rounded-xl font-semibold text-sm md:text-base transition-all duration-300 hover-lift ${
             category === 'stocks' 
-              ? 'bg-gradient-primary text-white shadow-lg' 
-              : 'glass text-gray-700 hover:bg-gradient-primary hover:text-white'
+              ? 'bg-gradient-primary text-white shadow-lg shadow-indigo-500/50' 
+              : 'glass text-gray-700 hover:bg-gradient-primary hover:text-white border border-white/30'
           }`}
         >
           Stocks
         </a>
         <a
           href="/news?category=metals"
-          className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover-lift ${
+          className={`px-5 py-2.5 md:px-6 md:py-3 rounded-xl font-semibold text-sm md:text-base transition-all duration-300 hover-lift ${
             category === 'metals' 
-              ? 'bg-gradient-primary text-white shadow-lg' 
-              : 'glass text-gray-700 hover:bg-gradient-primary hover:text-white'
+              ? 'bg-gradient-primary text-white shadow-lg shadow-indigo-500/50' 
+              : 'glass text-gray-700 hover:bg-gradient-primary hover:text-white border border-white/30'
           }`}
         >
           Metals
         </a>
         <a
           href="/news?category=sharia"
-          className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover-lift ${
+          className={`px-5 py-2.5 md:px-6 md:py-3 rounded-xl font-semibold text-sm md:text-base transition-all duration-300 hover-lift ${
             category === 'sharia' 
-              ? 'bg-gradient-primary text-white shadow-lg' 
-              : 'glass text-gray-700 hover:bg-gradient-primary hover:text-white'
+              ? 'bg-gradient-primary text-white shadow-lg shadow-indigo-500/50' 
+              : 'glass text-gray-700 hover:bg-gradient-primary hover:text-white border border-white/30'
           }`}
         >
           Sharia
@@ -142,7 +142,7 @@ export default async function NewsPage({ searchParams }) {
       {/* News Grid */}
       {news.length > 0 ? (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12">
             {news.map((article, index) => (
               <div
                 key={article._id}
@@ -168,8 +168,8 @@ export default async function NewsPage({ searchParams }) {
           )}
         </>
       ) : (
-        <div className="text-center py-16 glass rounded-2xl animate-fade-in">
-          <p className="text-gray-600 text-xl">No news available. Check back soon!</p>
+        <div className="text-center py-16 md:py-20 glass rounded-3xl animate-fade-in border border-white/30">
+          <p className="text-gray-600 text-lg md:text-xl">No news available. Check back soon!</p>
         </div>
       )}
     </div>

@@ -80,7 +80,7 @@ export default function PriceChart({ data }) {
   };
 
   return (
-    <div className="h-64">
+    <div className="h-64 md:h-80 lg:h-96">
       <Line data={chartData} options={options} />
     </div>
   );

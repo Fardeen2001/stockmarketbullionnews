@@ -85,7 +85,7 @@ export default function SearchBar() {
           <select
             value={selectedType}
             onChange={(e) => setSelectedType(e.target.value)}
-            className="px-3 py-2 glass rounded-lg text-sm font-semibold text-gray-700 border-2 border-transparent hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 cursor-pointer"
+            className="px-3 py-2.5 glass rounded-xl text-sm font-semibold text-gray-700 border-2 border-transparent hover:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300 cursor-pointer shadow-sm"
             onClick={(e) => e.stopPropagation()}
           >
             <option value="all">All</option>
@@ -107,10 +107,10 @@ export default function SearchBar() {
                 }
               }}
               placeholder="Search stocks, metals, news..."
-              className="w-full px-4 py-2 pl-10 glass rounded-lg text-gray-700 placeholder-gray-500 border-2 border-transparent hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+              className="w-full px-4 py-2.5 pl-11 glass rounded-xl text-gray-700 placeholder-gray-500 border-2 border-transparent hover:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300 shadow-sm"
             />
             <svg
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+              className="absolute left-3.5 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -123,8 +123,8 @@ export default function SearchBar() {
               />
             </svg>
             {isLoading && (
-              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+              <div className="absolute right-3.5 top-1/2 transform -translate-y-1/2">
+                <div className="w-5 h-5 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
               </div>
             )}
           </div>
@@ -132,7 +132,7 @@ export default function SearchBar() {
           {/* Search Button */}
           <button
             type="submit"
-            className="px-6 py-2 bg-gradient-primary text-white rounded-lg font-semibold shadow-lg hover:shadow-2xl hover-lift transition-all duration-300"
+            className="px-6 py-2.5 bg-gradient-primary text-white rounded-xl font-semibold shadow-lg shadow-indigo-500/50 hover:shadow-xl hover:shadow-indigo-500/50 hover-lift transition-all duration-300"
           >
             Search
           </button>
@@ -143,7 +143,7 @@ export default function SearchBar() {
       {isOpen && results && totalResults > 0 && (
         <div
           ref={resultsRef}
-          className="absolute top-full left-0 right-0 mt-2 glass rounded-xl shadow-2xl border border-white/20 max-h-96 overflow-y-auto z-50 animate-fade-in"
+          className="absolute top-full left-0 right-0 mt-2 glass rounded-2xl shadow-2xl border border-white/30 max-h-96 overflow-y-auto z-50 animate-fade-in backdrop-blur-xl"
         >
           {/* Stocks Results */}
           {results.results.stocks.length > 0 && (
@@ -237,11 +237,11 @@ export default function SearchBar() {
 
           {/* View All Results Link */}
           {totalResults > 5 && (
-            <div className="p-4 border-t border-white/10">
+            <div className="p-4 border-t border-white/20">
               <Link
                 href={`/search?q=${encodeURIComponent(query)}&type=${selectedType}`}
                 onClick={() => setIsOpen(false)}
-                className="block text-center py-2 px-4 bg-gradient-primary text-white rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
+                className="block text-center py-2.5 px-4 bg-gradient-primary text-white rounded-xl font-semibold hover:shadow-lg shadow-indigo-500/50 transition-all duration-300"
               >
                 View All {totalResults} Results →
               </Link>
@@ -254,10 +254,10 @@ export default function SearchBar() {
       {isOpen && results && totalResults === 0 && query.trim().length >= 2 && (
         <div
           ref={resultsRef}
-          className="absolute top-full left-0 right-0 mt-2 glass rounded-xl shadow-2xl border border-white/20 p-6 z-50 animate-fade-in"
+          className="absolute top-full left-0 right-0 mt-2 glass rounded-2xl shadow-2xl border border-white/30 p-6 z-50 animate-fade-in backdrop-blur-xl"
         >
           <div className="text-center text-gray-600">
-            <p className="font-semibold">No results found</p>
+            <p className="font-semibold text-base">No results found</p>
             <p className="text-sm mt-1">Try different keywords or search type</p>
           </div>
         </div>

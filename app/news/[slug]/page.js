@@ -116,7 +116,7 @@ export default async function NewsDetailPage({ params }) {
       <StructuredData data={structuredData} />
       {faqSchema && <StructuredData data={faqSchema} />}
       <StructuredData data={breadcrumbSchema} />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
         {/* Back Button */}
         <Link 
           href="/news" 
@@ -132,24 +132,24 @@ export default async function NewsDetailPage({ params }) {
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
             {/* Article Header */}
-            <div className="glass rounded-2xl p-8 shadow-xl animate-fade-in">
-              <div className="flex items-center gap-4 mb-4 flex-wrap">
-                <span className="px-4 py-2 bg-gradient-primary text-white text-sm font-semibold rounded-full shadow-md">
+            <div className="glass rounded-3xl p-6 md:p-8 lg:p-10 shadow-xl border border-white/30 animate-fade-in">
+              <div className="flex items-center gap-4 mb-6 flex-wrap">
+                <span className="px-4 py-2 bg-gradient-primary text-white text-sm font-bold rounded-full shadow-lg">
                   {article.category}
                 </span>
-                <span className="text-sm text-gray-600">
+                <span className="text-sm text-gray-600 font-medium">
                   Published {timeAgo}
                 </span>
-                <span className="text-sm text-gray-600">•</span>
-                <span className="text-sm text-gray-600">3 min read</span>
+                <span className="text-sm text-gray-400">•</span>
+                <span className="text-sm text-gray-600 font-medium">3 min read</span>
               </div>
               
-              <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
                 {article.title}
               </h1>
               
               {article.summary && (
-                <p className="text-xl text-gray-700 leading-relaxed mb-6">
+                <p className="text-lg sm:text-xl text-gray-700 leading-relaxed mb-6">
                   {article.summary}
                 </p>
               )}
@@ -157,15 +157,16 @@ export default async function NewsDetailPage({ params }) {
 
             {/* Hero Image */}
             {article.imageUrl && (
-              <div className="relative w-full h-96 md:h-[500px] rounded-2xl overflow-hidden shadow-2xl animate-scale-in">
+              <div className="relative w-full h-96 md:h-[500px] lg:h-[600px] rounded-3xl overflow-hidden shadow-2xl border-4 border-white animate-scale-in">
                 <Image
                   src={article.imageUrl}
                   alt={article.imageAlt || article.title}
                   fill
                   className="object-cover"
                   priority
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 800px"
                 />
-                <div className="absolute bottom-4 right-4 bg-black bg-opacity-75 px-4 py-2 rounded-lg text-white text-sm font-semibold">
+                <div className="absolute bottom-4 right-4 bg-black/80 backdrop-blur-sm px-4 py-2 rounded-xl text-white text-sm font-bold">
                   {article.category}
                 </div>
               </div>
@@ -173,15 +174,15 @@ export default async function NewsDetailPage({ params }) {
 
             {/* TL;DR Section */}
             {article.tldr && article.tldr.length > 0 && (
-              <div className="glass rounded-2xl p-8 shadow-xl animate-fade-in">
-                <h2 className="text-3xl font-bold mb-6 gradient-text bg-gradient-primary bg-clip-text text-transparent">
+              <div className="glass rounded-3xl p-6 md:p-8 lg:p-10 shadow-xl border border-white/30 animate-fade-in">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 gradient-text bg-gradient-primary bg-clip-text text-transparent">
                   TL;DR
                 </h2>
                 <ul className="space-y-4">
                   {article.tldr.map((point, index) => (
-                    <li key={index} className="flex items-start group">
-                      <span className="text-blue-600 mr-4 mt-1 text-xl font-bold">•</span>
-                      <span className="text-gray-700 text-lg leading-relaxed group-hover:text-gray-900 transition-colors">
+                    <li key={index} className="flex items-start group p-4 bg-white/50 rounded-xl hover:bg-white/70 transition-colors">
+                      <span className="text-indigo-600 mr-4 mt-1 text-xl font-bold">•</span>
+                      <span className="text-gray-700 text-base sm:text-lg leading-relaxed group-hover:text-gray-900 transition-colors">
                         {point}
                       </span>
                     </li>
@@ -191,7 +192,7 @@ export default async function NewsDetailPage({ params }) {
             )}
 
             {/* Article Content */}
-            <div className="glass rounded-2xl p-8 md:p-12 shadow-xl animate-fade-in">
+            <div className="glass rounded-3xl p-6 md:p-8 lg:p-12 shadow-xl border border-white/30 animate-fade-in">
               <div className="prose prose-lg max-w-none">
                 {article.content
                   .split(/\n\n+/)
@@ -235,17 +236,17 @@ export default async function NewsDetailPage({ params }) {
 
             {/* FAQs Section */}
             {article.faqs && article.faqs.length > 0 && (
-              <div className="glass rounded-2xl p-8 shadow-xl animate-fade-in">
-                <h2 className="text-3xl font-bold mb-8 gradient-text bg-gradient-primary bg-clip-text text-transparent">
+              <div className="glass rounded-3xl p-6 md:p-8 lg:p-10 shadow-xl border border-white/30 animate-fade-in">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-8 gradient-text bg-gradient-primary bg-clip-text text-transparent">
                   Frequently Asked Questions
                 </h2>
-                <div className="space-y-8">
+                <div className="space-y-6">
                   {article.faqs.map((faq, index) => (
-                    <div key={index} className="border-l-4 border-blue-500 pl-6 py-2">
-                      <h3 className="text-xl font-bold text-gray-900 mb-3">
+                    <div key={index} className="border-l-4 border-indigo-500 pl-6 py-4 bg-white/50 rounded-r-xl">
+                      <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-3">
                         {faq.question}
                       </h3>
-                      <p className="text-gray-700 leading-relaxed text-lg">
+                      <p className="text-gray-700 leading-relaxed text-base sm:text-lg">
                         {faq.answer}
                       </p>
                     </div>
@@ -255,12 +256,12 @@ export default async function NewsDetailPage({ params }) {
             )}
 
             {/* Tags, Entities, Topics */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {/* Entities */}
               {article.entities && article.entities.length > 0 && (
-                <div className="glass rounded-2xl p-6 shadow-lg animate-fade-in">
+                <div className="glass rounded-3xl p-6 shadow-lg border border-white/30 animate-fade-in">
                   <h3 className="text-lg font-bold mb-4 text-gray-900 flex items-center">
-                    <svg className="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                     Entities
@@ -269,7 +270,7 @@ export default async function NewsDetailPage({ params }) {
                     {article.entities.map((entity, index) => (
                       <span
                         key={index}
-                        className="px-3 py-1 bg-gradient-primary text-white rounded-full text-sm font-medium hover:shadow-md transition-all cursor-pointer hover-lift"
+                        className="px-3 py-1.5 bg-gradient-primary text-white rounded-xl text-sm font-semibold hover:shadow-md transition-all cursor-pointer hover-lift"
                       >
                         {entity}
                       </span>
@@ -280,9 +281,9 @@ export default async function NewsDetailPage({ params }) {
 
               {/* Tags */}
               {article.tags && article.tags.length > 0 && (
-                <div className="glass rounded-2xl p-6 shadow-lg animate-fade-in">
+                <div className="glass rounded-3xl p-6 shadow-lg border border-white/30 animate-fade-in">
                   <h3 className="text-lg font-bold mb-4 text-gray-900 flex items-center">
-                    <svg className="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
                     </svg>
                     Tags
@@ -291,7 +292,7 @@ export default async function NewsDetailPage({ params }) {
                     {article.tags.map((tag, index) => (
                       <span
                         key={index}
-                        className="px-3 py-1 bg-gradient-secondary text-white rounded-full text-sm font-medium hover:shadow-md transition-all cursor-pointer hover-lift"
+                        className="px-3 py-1.5 bg-gradient-secondary text-white rounded-xl text-sm font-semibold hover:shadow-md transition-all cursor-pointer hover-lift"
                       >
                         {tag}
                       </span>
@@ -302,9 +303,9 @@ export default async function NewsDetailPage({ params }) {
 
               {/* Topics */}
               {article.topics && article.topics.length > 0 && (
-                <div className="glass rounded-2xl p-6 shadow-lg animate-fade-in">
+                <div className="glass rounded-3xl p-6 shadow-lg border border-white/30 animate-fade-in">
                   <h3 className="text-lg font-bold mb-4 text-gray-900 flex items-center">
-                    <svg className="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                     Topics
@@ -313,7 +314,7 @@ export default async function NewsDetailPage({ params }) {
                     {article.topics.map((topic, index) => (
                       <span
                         key={index}
-                        className="px-3 py-1 bg-gradient-success text-white rounded-full text-sm font-medium hover:shadow-md transition-all cursor-pointer hover-lift"
+                        className="px-3 py-1.5 bg-gradient-success text-white rounded-xl text-sm font-semibold hover:shadow-md transition-all cursor-pointer hover-lift"
                       >
                         {topic}
                       </span>
@@ -325,7 +326,7 @@ export default async function NewsDetailPage({ params }) {
 
             {/* Ad Space */}
             {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
-              <div className="glass rounded-2xl p-6 shadow-xl animate-scale-in">
+              <div className="glass rounded-3xl p-6 shadow-xl border border-white/30 animate-scale-in">
                 <AdSense adSlot="0987654321" style={{ minHeight: '250px' }} />
               </div>
             )}
@@ -335,8 +336,8 @@ export default async function NewsDetailPage({ params }) {
           <div className="lg:col-span-1 space-y-6">
             {/* Sources Section */}
             {article.sources && article.sources.length > 0 && (
-              <div className="glass rounded-2xl p-6 shadow-xl animate-fade-in">
-                <h3 className="text-2xl font-bold mb-6 text-gray-900">Sources</h3>
+              <div className="glass rounded-3xl p-6 shadow-xl border border-white/30 animate-fade-in">
+                <h3 className="text-xl sm:text-2xl font-bold mb-6 text-gray-900">Sources</h3>
                 <div className="space-y-4">
                   {article.sources.map((source, index) => {
                     const sourceIcon = getSourceIcon(source.domain || source.url);
@@ -367,15 +368,15 @@ export default async function NewsDetailPage({ params }) {
             )}
 
             {/* More Like This */}
-            <div className="glass rounded-2xl p-6 shadow-xl animate-fade-in">
-              <h3 className="text-2xl font-bold mb-6 text-gray-900">More like this</h3>
-              <div className="text-sm text-gray-600 mb-4">Related Articles</div>
+            <div className="glass rounded-3xl p-6 shadow-xl border border-white/30 animate-fade-in">
+              <h3 className="text-xl sm:text-2xl font-bold mb-6 text-gray-900">More like this</h3>
+              <div className="text-sm text-gray-600 mb-4 font-medium">Related Articles</div>
               <RelatedArticles article={article} limit={3} compact={true} />
             </div>
 
             {/* Ad Space */}
             {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
-              <div className="glass rounded-2xl p-6 shadow-xl animate-scale-in">
+              <div className="glass rounded-3xl p-6 shadow-xl border border-white/30 animate-scale-in">
                 <AdSense adSlot="1234567890" style={{ minHeight: '250px' }} />
               </div>
             )}
@@ -383,15 +384,15 @@ export default async function NewsDetailPage({ params }) {
         </div>
 
         {/* Related Articles Section */}
-        <div className="mt-12">
-          <h2 className="text-4xl font-bold mb-8 gradient-text bg-gradient-primary bg-clip-text text-transparent animate-fade-in">
+        <div className="mt-12 md:mt-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 md:mb-12 gradient-text bg-gradient-primary bg-clip-text text-transparent animate-fade-in">
             Related Articles
           </h2>
           <RelatedArticles article={article} limit={4} />
         </div>
 
         {/* Disclaimer */}
-        <div className="mt-12 glass rounded-2xl p-6 shadow-xl border-l-4 border-yellow-400 animate-fade-in">
+        <div className="mt-12 md:mt-16 glass rounded-3xl p-6 md:p-8 shadow-xl border-l-4 border-yellow-400 animate-fade-in">
           <p className="text-sm text-gray-700 leading-relaxed">
             <strong className="text-gray-900">Disclaimer:</strong> This article is for informational purposes only and does 
             not constitute financial advice. Always consult with a qualified financial advisor before 

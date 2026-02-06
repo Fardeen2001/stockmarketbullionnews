@@ -57,25 +57,32 @@ export default async function ShariaPage({ searchParams }) {
   return (
     <>
       <StructuredData data={pageSchema} />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Sharia Compliant Stocks</h1>
-        <p className="text-lg text-gray-600">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
+      {/* Page Header */}
+      <div className="mb-10 md:mb-12 lg:mb-16 animate-fade-in">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 md:mb-6 leading-tight">
+          <span className="gradient-text bg-gradient-success bg-clip-text text-transparent">
+            Sharia Compliant Stocks
+          </span>
+        </h1>
+        <p className="text-lg sm:text-xl md:text-2xl text-gray-700 max-w-3xl leading-relaxed">
           Browse stocks that comply with Islamic finance principles. All stocks are verified for Sharia compliance.
         </p>
       </div>
 
       {/* Ad Banner */}
       {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
-        <div className="mb-8">
-          <AdSense adSlot="1234567890" style={{ minHeight: '90px' }} />
+        <div className="mb-10 md:mb-12 animate-scale-in">
+          <div className="glass rounded-3xl p-4 md:p-6 shadow-xl border border-white/30">
+            <AdSense adSlot="1234567890" style={{ minHeight: '90px' }} />
+          </div>
         </div>
       )}
 
       {/* Stocks Grid */}
       {stocks.length > 0 ? (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12">
             {stocks.map((stock, index) => (
               <div
                 key={stock._id}
@@ -100,8 +107,8 @@ export default async function ShariaPage({ searchParams }) {
           )}
         </>
       ) : (
-        <div className="text-center py-12">
-          <p className="text-gray-500 text-lg">
+        <div className="text-center py-16 md:py-20 glass rounded-3xl animate-fade-in border border-white/30">
+          <p className="text-gray-600 text-lg md:text-xl">
             No Sharia-compliant stocks available. Compliance data is being updated.
           </p>
         </div>

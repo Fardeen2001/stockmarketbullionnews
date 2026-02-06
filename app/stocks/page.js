@@ -56,22 +56,23 @@ export default async function StocksPage({ searchParams }) {
   return (
     <>
       <StructuredData data={pageSchema} />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="mb-12 animate-fade-in">
-        <h1 className="text-5xl md:text-6xl font-extrabold mb-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
+      {/* Page Header */}
+      <div className="mb-10 md:mb-12 lg:mb-16 animate-fade-in">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 md:mb-6 leading-tight">
           <span className="gradient-text bg-gradient-primary bg-clip-text text-transparent">
             Stocks
           </span>
         </h1>
-        <p className="text-xl text-gray-700">
+        <p className="text-lg sm:text-xl md:text-2xl text-gray-700 max-w-3xl leading-relaxed">
           Explore stocks with real-time prices, analysis, and market news
         </p>
       </div>
 
       {/* Ad Banner */}
       {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
-        <div className="mb-12 animate-scale-in">
-          <div className="glass rounded-2xl p-4 shadow-xl">
+        <div className="mb-10 md:mb-12 animate-scale-in">
+          <div className="glass rounded-3xl p-4 md:p-6 shadow-xl border border-white/30">
             <AdSense adSlot="1234567890" style={{ minHeight: '90px' }} />
           </div>
         </div>

@@ -9,13 +9,13 @@ export default function Logo({ className = '', showText = true, size = 'md' }) {
   };
 
   return (
-    <Link href="/" className={`flex items-center space-x-2 ${className}`}>
-      {/* Try to use logo.png, fallback to SVG or text */}
-      <div className={`relative ${sizeClasses[size]} flex items-center justify-center bg-blue-600 rounded-lg`}>
-        <span className="text-white font-bold text-xs">SMB</span>
+    <Link href="/" className={`flex items-center space-x-2 md:space-x-3 group ${className}`}>
+      {/* Modern logo with gradient */}
+      <div className={`relative ${sizeClasses[size]} flex items-center justify-center bg-gradient-primary rounded-xl shadow-lg shadow-indigo-500/50 transform group-hover:scale-105 group-hover:rotate-3 transition-all duration-300`}>
+        <span className="text-white font-bold text-xs md:text-sm">SMB</span>
       </div>
       {showText && (
-        <span className="text-xl md:text-2xl font-bold text-blue-600">
+        <span className="text-lg md:text-xl lg:text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300">
           StockMarket Bullion
         </span>
       )}

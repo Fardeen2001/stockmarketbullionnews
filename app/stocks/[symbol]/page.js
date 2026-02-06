@@ -109,29 +109,46 @@ export default async function StockDetailPage({ params }) {
     <>
       <StructuredData data={structuredData} />
       <StructuredData data={breadcrumbSchema} />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
       {/* Header */}
-      <div className="mb-8">
-        <Link href="/stocks" className="text-blue-600 hover:underline mb-4 inline-block">
-          ← Back to Stocks
+      <div className="mb-8 md:mb-10 animate-fade-in">
+        <Link 
+          href="/stocks" 
+          className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-700 mb-6 transition-colors font-semibold group"
+        >
+          <svg className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to Stocks
         </Link>
-        <div className="flex items-start justify-between">
-          <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex-1">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 mb-3 leading-tight">
               {stock.name || stock.symbol}
             </h1>
-            <p className="text-lg text-gray-600">
-              {stock.symbol} • {stock.exchange}
-              {stock.sector && ` • ${stock.sector}`}
+            <p className="text-base sm:text-lg text-gray-600 flex flex-wrap items-center gap-2">
+              <span className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-lg font-semibold text-sm">
+                {stock.symbol}
+              </span>
+              <span>{stock.exchange}</span>
+              {stock.sector && (
+                <>
+                  <span>•</span>
+                  <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg font-medium text-sm">
+                    {stock.sector}
+                  </span>
+                </>
+              )}
             </p>
           </div>
           {stock.imageUrl && (
-            <div className="w-24 h-24 relative rounded overflow-hidden">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 relative rounded-2xl overflow-hidden shadow-lg border-2 border-white">
               <Image
                 src={stock.imageUrl}
                 alt={stock.name || stock.symbol}
                 fill
                 className="object-cover"
+                sizes="112px"
               />
             </div>
           )}
@@ -140,23 +157,27 @@ export default async function StockDetailPage({ params }) {
 
       {/* Ad Banner */}
       {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
-        <div className="mb-8">
-          <AdSense adSlot="1234567890" style={{ minHeight: '90px' }} />
+        <div className="mb-8 md:mb-10 animate-scale-in">
+          <div className="glass rounded-3xl p-4 md:p-6 shadow-xl border border-white/30">
+            <AdSense adSlot="1234567890" style={{ minHeight: '90px' }} />
+          </div>
         </div>
       )}
 
       {/* Price Section */}
-      <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-        <div className="flex flex-col md:flex-row md:items-baseline md:justify-between mb-4 gap-4">
-          <div>
-            <span className="text-4xl font-bold text-gray-900">
+      <div className="glass rounded-3xl shadow-xl p-6 md:p-8 mb-8 md:mb-10 border border-white/30 animate-fade-in">
+        <div className="flex flex-col md:flex-row md:items-baseline md:justify-between mb-6 gap-4">
+          <div className="flex flex-wrap items-baseline gap-3 md:gap-4">
+            <span className="text-4xl md:text-5xl font-extrabold text-gray-900">
               ₹{stock.currentPrice?.toLocaleString('en-IN', { minimumFractionDigits: 2 }) || 'N/A'}
             </span>
-            <span className={`text-2xl font-semibold ml-4 ${changeColor}`}>
+            <span className={`text-xl md:text-2xl font-bold px-4 py-2 rounded-xl ${
+              stock.change >= 0 ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'
+            }`}>
               {changeIcon} {Math.abs(stock.changePercent || 0).toFixed(2)}%
             </span>
             {stock.change !== undefined && (
-              <span className={`text-lg font-semibold ml-2 ${changeColor}`}>
+              <span className={`text-lg font-semibold ${changeColor}`}>
                 ({stock.change >= 0 ? '+' : ''}₹{Math.abs(stock.change).toFixed(2)})
               </span>
             )}
@@ -185,62 +206,62 @@ export default async function StockDetailPage({ params }) {
         </div>
 
         {/* Key Metrics */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-6 border-t">
-          <div>
-            <p className="text-sm text-gray-500">Market Cap</p>
-            <p className="text-lg font-semibold">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mt-6 pt-6 border-t border-gray-200">
+          <div className="p-4 bg-white/50 rounded-xl">
+            <p className="text-xs md:text-sm text-gray-500 font-medium mb-1">Market Cap</p>
+            <p className="text-lg md:text-xl font-bold text-gray-900">
               {stock.marketCap > 0 
                 ? `₹${(stock.marketCap / 10000000).toFixed(2)} Cr` 
                 : 'N/A'}
             </p>
           </div>
-          <div>
-            <p className="text-sm text-gray-500">P/E Ratio</p>
-            <p className="text-lg font-semibold">{stock.peRatio || 'N/A'}</p>
+          <div className="p-4 bg-white/50 rounded-xl">
+            <p className="text-xs md:text-sm text-gray-500 font-medium mb-1">P/E Ratio</p>
+            <p className="text-lg md:text-xl font-bold text-gray-900">{stock.peRatio || 'N/A'}</p>
           </div>
-          <div>
-            <p className="text-sm text-gray-500">52W High</p>
-            <p className="text-lg font-semibold">
+          <div className="p-4 bg-white/50 rounded-xl">
+            <p className="text-xs md:text-sm text-gray-500 font-medium mb-1">52W High</p>
+            <p className="text-lg md:text-xl font-bold text-gray-900">
               ₹{stock.high52Week?.toLocaleString('en-IN', { minimumFractionDigits: 2 }) || 'N/A'}
             </p>
           </div>
-          <div>
-            <p className="text-sm text-gray-500">52W Low</p>
-            <p className="text-lg font-semibold">
+          <div className="p-4 bg-white/50 rounded-xl">
+            <p className="text-xs md:text-sm text-gray-500 font-medium mb-1">52W Low</p>
+            <p className="text-lg md:text-xl font-bold text-gray-900">
               ₹{stock.low52Week?.toLocaleString('en-IN', { minimumFractionDigits: 2 }) || 'N/A'}
             </p>
           </div>
         </div>
 
         {/* Additional Quick Metrics */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4 pt-4 border-t">
-          <div>
-            <p className="text-sm text-gray-500">Open</p>
-            <p className="text-base font-semibold">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mt-4 pt-4 border-t border-gray-200">
+          <div className="p-4 bg-white/50 rounded-xl">
+            <p className="text-xs md:text-sm text-gray-500 font-medium mb-1">Open</p>
+            <p className="text-base md:text-lg font-bold text-gray-900">
               {stock.priceHistory && stock.priceHistory.length > 0
                 ? `₹${(stock.priceHistory[stock.priceHistory.length - 1].open || stock.currentPrice).toLocaleString('en-IN', { minimumFractionDigits: 2 })}`
                 : 'N/A'}
             </p>
           </div>
-          <div>
-            <p className="text-sm text-gray-500">High</p>
-            <p className="text-base font-semibold">
+          <div className="p-4 bg-white/50 rounded-xl">
+            <p className="text-xs md:text-sm text-gray-500 font-medium mb-1">High</p>
+            <p className="text-base md:text-lg font-bold text-gray-900">
               {stock.priceHistory && stock.priceHistory.length > 0
                 ? `₹${(stock.priceHistory[stock.priceHistory.length - 1].high || stock.currentPrice).toLocaleString('en-IN', { minimumFractionDigits: 2 })}`
                 : 'N/A'}
             </p>
           </div>
-          <div>
-            <p className="text-sm text-gray-500">Low</p>
-            <p className="text-base font-semibold">
+          <div className="p-4 bg-white/50 rounded-xl">
+            <p className="text-xs md:text-sm text-gray-500 font-medium mb-1">Low</p>
+            <p className="text-base md:text-lg font-bold text-gray-900">
               {stock.priceHistory && stock.priceHistory.length > 0
                 ? `₹${(stock.priceHistory[stock.priceHistory.length - 1].low || stock.currentPrice).toLocaleString('en-IN', { minimumFractionDigits: 2 })}`
                 : 'N/A'}
             </p>
           </div>
-          <div>
-            <p className="text-sm text-gray-500">Volume</p>
-            <p className="text-base font-semibold">
+          <div className="p-4 bg-white/50 rounded-xl">
+            <p className="text-xs md:text-sm text-gray-500 font-medium mb-1">Volume</p>
+            <p className="text-base md:text-lg font-bold text-gray-900">
               {stock.volume 
                 ? stock.volume.toLocaleString('en-IN') 
                 : 'N/A'}
@@ -249,16 +270,19 @@ export default async function StockDetailPage({ params }) {
         </div>
 
         {stock.isShariaCompliant && (
-          <div className="mt-4 inline-block px-4 py-2 bg-green-100 text-green-800 rounded">
-            ✓ Sharia Compliant
+          <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-gradient-success text-white rounded-xl font-semibold shadow-lg">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>Sharia Compliant</span>
           </div>
         )}
       </div>
 
       {/* Enhanced Chart Section */}
       {stock.priceHistory && stock.priceHistory.length > 0 && (
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Price Chart with Technical Indicators</h2>
+        <div className="glass rounded-3xl shadow-xl p-6 md:p-8 mb-8 md:mb-10 border border-white/30 animate-fade-in">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">Price Chart with Technical Indicators</h2>
           <EnhancedPriceChart data={stock.priceHistory} showVolume={true} />
           <div className="mt-4 text-sm text-gray-600">
             <p>• Blue line: Stock price</p>
@@ -270,14 +294,14 @@ export default async function StockDetailPage({ params }) {
       )}
 
       {/* Detailed Analysis */}
-      <div className="mb-8">
+      <div className="mb-8 md:mb-10">
         <StockAnalysis stock={stock} />
       </div>
 
       {/* Description */}
       {stock.description && (
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">About {stock.name || stock.symbol}</h2>
+        <div className="glass rounded-3xl shadow-xl p-6 md:p-8 mb-8 md:mb-10 border border-white/30 animate-fade-in">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">About {stock.name || stock.symbol}</h2>
           <div className="space-y-4">
             <p className="text-gray-700 leading-relaxed">{stock.description}</p>
             {(stock.sector || stock.industry) && (
@@ -303,23 +327,27 @@ export default async function StockDetailPage({ params }) {
       )}
 
       {/* News Section */}
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Latest News</h2>
+      <div className="mb-8 md:mb-10">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">Latest News</h2>
         {news.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
             {news.map((article) => (
               <NewsCard key={article._id} article={article} />
             ))}
           </div>
         ) : (
-          <p className="text-gray-500">No news available for this stock.</p>
+          <div className="glass rounded-3xl p-8 text-center border border-white/30">
+            <p className="text-gray-500 text-lg">No news available for this stock.</p>
+          </div>
         )}
       </div>
 
       {/* Sidebar Ad */}
       {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
-        <div className="mb-8">
-          <AdSense adSlot="0987654321" style={{ minHeight: '250px' }} />
+        <div className="mb-8 md:mb-10 animate-scale-in">
+          <div className="glass rounded-3xl p-6 shadow-xl border border-white/30">
+            <AdSense adSlot="0987654321" style={{ minHeight: '250px' }} />
+          </div>
         </div>
       )}
     </div>

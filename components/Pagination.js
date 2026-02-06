@@ -66,7 +66,7 @@ export default function Pagination({
           <select
             value={selectedLimit}
             onChange={handleLimitChange}
-            className="px-4 py-2 glass rounded-xl font-semibold text-gray-700 border-2 border-transparent hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 cursor-pointer"
+            className="px-4 py-2.5 glass rounded-xl font-semibold text-gray-700 border-2 border-transparent hover:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300 cursor-pointer shadow-sm"
           >
             {limitOptions.map((option) => (
               <option key={option} value={option}>
@@ -147,7 +147,7 @@ export default function Pagination({
           <select
             value={selectedLimit}
             onChange={handleLimitChange}
-            className="px-4 py-2 glass rounded-xl font-semibold text-gray-700 border-2 border-transparent hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 cursor-pointer"
+            className="px-4 py-2.5 glass rounded-xl font-semibold text-gray-700 border-2 border-transparent hover:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300 cursor-pointer shadow-sm"
           >
             {limitOptions.map((option) => (
               <option key={option} value={option}>
@@ -169,12 +169,12 @@ export default function Pagination({
         {currentPage > 1 ? (
           <a
             href={buildUrl(currentPage - 1, currentLimit)}
-            className="px-4 py-2 bg-gradient-primary text-white rounded-xl font-semibold shadow-lg hover:shadow-2xl hover-lift transition-all duration-300 min-w-[100px] text-center"
+            className="px-4 py-2.5 bg-gradient-primary text-white rounded-xl font-semibold shadow-lg shadow-indigo-500/50 hover:shadow-xl hover:shadow-indigo-500/50 hover-lift transition-all duration-300 min-w-[100px] text-center"
           >
             ← Previous
           </a>
         ) : (
-          <span className="px-4 py-2 glass rounded-xl font-semibold text-gray-400 cursor-not-allowed min-w-[100px] text-center">
+          <span className="px-4 py-2.5 glass rounded-xl font-semibold text-gray-400 cursor-not-allowed min-w-[100px] text-center border border-white/30">
             ← Previous
           </span>
         )}
@@ -186,7 +186,7 @@ export default function Pagination({
               return (
                 <span
                   key={`ellipsis-${index}`}
-                  className="px-4 py-2 glass rounded-xl font-semibold text-gray-500"
+                  className="px-4 py-2.5 glass rounded-xl font-semibold text-gray-500 border border-white/30"
                 >
                   ...
                 </span>
@@ -198,10 +198,10 @@ export default function Pagination({
               <a
                 key={pageNum}
                 href={buildUrl(pageNum, currentLimit)}
-                className={`px-4 py-2 rounded-xl font-semibold min-w-[44px] text-center transition-all duration-300 ${
+                className={`px-4 py-2.5 rounded-xl font-semibold min-w-[44px] text-center transition-all duration-300 ${
                   isActive
-                    ? 'bg-gradient-primary text-white shadow-lg scale-105'
-                    : 'glass text-gray-700 hover:bg-gradient-primary hover:text-white hover-lift'
+                    ? 'bg-gradient-primary text-white shadow-lg shadow-indigo-500/50 scale-105'
+                    : 'glass text-gray-700 hover:bg-gradient-primary hover:text-white hover-lift border border-white/30'
                 }`}
               >
                 {pageNum}
@@ -214,12 +214,12 @@ export default function Pagination({
         {currentPage < totalPages ? (
           <a
             href={buildUrl(currentPage + 1, currentLimit)}
-            className="px-4 py-2 bg-gradient-primary text-white rounded-xl font-semibold shadow-lg hover:shadow-2xl hover-lift transition-all duration-300 min-w-[100px] text-center"
+            className="px-4 py-2.5 bg-gradient-primary text-white rounded-xl font-semibold shadow-lg shadow-indigo-500/50 hover:shadow-xl hover:shadow-indigo-500/50 hover-lift transition-all duration-300 min-w-[100px] text-center"
           >
             Next →
           </a>
         ) : (
-          <span className="px-4 py-2 glass rounded-xl font-semibold text-gray-400 cursor-not-allowed min-w-[100px] text-center">
+          <span className="px-4 py-2.5 glass rounded-xl font-semibold text-gray-400 cursor-not-allowed min-w-[100px] text-center border border-white/30">
             Next →
           </span>
         )}

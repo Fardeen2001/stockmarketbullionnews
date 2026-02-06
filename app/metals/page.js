@@ -57,22 +57,23 @@ export default async function MetalsPage({ searchParams }) {
   return (
     <>
       <StructuredData data={pageSchema} />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="mb-12 animate-fade-in">
-        <h1 className="text-5xl md:text-6xl font-extrabold mb-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
+      {/* Page Header */}
+      <div className="mb-10 md:mb-12 lg:mb-16 animate-fade-in">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 md:mb-6 leading-tight">
           <span className="gradient-text bg-gradient-warning bg-clip-text text-transparent">
             Precious Metals
           </span>
         </h1>
-        <p className="text-xl text-gray-700">
+        <p className="text-lg sm:text-xl md:text-2xl text-gray-700 max-w-3xl leading-relaxed">
           Real-time prices for gold, silver, platinum, and palladium
         </p>
       </div>
 
       {/* Ad Banner */}
       {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
-        <div className="mb-12 animate-scale-in">
-          <div className="glass rounded-2xl p-4 shadow-xl">
+        <div className="mb-10 md:mb-12 animate-scale-in">
+          <div className="glass rounded-3xl p-4 md:p-6 shadow-xl border border-white/30">
             <AdSense adSlot="1234567890" style={{ minHeight: '90px' }} />
           </div>
         </div>
@@ -81,7 +82,7 @@ export default async function MetalsPage({ searchParams }) {
       {/* Metals Grid */}
       {metals.length > 0 ? (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-12">
             {metals.map((metal, index) => (
               <div
                 key={metal._id}
@@ -106,8 +107,8 @@ export default async function MetalsPage({ searchParams }) {
           )}
         </>
       ) : (
-        <div className="text-center py-16 glass rounded-2xl animate-fade-in">
-          <p className="text-gray-600 text-xl">No metals data available. Data is being updated.</p>
+        <div className="text-center py-16 md:py-20 glass rounded-3xl animate-fade-in border border-white/30">
+          <p className="text-gray-600 text-lg md:text-xl">No metals data available. Data is being updated.</p>
         </div>
       )}
     </div>
