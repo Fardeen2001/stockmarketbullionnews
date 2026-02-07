@@ -104,7 +104,7 @@ export async function GET() {
       status: 200,
       headers: {
         'Content-Type': 'application/xml; charset=utf-8',
-        'Cache-Control': 'public, s-maxage=1800, stale-while-revalidate=900', // Cache for 30 min, stale for 15 min (more dynamic)
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=120', // 5 min cache for faster indexing of new articles
       },
     });
   } catch (error) {

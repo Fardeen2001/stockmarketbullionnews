@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getScrapedContentCollection } from '@/lib/db';
-import { NewsScraper, NEWS_SOURCES } from '@/lib/scrapers/newsScraper';
+import { NewsScraper } from '@/lib/scrapers/newsScraper';
+import { WORKFLOW_SOURCES } from '@/lib/workflow/sources';
 import { EmbeddingGenerator } from '@/lib/ai/embeddings';
 import { getVectorDB } from '@/lib/vector/vectorDB';
 
@@ -62,48 +63,8 @@ export async function GET(request) {
     let totalScraped = 0;
     const scrapedItems = [];
 
-    // Scrape Reddit
-    for (const subreddit of NEWS_SOURCES.reddit) {
-      try {
-        const posts = await scraper.scrapeReddit(subreddit, 10);
-        for (const post of posts) {
-          const existing = await collection.findOne({ sourceUrl: post.url });
-          if (!existing) {
-            const symbols = scraper.extractStockSymbols(post.title + ' ' + post.url);
-            const metals = scraper.extractMetalTypes(post.title + ' ' + post.url);
-            
-            const item = {
-              source: 'reddit',
-              sourceUrl: post.url,
-              title: post.title,
-              content: post.title, // Reddit title is the main content
-              author: subreddit,
-              publishedAt: new Date(),
-              scrapedAt: new Date(),
-              category: metals.length > 0 ? 'metals' : 'stocks',
-              relatedSymbols: symbols,
-              relatedMetals: metals,
-              engagement: {
-                upvotes: post.score || 0,
-                comments: post.comments || 0,
-                shares: 0,
-              },
-              isProcessed: false,
-            };
-
-            const result = await collection.insertOne(item);
-            scrapedItems.push({ ...item, _id: result.insertedId });
-            await addEmbeddingForScrapedItem(embeddingGenerator, vectorDB, result.insertedId, item);
-            totalScraped++;
-          }
-        }
-      } catch (error) {
-        console.error(`Reddit scraping error for r/${subreddit}:`, error.message);
-      }
-    }
-
-    // Parse RSS Feeds
-    for (const feedUrl of NEWS_SOURCES.rss) {
+    // Parse RSS Feeds (WORKFLOW_SOURCES - Reddit excluded by design)
+    for (const feedUrl of WORKFLOW_SOURCES.rss) {
       try {
         const items = await scraper.parseRSSFeed(feedUrl);
         for (const item of items) {
@@ -143,7 +104,7 @@ export async function GET(request) {
     }
 
     // Scrape news websites
-    for (const site of NEWS_SOURCES.websites) {
+    for (const site of WORKFLOW_SOURCES.websites) {
       try {
         const articles = await scraper.scrapeNewsSite(site.url, site.selectors);
         for (const article of articles) {

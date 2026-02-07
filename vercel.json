@@ -1,34 +1,16 @@
 {
   "crons": [
-    {
-      "path": "/api/cron/update-stocks",
-      "schedule": "0 0 * * *"
-    },
-    {
-      "path": "/api/cron/update-metals",
-      "schedule": "0 3 * * *"
-    },
-    {
-      "path": "/api/cron/scrape-news-v2",
-      "schedule": "0 6 * * *"
-    },
-    {
-      "path": "/api/cron/detect-trends",
-      "schedule": "0 9 * * *"
-    },
-    {
-      "path": "/api/cron/generate-articles-v2",
-      "schedule": "0 12 * * *"
-    },
-    {
-      "path": "/api/cron/update-sharia",
-      "schedule": "0 0 * * 0"
-    }
+    { "path": "/api/cron/update-stocks", "schedule": "0 0 * * *" },
+    { "path": "/api/cron/update-metals", "schedule": "0 3 * * *" },
+    { "path": "/api/cron/scrape-news-v2", "schedule": "0 6 * * *" },
+    { "path": "/api/cron/detect-trends", "schedule": "0 9 * * *" },
+    { "path": "/api/cron/generate-articles-v2", "schedule": "0 12 * * *" },
+    { "path": "/api/cron/update-sitemap", "schedule": "0 13 * * *" },
+    { "path": "/api/cron/full-workflow", "schedule": "0 5 * * 0" },
+    { "path": "/api/cron/update-sharia", "schedule": "0 0 * * 0" }
   ],
   "functions": {
-    "app/api/cron/**/*.js": {
-      "maxDuration": 300
-    }
+    "app/api/cron/**/*.js": { "maxDuration": 300 }
   },
   "installCommand": "npm install && npx playwright install chromium"
 }

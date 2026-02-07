@@ -29,9 +29,10 @@ export async function GET(request) {
     });
     await agent.initialize(hfApiKey);
 
-    // Execute trend detection
+    // Execute trend detection (separate analysis per category)
     const result = await agent.execute({
-      hours: 24, // Look at last 24 hours
+      hours: 24,
+      categories: ['stocks', 'metals', 'sharia'],
     });
 
     return NextResponse.json({

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { ScrapingAgent } from '@/lib/ai/agents/scrapingAgent';
-import { NEWS_SOURCES } from '@/lib/scrapers/newsScraper';
+import { getWorkflowScrapeSources } from '@/lib/workflow/sources';
 import { verifyCronRequest } from '@/lib/utils/cronAuth';
 import { logger } from '@/lib/utils/logger';
 
@@ -28,25 +28,8 @@ export async function GET(request) {
     const agent = new ScrapingAgent();
     await agent.initialize(hfApiKey);
 
-    // Prepare sources
-    const sources = [
-      // Reddit sources
-      ...NEWS_SOURCES.reddit.map(subreddit => ({
-        type: 'reddit',
-        subreddit,
-      })),
-      // RSS sources
-      ...NEWS_SOURCES.rss.map(url => ({
-        type: 'rss',
-        url,
-      })),
-      // Website sources
-      ...NEWS_SOURCES.websites.map(site => ({
-        type: 'website',
-        url: site.url,
-        selectors: site.selectors,
-      })),
-    ];
+    // Use single source-of-truth (WORKFLOW_SOURCES) - Reddit excluded by design
+    const sources = getWorkflowScrapeSources();
 
     // Execute scraping task
     const result = await agent.execute({

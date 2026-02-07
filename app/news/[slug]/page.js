@@ -81,25 +81,27 @@ export default async function NewsDetailPage({ params }) {
     notFound();
   }
 
-  // Generate structured data
+  // Use stored JSON-LD schema when available (root cause: article gen produces it)
   const articleUrl = `${SITE_URL}/news/${article.slug}`;
-  const structuredData = generateNewsArticleSchema({
-    headline: article.title,
-    description: article.summary || generateMetaDescription(article.content),
-    image: article.imageUrl,
-    datePublished: article.publishedAt,
-    dateModified: article.updatedAt,
-    url: articleUrl,
-    category: article.category,
-    keywords: article.tags || [],
-    articleBody: article.content,
-    wordCount: article.content ? article.content.split(/\s+/).length : null,
-  });
+  const storedSchema = article.seoMetadata?.jsonLdSchema;
+  const structuredData =
+    storedSchema?.newsArticle ||
+    generateNewsArticleSchema({
+      headline: article.title,
+      description: article.summary || generateMetaDescription(article.content),
+      image: article.imageUrl,
+      datePublished: article.publishedAt,
+      dateModified: article.updatedAt,
+      url: articleUrl,
+      category: article.category,
+      keywords: article.tags || [],
+      articleBody: article.content,
+      wordCount: article.content ? article.content.split(/\s+/).length : null,
+    });
 
-  // Generate FAQ schema if available
-  const faqSchema = article.faqs && article.faqs.length > 0 
-    ? generateFAQPageSchema(article.faqs)
-    : null;
+  const faqSchema =
+    storedSchema?.faqPage ||
+    (article.faqs && article.faqs.length > 0 ? generateFAQPageSchema(article.faqs) : null);
 
   // Generate breadcrumb schema
   const breadcrumbSchema = generateBreadcrumbSchema([
