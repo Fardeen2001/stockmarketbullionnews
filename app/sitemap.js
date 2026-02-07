@@ -48,7 +48,7 @@ export default async function sitemap() {
       .toArray();
 
     const stockPages = stocks.map(stock => ({
-      url: `${baseUrl}/stocks/${stock.symbol}`,
+      url: `${baseUrl}/stocks/${encodeURIComponent(stock.symbol)}`,
       lastModified: stock.lastUpdated ? new Date(stock.lastUpdated) : now,
       changeFrequency: 'hourly',
       priority: 0.8,
@@ -62,7 +62,7 @@ export default async function sitemap() {
       .toArray();
 
     const metalPages = metals.map(metal => ({
-      url: `${baseUrl}/metals/${metal.metalType}`,
+      url: `${baseUrl}/metals/${encodeURIComponent(metal.metalType)}`,
       lastModified: metal.lastUpdated ? new Date(metal.lastUpdated) : now,
       changeFrequency: 'hourly',
       priority: 0.8,
@@ -77,7 +77,7 @@ export default async function sitemap() {
       stock.shariaComplianceData?.complianceStatus === 'compliant'
     );
     const shariaPages = shariaStocks.map(stock => ({
-      url: `${baseUrl}/sharia/${stock.symbol}`,
+      url: `${baseUrl}/sharia/${encodeURIComponent(stock.symbol)}`,
       lastModified: stock.lastUpdated ? new Date(stock.lastUpdated) : now,
       changeFrequency: 'daily',
       priority: 0.7,
