@@ -10,7 +10,7 @@ async function getNews(page = 1, limit = 12, category = null) {
     const baseUrl = getBaseUrl();
     const url = `${baseUrl}/api/news?page=${page}&limit=${limit}${category ? `&category=${category}` : ''}`;
     const res = await fetch(url, {
-      next: { revalidate: 3600 },
+      next: { revalidate: 60 }, // Revalidate every minute so latest news shows first
     });
     const data = await res.json();
     return data.success ? data : { data: [], pagination: {} };

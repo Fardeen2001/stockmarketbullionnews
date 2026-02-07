@@ -27,7 +27,7 @@ async function getTrendingNews() {
   try {
     const baseUrl = getBaseUrl();
     const res = await fetch(`${baseUrl}/api/news?trending=true&limit=6`, {
-      next: { revalidate: 3600 }, // Revalidate every hour
+      next: { revalidate: 60 }, // Revalidate every minute so latest news shows on top
     });
     const data = await res.json();
     return data.success ? data.data : [];

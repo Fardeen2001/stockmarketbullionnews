@@ -196,43 +196,46 @@ export default async function NewsDetailPage({ params }) {
             {/* Article Content */}
             <div className="glass rounded-3xl p-6 md:p-8 lg:p-12 shadow-xl border border-white/30 animate-fade-in">
               <div className="prose prose-lg max-w-none">
-                {article.content
-                  .split(/\n\n+/)
-                  .filter(p => p.trim())
-                  .map((paragraph, index) => {
-                    // Remove any remaining markdown
-                    let cleanParagraph = paragraph
+                {(() => {
+                  const blocks = article.content.split(/\n\n+/).filter(p => p.trim());
+                  return blocks.map((block, index) => {
+                    const trimmed = block.trim();
+                    const h2Match = trimmed.match(/^##\s+(.+)$/m);
+                    const h3Match = trimmed.match(/^###\s+(.+)$/m);
+                    if (h2Match) {
+                      return (
+                        <h2 key={index} className="text-2xl sm:text-3xl font-bold text-gray-900 mt-8 mb-4 first:mt-0 border-b border-gray-200 pb-2">
+                          {h2Match[1].replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1')}
+                        </h2>
+                      );
+                    }
+                    if (h3Match) {
+                      return (
+                        <h3 key={index} className="text-xl sm:text-2xl font-bold text-gray-800 mt-6 mb-3">
+                          {h3Match[1].replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1')}
+                        </h3>
+                      );
+                    }
+                    let cleanParagraph = trimmed
                       .replace(/^#+\s*/g, '')
                       .replace(/^[-*+]\s+/g, '')
                       .replace(/^\d+\.\s+/g, '')
                       .replace(/\*\*(.+?)\*\*/g, '$1')
                       .replace(/\*(.+?)\*/g, '$1')
                       .trim();
-                    
-                    // Process internal links: [INTERNAL_LINK:text|url]
                     cleanParagraph = cleanParagraph.replace(
                       /\[INTERNAL_LINK:([^\|]+)\|([^\]]+)\]/g,
-                      (match, text, url) => {
-                        return `<a href="${url}" class="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 underline-offset-2 transition-colors">${text}</a>`;
-                      }
+                      (match, text, url) => `<a href="${url}" class="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 underline-offset-2 transition-colors">${text}</a>`
                     );
-
-                    // Process external links: [EXTERNAL_LINK:text|url]
                     cleanParagraph = cleanParagraph.replace(
                       /\[EXTERNAL_LINK:([^\|]+)\|([^\]]+)\]/g,
-                      (match, text, url) => {
-                        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-green-600 hover:text-green-700 font-semibold underline decoration-2 underline-offset-2 transition-colors">${text}</a>`;
-                      }
+                      (match, text, url) => `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-green-600 hover:text-green-700 font-semibold underline decoration-2 underline-offset-2 transition-colors">${text}</a>`
                     );
-                    
-                    return cleanParagraph && (
-                      <p 
-                        key={index} 
-                        className="mb-6 text-gray-700 leading-relaxed text-lg"
-                        dangerouslySetInnerHTML={{ __html: cleanParagraph }}
-                      />
-                    );
-                  })}
+                    return cleanParagraph ? (
+                      <p key={index} className="mb-6 text-gray-700 leading-relaxed text-lg" dangerouslySetInnerHTML={{ __html: cleanParagraph }} />
+                    ) : null;
+                  });
+                })()}
               </div>
             </div>
 
@@ -336,13 +339,15 @@ export default async function NewsDetailPage({ params }) {
 
           {/* Sidebar */}
           <div className="lg:col-span-1 space-y-6">
-            {/* Sources Section */}
-            {article.sources && article.sources.length > 0 && (
-              <div className="glass rounded-3xl p-6 shadow-xl border border-white/30 animate-fade-in">
-                <h3 className="text-xl sm:text-2xl font-bold mb-6 text-gray-900">Sources</h3>
+            {/* Sources & Citations Section */}
+            <div className="glass rounded-3xl p-6 shadow-xl border border-white/30 animate-fade-in">
+              <h3 className="text-xl sm:text-2xl font-bold mb-2 text-gray-900">Sources &amp; Citations</h3>
+              <p className="text-sm text-gray-500 mb-4">Links this article was sourced and cited from (scraped and trend detection).</p>
+              {article.sources && article.sources.length > 0 ? (
                 <div className="space-y-4">
                   {article.sources.map((source, index) => {
                     const sourceIcon = getSourceIcon(source.domain || source.url);
+                    const scrapedAt = source.scrapedAt ? new Date(source.scrapedAt) : null;
                     return (
                       <a
                         key={index}
@@ -354,11 +359,21 @@ export default async function NewsDetailPage({ params }) {
                         <div className="flex items-start gap-3">
                           <span className="text-2xl">{sourceIcon.icon}</span>
                           <div className="flex-1 min-w-0">
+                            {source.sourceType && (
+                              <span className="inline-block text-xs font-medium text-indigo-600 mb-1 uppercase tracking-wide">
+                                {source.sourceType === 'trend' ? 'Trend source' : 'Sourced from'}
+                              </span>
+                            )}
                             <p className="text-gray-900 font-semibold text-sm group-hover:text-blue-600 transition-colors line-clamp-2 mb-1">
                               {source.title || source.domain || 'Source'}
                             </p>
                             {source.domain && source.domain !== source.title && (
                               <p className="text-gray-500 text-xs truncate">{source.domain}</p>
+                            )}
+                            {scrapedAt && (
+                              <p className="text-gray-400 text-xs mt-1">
+                                Scraped {scrapedAt.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                              </p>
                             )}
                           </div>
                         </div>
@@ -366,8 +381,10 @@ export default async function NewsDetailPage({ params }) {
                     );
                   })}
                 </div>
-              </div>
-            )}
+              ) : (
+                <p className="text-sm text-gray-500 italic">No source links recorded for this article.</p>
+              )}
+            </div>
 
             {/* More Like This */}
             <div className="glass rounded-3xl p-6 shadow-xl border border-white/30 animate-fade-in">

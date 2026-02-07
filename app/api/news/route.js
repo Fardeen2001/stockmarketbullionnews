@@ -55,19 +55,17 @@ export async function GET(request) {
       query.relatedSymbol = symbol.toUpperCase();
     }
 
-    // Latest created news first, then publishedAt as tiebreaker
-    let sort = { createdAt: -1, publishedAt: -1 };
-    if (trending) {
-      sort = { createdAt: -1, trendingScore: -1, publishedAt: -1 };
-    }
-
+    // Latest first: use createdAt when present, else publishedAt (so old docs without createdAt still order correctly)
     const skip = (page - 1) * limit;
-    const news = await collection
-      .find(query)
-      .sort(sort)
-      .skip(skip)
-      .limit(limit)
-      .toArray();
+    const pipeline = [
+      { $match: query },
+      { $addFields: { _sortDate: { $ifNull: ['$createdAt', '$publishedAt'] } } },
+      { $sort: trending ? { _sortDate: -1, trendingScore: -1 } : { _sortDate: -1 } },
+      { $skip: skip },
+      { $limit: limit },
+      { $project: { _sortDate: 0 } }, // drop temporary field from response
+    ];
+    const news = await collection.aggregate(pipeline).toArray();
 
     const total = await collection.countDocuments(query);
 

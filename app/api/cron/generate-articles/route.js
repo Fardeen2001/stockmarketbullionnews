@@ -212,6 +212,7 @@ export async function GET(request) {
               url: item.sourceUrl || item.url || '',
               domain,
               title: item.title,
+              sourceType: 'scraped',
               scrapedAt: item.scrapedAt,
             };
           }),
