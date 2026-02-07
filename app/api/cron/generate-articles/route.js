@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getScrapedContentCollection, getNewsCollection, getTrendingTopicsCollection, getStocksCollection, getMetalsCollection } from '@/lib/db';
 import { ContentGenerator } from '@/lib/ai/contentGenerator';
 import { EmbeddingGenerator } from '@/lib/ai/embeddings';
+import { getVectorDB } from '@/lib/vector/vectorDB';
 import { UnsplashAPI } from '@/lib/api/imageAPI';
 import { createSlug } from '@/lib/utils/slugify';
 
@@ -29,6 +30,8 @@ export async function GET(request) {
 
     const contentGenerator = new ContentGenerator(hfApiKey);
     const embeddingGenerator = new EmbeddingGenerator(hfApiKey);
+    const vectorDB = getVectorDB();
+    await vectorDB.initialize();
     const imageAPI = new UnsplashAPI(process.env.UNSPLASH_ACCESS_KEY);
 
     const scrapedCollection = await getScrapedContentCollection();
@@ -112,11 +115,25 @@ export async function GET(request) {
           }
         }
 
-        // Prepare facts from scraped content
-        const facts = items.map(item => item.title).slice(0, 5);
         const topicName = relatedData 
           ? `${topic} - Latest Market Updates`
           : `${topic} News`;
+
+        // Use embedding-based retrieval for scraped context when available
+        let facts = items.map(item => item.title).slice(0, 5);
+        try {
+          const queryEmbedding = await embeddingGenerator.generateEmbedding(topicName);
+          const similarScraped = await vectorDB.searchSimilar('scraped', queryEmbedding, 10, 0.7);
+          if (similarScraped.length > 0) {
+            facts = similarScraped.map((s) => {
+              const title = s.metadata?.title || '';
+              const snippet = (s.text || '').substring(0, 280);
+              return snippet ? `${title}: ${snippet}` : title;
+            }).filter(Boolean).slice(0, 8);
+          }
+        } catch (err) {
+          console.error('Vector search for scraped context failed, using topic-group facts:', err.message);
+        }
 
         // Generate article
         const articleResult = await contentGenerator.generateArticle(

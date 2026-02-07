@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getScrapedContentCollection } from '@/lib/db';
 import { NewsScraper, NEWS_SOURCES } from '@/lib/scrapers/newsScraper';
+import { EmbeddingGenerator } from '@/lib/ai/embeddings';
+import { getVectorDB } from '@/lib/vector/vectorDB';
 
 function verifyCronSecret(request) {
   const authHeader = request.headers.get('authorization');
@@ -13,6 +15,32 @@ function verifyCronSecret(request) {
   return false;
 }
 
+async function addEmbeddingForScrapedItem(embeddingGenerator, vectorDB, insertedId, item) {
+  if (!embeddingGenerator || !vectorDB) return;
+  try {
+    const text = `${item.title} ${item.content || item.summary || ''}`.trim();
+    if (!text) return;
+    const embedding = await embeddingGenerator.generateEmbedding(text);
+    await vectorDB.addEmbedding(
+      'scraped',
+      insertedId.toString(),
+      embedding,
+      {
+        title: item.title,
+        source: item.source || item.author,
+        sourceUrl: item.sourceUrl || item.url,
+        category: item.category || 'stocks',
+        relatedSymbols: item.relatedSymbols || [],
+        relatedMetals: item.relatedMetals || [],
+        scrapedAt: (item.scrapedAt || new Date()).toISOString(),
+      },
+      text
+    );
+  } catch (err) {
+    console.error('Embedding error for scraped item:', err.message);
+  }
+}
+
 export async function GET(request) {
   try {
     if (!verifyCronSecret(request)) {
@@ -22,6 +50,14 @@ export async function GET(request) {
     const scraper = new NewsScraper();
     await scraper.init();
     const collection = await getScrapedContentCollection();
+    const hfApiKey = process.env.HUGGINGFACE_API_KEY;
+    let embeddingGenerator = null;
+    let vectorDB = null;
+    if (hfApiKey) {
+      embeddingGenerator = new EmbeddingGenerator(hfApiKey);
+      vectorDB = getVectorDB();
+      await vectorDB.initialize();
+    }
 
     let totalScraped = 0;
     const scrapedItems = [];
@@ -55,8 +91,9 @@ export async function GET(request) {
               isProcessed: false,
             };
 
-            await collection.insertOne(item);
-            scrapedItems.push(item);
+            const result = await collection.insertOne(item);
+            scrapedItems.push({ ...item, _id: result.insertedId });
+            await addEmbeddingForScrapedItem(embeddingGenerator, vectorDB, result.insertedId, item);
             totalScraped++;
           }
         }
@@ -94,8 +131,9 @@ export async function GET(request) {
               isProcessed: false,
             };
 
-            await collection.insertOne(scrapedItem);
-            scrapedItems.push(scrapedItem);
+            const result = await collection.insertOne(scrapedItem);
+            scrapedItems.push({ ...scrapedItem, _id: result.insertedId });
+            await addEmbeddingForScrapedItem(embeddingGenerator, vectorDB, result.insertedId, scrapedItem);
             totalScraped++;
           }
         }
@@ -133,8 +171,9 @@ export async function GET(request) {
               isProcessed: false,
             };
 
-            await collection.insertOne(item);
-            scrapedItems.push(item);
+            const result = await collection.insertOne(item);
+            scrapedItems.push({ ...item, _id: result.insertedId });
+            await addEmbeddingForScrapedItem(embeddingGenerator, vectorDB, result.insertedId, item);
             totalScraped++;
           }
         }

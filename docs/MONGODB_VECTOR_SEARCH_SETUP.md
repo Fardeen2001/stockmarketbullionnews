@@ -14,7 +14,7 @@ MongoDB Atlas Vector Search provides native vector search capabilities, eliminat
    - If using M0, the system will fall back to cosine similarity search
 
 2. **Embedding Model**
-   - Currently using: `sentence-transformers/all-MiniLM-L6-v2`
+   - Currently using: `sentence-transformers/all-mpnet-base-v2`
    - Vector dimension: 384
    - Similarity metric: cosine
 
@@ -133,7 +133,7 @@ Embeddings are stored directly in MongoDB documents:
   _id: ObjectId("..."),
   title: "Article Title",
   content: "Article content...",
-  embedding: [0.123, 0.456, ...], // 384-dimensional vector
+  embedding: [0.123, 0.456, ...], // 768-dimensional vector
   vectorSearchText: "Article title and content for search",
   vectorUpdatedAt: ISODate("...")
 }

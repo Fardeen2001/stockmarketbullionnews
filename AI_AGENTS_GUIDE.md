@@ -21,8 +21,8 @@ StockMarket Bullion now uses a modern AI agent system with vector databases for 
    - **ContentGenerationAgent**: Generates articles using RAG
 
 3. **Embeddings**
-   - Uses Hugging Face `sentence-transformers/all-MiniLM-L6-v2`
-   - 384-dimensional vectors
+   - Uses Hugging Face `sentence-transformers/all-mpnet-base-v2`
+   - 768-dimensional vectors
    - Fast and accurate semantic search
 
 ## Workflow

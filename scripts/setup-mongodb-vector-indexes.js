@@ -22,7 +22,7 @@ const indexDefinitions = {
         {
           type: 'vector',
           path: 'embedding',
-          numDimensions: 384, // Hugging Face all-MiniLM-L6-v2 model dimension
+          numDimensions: 768, // Hugging Face all-mpnet-base-v2 model dimension
           similarity: 'cosine',
         },
       ],
@@ -37,7 +37,7 @@ const indexDefinitions = {
         {
           type: 'vector',
           path: 'embedding',
-          numDimensions: 384,
+          numDimensions: 768,
           similarity: 'cosine',
         },
       ],
@@ -52,7 +52,7 @@ const indexDefinitions = {
         {
           type: 'vector',
           path: 'embedding',
-          numDimensions: 384,
+          numDimensions: 768,
           similarity: 'cosine',
         },
       ],
