@@ -4,9 +4,12 @@
  * at the application root level - true root cause implementation
  */
 
-// Suppress deprecation warnings from dependencies (yahoo-finance2, etc.)
-// This runs at the very start of the application
-if (typeof process !== 'undefined') {
+// Suppress deprecation warnings from dependencies (yahoo-finance2, etc.) — Node.js only; skipped in Edge Runtime
+const isEdgeRuntime =
+  typeof globalThis.EdgeRuntime === 'string' ||
+  (typeof process !== 'undefined' && process.env.NEXT_RUNTIME === 'edge');
+
+if (typeof process !== 'undefined' && !isEdgeRuntime) {
   // Method 1: Override process.emitWarning (primary method)
   if (process.emitWarning) {
     const originalEmitWarning = process.emitWarning;
@@ -22,8 +25,8 @@ if (typeof process !== 'undefined') {
     };
   }
 
-  // Method 2: Override process.stderr.write for deprecation warnings
-  if (process.stderr && process.stderr.write) {
+  // Method 2: Override process.stderr.write (Node-only; not supported in Edge Runtime)
+  if (process.stderr && typeof process.stderr.write === 'function') {
     const originalStderrWrite = process.stderr.write.bind(process.stderr);
     process.stderr.write = function(chunk, encoding, callback) {
       if (typeof chunk === 'string' && 
