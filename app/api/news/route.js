@@ -55,10 +55,10 @@ export async function GET(request) {
       query.relatedSymbol = symbol.toUpperCase();
     }
 
-    let sort = { publishedAt: -1 };
+    // Latest created news first, then publishedAt as tiebreaker
+    let sort = { createdAt: -1, publishedAt: -1 };
     if (trending) {
-      // Prioritize latest news first, then trending score as secondary sort
-      sort = { publishedAt: -1, trendingScore: -1 };
+      sort = { createdAt: -1, trendingScore: -1, publishedAt: -1 };
     }
 
     const skip = (page - 1) * limit;

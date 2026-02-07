@@ -12,7 +12,7 @@ export default async function AdminNewsPage({ searchParams }) {
   const collection = await getNewsCollection();
   const news = await collection
     .find({})
-    .sort({ publishedAt: -1 })
+    .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit)
     .toArray();

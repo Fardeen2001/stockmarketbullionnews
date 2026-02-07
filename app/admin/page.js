@@ -28,10 +28,10 @@ export default async function AdminDashboard() {
     scrapedCollection.countDocuments({ isProcessed: false }),
   ]);
 
-  // Get recent news
+  // Get recent news (latest created first)
   const recentNews = await newsCollection
     .find({ isPublished: true })
-    .sort({ publishedAt: -1 })
+    .sort({ createdAt: -1 })
     .limit(10)
     .toArray();
 
