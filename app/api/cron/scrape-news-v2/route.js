@@ -31,10 +31,10 @@ export async function GET(request) {
     // Use single source-of-truth (WORKFLOW_SOURCES) - Reddit excluded by design
     const sources = getWorkflowScrapeSources();
 
-    // Execute scraping task
+    // Execute scraping task (maxItems 40 to fit 300s timeout with batched embeddings)
     const result = await agent.execute({
       sources,
-      maxItems: 100,
+      maxItems: 40,
     });
 
     await agent.close();
