@@ -1,14 +1,19 @@
 import { getNewsCollection } from '@/lib/db';
 import { NextResponse } from 'next/server';
 
+// Force this route to run on every request (no static/ISR cache)
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 /**
- * Google News Sitemap
- * 
- * This sitemap follows Google's News Sitemap specification:
+ * Google News Sitemap (fully dynamic)
+ *
+ * Follows Google's News Sitemap specification:
  * https://developers.google.com/search/docs/crawling-indexing/sitemaps/news-sitemap
- * 
- * Only includes articles published in the last 2 days as per Google's requirements.
- * Fully dynamic - updates in real-time based on published articles.
+ *
+ * Includes all published articles from the last 7 days so the sitemap is never
+ * empty when content exists. Google may use only the most recent 2 days for
+ * News discovery; older entries still help general indexing.
  */
 export async function GET() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://stockmarketbullion.com';
@@ -17,23 +22,40 @@ export async function GET() {
 
   try {
     const newsCollection = await getNewsCollection();
-    
-    // Only include articles from the last 2 days (48 hours) as per Google News requirements
-    const twoDaysAgo = new Date();
-    twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
-    twoDaysAgo.setHours(0, 0, 0, 0); // Start of day
 
-    // Fetch only published articles from the last 2 days
-    const recentNews = await newsCollection
+    // Include articles from the last 7 days so the sitemap has content when articles exist
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    sevenDaysAgo.setHours(0, 0, 0, 0);
+
+    // Fetch published articles from the last 7 days (uses publishedAt or createdAt as fallback)
+    let recentNews = await newsCollection
       .find({
         isPublished: true,
-        publishedAt: { $gte: twoDaysAgo },
-        title: { $exists: true, $ne: '' }, // Ensure title exists and is not empty
-        slug: { $exists: true, $ne: '' } // Ensure slug exists and is not empty
+        $or: [
+          { publishedAt: { $gte: sevenDaysAgo } },
+          { publishedAt: { $exists: false }, createdAt: { $gte: sevenDaysAgo } },
+          { publishedAt: null, createdAt: { $gte: sevenDaysAgo } },
+        ],
+        title: { $exists: true, $ne: '' },
+        slug: { $exists: true, $ne: '' },
       })
-      .sort({ publishedAt: -1 })
-      .limit(1000) // Google allows up to 1000 news:news tags per sitemap
+      .sort({ publishedAt: -1, createdAt: -1 })
+      .limit(1000)
       .toArray();
+
+    // If no articles in last 7 days, include latest published articles so sitemap isn't empty
+    if (recentNews.length === 0) {
+      recentNews = await newsCollection
+        .find({
+          isPublished: true,
+          title: { $exists: true, $ne: '' },
+          slug: { $exists: true, $ne: '' },
+        })
+        .sort({ publishedAt: -1, createdAt: -1 })
+        .limit(500)
+        .toArray();
+    }
 
     // Build XML sitemap with proper escaping
     let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
@@ -104,12 +126,12 @@ export async function GET() {
       status: 200,
       headers: {
         'Content-Type': 'application/xml; charset=utf-8',
-        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=120', // 5 min cache for faster indexing of new articles
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30', // 1 min cache so new articles appear quickly
       },
     });
   } catch (error) {
     console.error('News sitemap generation error:', error);
-    
+
     // Return valid empty sitemap on error (better than failing completely)
     let emptyXml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
     emptyXml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n`;
@@ -120,7 +142,7 @@ export async function GET() {
       status: 200,
       headers: {
         'Content-Type': 'application/xml; charset=utf-8',
-        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=60', // Shorter cache on error
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30',
       },
     });
   }
