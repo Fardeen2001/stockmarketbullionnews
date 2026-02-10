@@ -14,34 +14,57 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-import { generateMetadata as generateSEOMetadata, generateOrganizationSchema, generateWebSiteSchema, generateKeywords, SITE_URL } from '@/lib/utils/seo';
-import StructuredData from '@/components/StructuredData';
-
+import {
+  generateMetadata as generateSEOMetadata,
+  generateOrganizationSchema,
+  generateWebSiteSchema,
+  generateKeywords,
+  SITE_URL,
+} from "@/lib/utils/seo";
+import StructuredData from "@/components/StructuredData";
 const rootMetadata = generateSEOMetadata({
-  title: "StockMarket Bullion - Latest Stocks, Gold, Silver & Sharia Compliant Stocks",
-  description: "Get the latest stock market news, gold and silver prices, and Sharia-compliant stock analysis. Real-time market data, AI-generated insights, and comprehensive financial coverage for India and global markets.",
+  title:
+    "StockMarket Bullion - Latest Stocks, Gold, Silver & Sharia Compliant Stocks",
+  description:
+    "Get the latest stock market news, gold and silver prices, and Sharia-compliant stock analysis. Real-time market data, AI-generated insights, and comprehensive financial coverage for India and global markets.",
   keywords: generateKeywords({
-    baseKeywords: ["stock market", "stocks", "gold price", "silver price", "sharia compliant stocks", "NSE", "BSE", "market news", "financial news", "investment", "trading", "precious metals", "bullion", "halal stocks", "islamic finance"],
+    baseKeywords: [
+      "stock market",
+      "stocks",
+      "gold price",
+      "silver price",
+      "sharia compliant stocks",
+      "NSE",
+      "BSE",
+      "market news",
+      "financial news",
+      "investment",
+      "trading",
+      "precious metals",
+      "bullion",
+      "halal stocks",
+      "islamic finance",
+    ],
     location: "India",
   }),
-  url: '/',
-  type: 'website',
+  url: "/",
+  type: "website",
   geo: {
-    region: 'IN',
-    country: 'India',
-    latitude: '28.6139',
-    longitude: '77.2090',
+    region: "IN",
+    country: "India",
+    latitude: "28.6139",
+    longitude: "77.2090",
   },
 });
 
 export const metadata = {
   ...rootMetadata,
   icons: {
-    icon: '/icon.png',
-    apple: '/apple-icon.png',
-    shortcut: '/icon.png',
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
+    shortcut: "/icon.png",
   },
-  manifest: '/manifest.json',
+  manifest: "/manifest.json",
 };
 
 // Generate organization and website schemas
@@ -53,6 +76,22 @@ const websiteSchema = generateWebSiteSchema({
 export default function RootLayout({ children }) {
   return (
     <html lang="en-IN" suppressHydrationWarning className="scroll-smooth">
+      <head>
+        {" "}
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-RX9K69665P"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-RX9K69665P');
+          `}
+        </Script>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
@@ -68,9 +107,7 @@ export default function RootLayout({ children }) {
           />
         )}
         <Navigation />
-        <main className="min-h-screen">
-          {children}
-        </main>
+        <main className="min-h-screen">{children}</main>
         <Footer />
       </body>
     </html>
