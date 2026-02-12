@@ -117,7 +117,7 @@ export default async function MetalDetailPage({ params }) {
       <div className="mb-8 md:mb-10 animate-fade-in">
         <Link 
           href="/metals" 
-          className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-700 mb-6 transition-colors font-semibold group"
+          className="inline-flex items-center gap-2 text-accent hover:text-accent-300 mb-6 transition-colors font-semibold group"
         >
           <svg className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -126,10 +126,10 @@ export default async function MetalDetailPage({ params }) {
         </Link>
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex-1">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 mb-3 leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-accent mb-3 leading-tight">
               {metalName}
             </h1>
-            <p className="text-base sm:text-lg text-gray-600 flex flex-wrap items-center gap-2">
+            <p className="text-base sm:text-lg text-accent/80 flex flex-wrap items-center gap-2">
               <span className="px-3 py-1 bg-amber-100 text-amber-700 rounded-lg font-semibold text-sm">
                 {metal.unit === 'per_gram' ? 'Per Gram' : 'Per Ounce'}
               </span>
@@ -153,17 +153,17 @@ export default async function MetalDetailPage({ params }) {
       {/* Ad Banner */}
       {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
         <div className="mb-8 md:mb-10 animate-scale-in">
-          <div className="glass rounded-3xl p-4 md:p-6 shadow-xl border border-white/30">
+          <div className="bg-secondary/80 rounded-3xl p-4 md:p-6 shadow-xl border border-secondary-300">
             <AdSense adSlot="1234567890" style={{ minHeight: '90px' }} />
           </div>
         </div>
       )}
 
       {/* Price Section */}
-      <div className="glass rounded-3xl shadow-xl p-6 md:p-8 mb-8 md:mb-10 border border-white/30 animate-fade-in">
+      <div className="bg-secondary/80 rounded-3xl shadow-xl p-6 md:p-8 mb-8 md:mb-10 border border-secondary-300 animate-fade-in">
         <div className="flex flex-wrap items-baseline justify-between mb-6 gap-4">
           <div className="flex flex-wrap items-baseline gap-3 md:gap-4">
-            <span className="text-4xl md:text-5xl font-extrabold text-gray-900">
+            <span className="text-4xl md:text-5xl font-extrabold text-accent">
               ₹{metal.currentPrice?.toLocaleString('en-IN', { minimumFractionDigits: 2 }) || 'N/A'}
             </span>
             <span className={`text-xl md:text-2xl font-bold px-4 py-2 rounded-xl ${
@@ -175,14 +175,14 @@ export default async function MetalDetailPage({ params }) {
         </div>
 
         {metal.description && (
-          <p className="text-gray-700 text-lg leading-relaxed">{metal.description}</p>
+          <p className="text-accent/80 text-lg leading-relaxed">{metal.description}</p>
         )}
       </div>
 
       {/* Chart Section */}
       {metal.priceHistory && metal.priceHistory.length > 0 && (
-        <div className="glass rounded-3xl shadow-xl p-6 md:p-8 mb-8 md:mb-10 border border-white/30 animate-fade-in">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">Price Chart</h2>
+        <div className="bg-secondary/80 rounded-3xl shadow-xl p-6 md:p-8 mb-8 md:mb-10 border border-secondary-300 animate-fade-in">
+          <h2 className="text-2xl md:text-3xl font-bold text-accent mb-6">Price Chart</h2>
           <PriceChart data={metal.priceHistory.map(item => ({
             date: item.date,
             close: item.price,
@@ -193,7 +193,7 @@ export default async function MetalDetailPage({ params }) {
 
       {/* News Section */}
       <div className="mb-8 md:mb-10">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">Latest News</h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-accent mb-6">Latest News</h2>
         {news.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
             {news.map((article) => (
@@ -201,8 +201,8 @@ export default async function MetalDetailPage({ params }) {
             ))}
           </div>
         ) : (
-          <div className="glass rounded-3xl p-8 text-center border border-white/30">
-            <p className="text-gray-500 text-lg">No news available for {metalName.toLowerCase()}.</p>
+          <div className="bg-secondary/80 rounded-3xl p-8 text-center border border-secondary-300">
+            <p className="text-accent/70 text-lg">No news available for {metalName.toLowerCase()}.</p>
           </div>
         )}
       </div>
@@ -210,7 +210,7 @@ export default async function MetalDetailPage({ params }) {
       {/* Sidebar Ad */}
       {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
         <div className="mb-8 md:mb-10 animate-scale-in">
-          <div className="glass rounded-3xl p-6 shadow-xl border border-white/30">
+          <div className="bg-secondary/80 rounded-3xl p-6 shadow-xl border border-secondary-300">
             <AdSense adSlot="0987654321" style={{ minHeight: '250px' }} />
           </div>
         </div>

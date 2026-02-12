@@ -39,10 +39,10 @@ export default function AdminStats({ stats }) {
   ];
 
   const colorClasses = {
-    blue: 'bg-blue-500',
+    blue: 'bg-accent',
     yellow: 'bg-yellow-500',
     green: 'bg-green-500',
-    purple: 'bg-purple-500',
+    purple: 'bg-secondary',
     orange: 'bg-orange-500',
   };
 
@@ -55,8 +55,8 @@ export default function AdminStats({ stats }) {
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">{stat.title}</p>
-              <p className="text-3xl font-bold text-gray-900 mt-2">{stat.value.toLocaleString()}</p>
+              <p className="text-sm font-medium text-accent/80">{stat.title}</p>
+              <p className="text-3xl font-bold text-accent mt-2">{stat.value.toLocaleString()}</p>
             </div>
             <div className={`${colorClasses[stat.color]} p-3 rounded-lg`}>
               <span className="text-2xl">{stat.icon}</span>

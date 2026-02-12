@@ -28,7 +28,7 @@ export default function EnhancedPriceChart({ data, showVolume = false }) {
   if (!data || data.length === 0) {
     return (
       <div className="h-64 flex items-center justify-center">
-        <p className="text-gray-500">No chart data available</p>
+        <p className="text-accent/70">No chart data available</p>
       </div>
     );
   }

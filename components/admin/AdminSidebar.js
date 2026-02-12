@@ -44,10 +44,10 @@ export default function AdminSidebar() {
   }
 
   return (
-    <div className="fixed left-0 top-0 h-full w-64 bg-gray-900 text-white">
-      <div className="p-6 border-b border-gray-800">
+    <div className="fixed left-0 top-0 h-full w-64 bg-accent text-white">
+      <div className="p-6 border-b border-accent-300">
         <Logo showText={false} size="sm" />
-        <p className="text-sm text-gray-400 mt-2">Admin Panel</p>
+        <p className="text-sm text-primary mt-2">Admin Panel</p>
       </div>
 
       <nav className="mt-6">
@@ -59,8 +59,8 @@ export default function AdminSidebar() {
               href={item.href}
               className={`flex items-center px-6 py-3 text-sm font-medium transition-colors ${
                 isActive
-                  ? 'bg-blue-600 text-white'
-                  : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                  ? 'bg-secondary text-white'
+                  : 'text-primary hover:bg-accent-300 hover:text-white'
               }`}
             >
               <span className="mr-3">{item.icon}</span>
@@ -70,10 +70,10 @@ export default function AdminSidebar() {
         })}
       </nav>
 
-      <div className="absolute bottom-0 w-full p-6 border-t border-gray-800">
+      <div className="absolute bottom-0 w-full p-6 border-t border-accent-300">
         <button
           onClick={handleLogout}
-          className="w-full flex items-center px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800 rounded transition-colors"
+          className="w-full flex items-center px-4 py-2 text-sm font-medium text-primary hover:text-white hover:bg-accent-300 rounded transition-colors"
         >
           <span className="mr-3">🚪</span>
           Logout

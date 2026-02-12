@@ -71,7 +71,7 @@ export default async function RelatedArticles({ article, limit = 5, compact = fa
               href={`/news/${item.slug}`}
               className="block group"
             >
-              <div className="bg-white bg-opacity-50 rounded-xl p-4 hover:bg-opacity-70 transition-all hover-lift border border-white/30">
+              <div className="bg-primary/80 rounded-xl p-4 hover:bg-primary transition-all hover-lift border border-secondary-300">
                 {item.imageUrl && (
                   <div className="relative w-full h-32 mb-3 rounded-lg overflow-hidden">
                     <Image
@@ -82,17 +82,17 @@ export default async function RelatedArticles({ article, limit = 5, compact = fa
                     />
                   </div>
                 )}
-                <h4 className="text-sm font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                <h4 className="text-sm font-bold text-accent mb-2 line-clamp-2 group-hover:text-accent-300 transition-colors">
                   {item.title}
                 </h4>
-                <p className="text-xs text-gray-600 line-clamp-2">
+                <p className="text-xs text-accent/80 line-clamp-2">
                   {item.summary}
                 </p>
                 <div className="mt-2 flex items-center gap-2">
-                  <span className="px-2 py-1 bg-gradient-primary text-white text-xs font-semibold rounded-full">
+                  <span className="px-2 py-1 bg-accent text-white text-xs font-semibold rounded-full">
                     {item.category}
                   </span>
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-accent/70">
                     {new Date(item.publishedAt).toLocaleDateString('en-IN', { 
                       month: 'short', 
                       day: 'numeric' 
@@ -108,7 +108,7 @@ export default async function RelatedArticles({ article, limit = 5, compact = fa
 
     return (
       <div className="mt-12">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Related Articles</h2>
+        <h2 className="text-2xl font-bold text-accent mb-6">Related Articles</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {related.map((item) => (
             <NewsCard key={item._id.toString()} article={item} />

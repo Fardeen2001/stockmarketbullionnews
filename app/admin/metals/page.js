@@ -15,30 +15,30 @@ export default async function AdminMetalsPage() {
   return (
     <div className="p-8">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">Metals Management</h1>
-        <div className="text-sm text-gray-600">
+        <h1 className="text-3xl font-bold text-accent">Metals Management</h1>
+        <div className="text-sm text-accent/80">
           Total: {total} metals
         </div>
       </div>
 
       <div className="bg-white rounded-lg shadow overflow-hidden">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+        <table className="min-w-full divide-y divide-secondary-300">
+          <thead className="bg-primary">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Metal</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Price</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Change %</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Currency</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Last Updated</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-accent/70 uppercase">Metal</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-accent/70 uppercase">Price</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-accent/70 uppercase">Change %</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-accent/70 uppercase">Currency</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-accent/70 uppercase">Last Updated</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-primary divide-y divide-secondary-300">
             {metals.map((metal) => (
               <tr key={metal._id.toString()}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-accent">
                   {metal.metalType.charAt(0).toUpperCase() + metal.metalType.slice(1)}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-accent">
                   ₹{metal.currentPrice?.toLocaleString('en-IN', { minimumFractionDigits: 2 }) || 'N/A'}
                 </td>
                 <td className={`px-6 py-4 whitespace-nowrap text-sm font-medium ${
@@ -46,10 +46,10 @@ export default async function AdminMetalsPage() {
                 }`}>
                   {metal.changePercent >= 0 ? '+' : ''}{metal.changePercent?.toFixed(2) || '0.00'}%
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-accent/70">
                   {metal.currency}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-accent/70">
                   {new Date(metal.lastUpdated).toLocaleDateString()}
                 </td>
               </tr>

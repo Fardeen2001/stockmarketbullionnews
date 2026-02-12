@@ -18,7 +18,7 @@ export default function Navigation() {
   ];
 
   return (
-    <nav className="glass sticky top-0 z-50 backdrop-blur-xl border-b border-white/30 shadow-xl animate-fade-in">
+    <nav className="bg-secondary sticky top-0 z-50 backdrop-blur-xl border-b border-secondary-300 shadow-xl animate-fade-in">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20 gap-4">
           <div className="flex items-center animate-slide-in">
@@ -42,8 +42,8 @@ export default function Navigation() {
                     relative px-4 py-2.5 rounded-xl text-sm font-semibold
                     transition-all duration-300 ease-in-out
                     ${isActive 
-                      ? 'text-white bg-gradient-primary shadow-lg shadow-indigo-500/50 scale-105' 
-                      : 'text-gray-700 hover:text-white hover:bg-gradient-primary hover:shadow-md hover:scale-105'
+                      ? 'text-white bg-accent shadow-lg scale-105' 
+                      : 'text-primary hover:text-white hover:bg-accent hover:shadow-md hover:scale-105'
                     }
                     animate-fade-in
                   `}
@@ -54,7 +54,7 @@ export default function Navigation() {
                     <span>{link.label}</span>
                   </span>
                   {isActive && (
-                    <span className="absolute inset-0 bg-gradient-primary rounded-xl animate-pulse-glow opacity-75"></span>
+                    <span className="absolute inset-0 bg-accent rounded-xl animate-pulse-glow opacity-75"></span>
                   )}
                 </Link>
               );
@@ -64,7 +64,7 @@ export default function Navigation() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-gray-700 hover:bg-white/50 hover:text-indigo-600 transition-colors"
+            className="md:hidden p-2 rounded-lg text-accent hover:bg-primary/80 hover:text-accent transition-colors"
             aria-label="Toggle menu"
           >
             <svg
@@ -84,7 +84,7 @@ export default function Navigation() {
         
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden pb-6 pt-4 animate-fade-in border-t border-white/20 mt-2">
+          <div className="md:hidden pb-6 pt-4 animate-fade-in border-t border-secondary-300 mt-2">
             <div className="mb-4">
               <SearchBar />
             </div>
@@ -100,8 +100,8 @@ export default function Navigation() {
                       px-4 py-3 rounded-xl text-base font-semibold
                       transition-all duration-300 ease-in-out
                       ${isActive 
-                        ? 'text-white bg-gradient-primary shadow-lg' 
-                        : 'text-gray-700 hover:text-white hover:bg-gradient-primary hover:shadow-md'
+                        ? 'text-white bg-accent shadow-lg' 
+                        : 'text-primary hover:text-white hover:bg-accent hover:shadow-md'
                       }
                     `}
                   >

@@ -85,7 +85,7 @@ export default function SearchBar() {
           <select
             value={selectedType}
             onChange={(e) => setSelectedType(e.target.value)}
-            className="px-3 py-2.5 glass rounded-xl text-sm font-semibold text-gray-700 border-2 border-transparent hover:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300 cursor-pointer shadow-sm"
+            className="px-3 py-2.5 bg-primary rounded-xl text-sm font-semibold text-accent border-2 border-transparent hover:border-accent focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-300 cursor-pointer shadow-sm"
             onClick={(e) => e.stopPropagation()}
           >
             <option value="all">All</option>
@@ -107,10 +107,10 @@ export default function SearchBar() {
                 }
               }}
               placeholder="Search stocks, metals, news..."
-              className="w-full px-4 py-2.5 pl-11 glass rounded-xl text-gray-700 placeholder-gray-500 border-2 border-transparent hover:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300 shadow-sm"
+              className="w-full px-4 py-2.5 pl-11 bg-primary rounded-xl text-accent placeholder-secondary-500 border-2 border-transparent hover:border-accent focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-300 shadow-sm"
             />
             <svg
-              className="absolute left-3.5 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+              className="absolute left-3.5 top-1/2 transform -translate-y-1/2 w-5 h-5 text-secondary-500"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -124,7 +124,7 @@ export default function SearchBar() {
             </svg>
             {isLoading && (
               <div className="absolute right-3.5 top-1/2 transform -translate-y-1/2">
-                <div className="w-5 h-5 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-5 h-5 border-2 border-accent border-t-transparent rounded-full animate-spin"></div>
               </div>
             )}
           </div>
@@ -132,7 +132,7 @@ export default function SearchBar() {
           {/* Search Button */}
           <button
             type="submit"
-            className="px-6 py-2.5 bg-gradient-primary text-white rounded-xl font-semibold shadow-lg shadow-indigo-500/50 hover:shadow-xl hover:shadow-indigo-500/50 hover-lift transition-all duration-300"
+            className="px-6 py-2.5 bg-accent text-white rounded-xl font-semibold shadow-lg hover:shadow-xl hover-lift transition-all duration-300"
           >
             Search
           </button>
@@ -143,12 +143,12 @@ export default function SearchBar() {
       {isOpen && results && totalResults > 0 && (
         <div
           ref={resultsRef}
-          className="absolute top-full left-0 right-0 mt-2 glass rounded-2xl shadow-2xl border border-white/30 max-h-96 overflow-y-auto z-50 animate-fade-in backdrop-blur-xl"
+          className="absolute top-full left-0 right-0 mt-2 bg-secondary rounded-2xl shadow-2xl border border-secondary-300 max-h-96 overflow-y-auto z-50 animate-fade-in backdrop-blur-xl"
         >
           {/* Stocks Results */}
           {results.results.stocks.length > 0 && (
-            <div className="p-4 border-b border-white/10">
-              <h3 className="text-xs font-bold text-gray-500 uppercase mb-2">Stocks ({results.results.stocks.length})</h3>
+            <div className="p-4 border-b border-secondary-300">
+              <h3 className="text-xs font-bold text-primary-500 uppercase mb-2">Stocks ({results.results.stocks.length})</h3>
               <div className="space-y-2">
                 {results.results.stocks.map((stock) => (
                   <Link
@@ -159,12 +159,12 @@ export default function SearchBar() {
                   >
                     <div className="flex items-center justify-between">
                       <div>
-                        <div className="font-semibold text-gray-900">{stock.symbol}</div>
-                        <div className="text-sm text-gray-600">{stock.name}</div>
+                        <div className="font-semibold text-accent">{stock.symbol}</div>
+                        <div className="text-sm text-accent/80">{stock.name}</div>
                       </div>
                       {stock.currentPrice && (
                         <div className="text-right">
-                          <div className="font-semibold text-gray-900">₹{stock.currentPrice.toLocaleString()}</div>
+                          <div className="font-semibold text-accent">₹{stock.currentPrice.toLocaleString()}</div>
                           <div className={`text-sm ${stock.changePercent >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                             {stock.changePercent >= 0 ? '+' : ''}{stock.changePercent?.toFixed(2)}%
                           </div>
@@ -179,8 +179,8 @@ export default function SearchBar() {
 
           {/* Metals Results */}
           {results.results.metals.length > 0 && (
-            <div className="p-4 border-b border-white/10">
-              <h3 className="text-xs font-bold text-gray-500 uppercase mb-2">Metals ({results.results.metals.length})</h3>
+            <div className="p-4 border-b border-secondary-300">
+              <h3 className="text-xs font-bold text-primary-500 uppercase mb-2">Metals ({results.results.metals.length})</h3>
               <div className="space-y-2">
                 {results.results.metals.map((metal) => (
                   <Link
@@ -191,12 +191,12 @@ export default function SearchBar() {
                   >
                     <div className="flex items-center justify-between">
                       <div>
-                        <div className="font-semibold text-gray-900 capitalize">{metal.name || metal.metalType}</div>
-                        <div className="text-sm text-gray-600">{metal.currency || 'INR'}</div>
+                        <div className="font-semibold text-accent capitalize">{metal.name || metal.metalType}</div>
+                        <div className="text-sm text-accent/80">{metal.currency || 'INR'}</div>
                       </div>
                       {metal.currentPrice && (
                         <div className="text-right">
-                          <div className="font-semibold text-gray-900">
+                          <div className="font-semibold text-accent">
                             {metal.currency === 'USD' ? '$' : '₹'}{metal.currentPrice.toLocaleString()}
                           </div>
                           {metal.changePercent !== undefined && (
@@ -216,7 +216,7 @@ export default function SearchBar() {
           {/* News Results */}
           {results.results.news.length > 0 && (
             <div className="p-4">
-              <h3 className="text-xs font-bold text-gray-500 uppercase mb-2">News ({results.results.news.length})</h3>
+              <h3 className="text-xs font-bold text-primary-500 uppercase mb-2">News ({results.results.news.length})</h3>
               <div className="space-y-2">
                 {results.results.news.map((article) => (
                   <Link
@@ -225,9 +225,9 @@ export default function SearchBar() {
                     onClick={() => setIsOpen(false)}
                     className="block p-3 rounded-lg hover:bg-white/10 transition-colors"
                   >
-                    <div className="font-semibold text-gray-900 line-clamp-1">{article.title}</div>
+                    <div className="font-semibold text-accent line-clamp-1">{article.title}</div>
                     {article.summary && (
-                      <div className="text-sm text-gray-600 line-clamp-1 mt-1">{article.summary}</div>
+                      <div className="text-sm text-accent/80 line-clamp-1 mt-1">{article.summary}</div>
                     )}
                   </Link>
                 ))}
@@ -237,11 +237,11 @@ export default function SearchBar() {
 
           {/* View All Results Link */}
           {totalResults > 5 && (
-            <div className="p-4 border-t border-white/20">
+            <div className="p-4 border-t border-secondary-300">
               <Link
                 href={`/search?q=${encodeURIComponent(query)}&type=${selectedType}`}
                 onClick={() => setIsOpen(false)}
-                className="block text-center py-2.5 px-4 bg-gradient-primary text-white rounded-xl font-semibold hover:shadow-lg shadow-indigo-500/50 transition-all duration-300"
+                className="block text-center py-2.5 px-4 bg-accent text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
               >
                 View All {totalResults} Results →
               </Link>
@@ -254,9 +254,9 @@ export default function SearchBar() {
       {isOpen && results && totalResults === 0 && query.trim().length >= 2 && (
         <div
           ref={resultsRef}
-          className="absolute top-full left-0 right-0 mt-2 glass rounded-2xl shadow-2xl border border-white/30 p-6 z-50 animate-fade-in backdrop-blur-xl"
+          className="absolute top-full left-0 right-0 mt-2 bg-secondary rounded-2xl shadow-2xl border border-secondary-300 p-6 z-50 animate-fade-in backdrop-blur-xl"
         >
-          <div className="text-center text-gray-600">
+          <div className="text-center text-accent">
             <p className="font-semibold text-base">No results found</p>
             <p className="text-sm mt-1">Try different keywords or search type</p>
           </div>

@@ -22,8 +22,8 @@ export default async function AdminNewsPage({ searchParams }) {
   return (
     <div className="p-8">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">News Articles</h1>
-        <div className="text-sm text-gray-600">
+        <h1 className="text-3xl font-bold text-accent">News Articles</h1>
+        <div className="text-sm text-accent/80">
           Total: {total} articles
         </div>
       </div>

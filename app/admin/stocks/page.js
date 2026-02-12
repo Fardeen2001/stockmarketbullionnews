@@ -22,8 +22,8 @@ export default async function AdminStocksPage({ searchParams }) {
   return (
     <div className="p-8">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">Stocks Management</h1>
-        <div className="text-sm text-gray-600">
+        <h1 className="text-3xl font-bold text-accent">Stocks Management</h1>
+        <div className="text-sm text-accent/80">
           Total: {total} stocks
         </div>
       </div>

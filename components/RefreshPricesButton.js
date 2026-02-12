@@ -74,8 +74,8 @@ export default function RefreshPricesButton({ stocks, onRefresh }) {
           inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold
           transition-all duration-300 shadow-lg hover:shadow-xl
           ${isRefreshing || !stocks || stocks.length === 0
-            ? 'bg-gray-400 cursor-not-allowed text-white'
-            : 'bg-gradient-primary text-white hover:scale-105 active:scale-95'
+            ? 'bg-secondary cursor-not-allowed text-white'
+            : 'bg-accent text-white hover:scale-105 active:scale-95'
           }
         `}
       >
@@ -136,7 +136,7 @@ export default function RefreshPricesButton({ stocks, onRefresh }) {
       )}
 
       {!isRefreshing && stocks && stocks.length > 0 && (
-        <p className="mt-2 text-sm text-gray-500">
+        <p className="mt-2 text-sm text-accent/70">
           Click to fetch live prices for {stocks.length} stock{stocks.length !== 1 ? 's' : ''}
         </p>
       )}

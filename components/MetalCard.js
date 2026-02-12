@@ -18,16 +18,16 @@ export default function MetalCard({ metal }) {
   
   const metalGradients = {
     gold: 'from-amber-400 to-yellow-600',
-    silver: 'from-gray-300 to-gray-500',
-    platinum: 'from-gray-200 to-gray-400',
-    palladium: 'from-blue-300 to-blue-500',
+    silver: 'from-primary-300 to-primary-500',
+    platinum: 'from-primary-200 to-primary-400',
+    palladium: 'from-secondary-400 to-secondary-500',
   };
   
-  const metalGradient = metalGradients[metal.metalType.toLowerCase()] || 'from-gray-400 to-gray-600';
+  const metalGradient = metalGradients[metal.metalType.toLowerCase()] || 'from-secondary/60 to-secondary';
 
   return (
     <Link href={`/metals/${metal.metalType}`}>
-      <div className="group glass rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 md:p-8 cursor-pointer hover-lift border border-white/30 relative overflow-hidden h-full flex flex-col">
+      <div className="group bg-secondary/80 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 md:p-8 cursor-pointer hover-lift border border-secondary-300 relative overflow-hidden h-full flex flex-col">
         {/* Animated background gradient on hover */}
         <div className="absolute inset-0 bg-gradient-warning opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         
@@ -41,10 +41,10 @@ export default function MetalCard({ metal }) {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 group-hover:text-white transition-colors duration-300">
+                  <h3 className="text-xl md:text-2xl font-bold text-accent group-hover:text-white transition-colors duration-300">
                     {metalName}
                   </h3>
-                  <p className="text-sm text-gray-500 group-hover:text-white/80 transition-colors duration-300 mt-1">
+                  <p className="text-sm text-accent/70 group-hover:text-white/80 transition-colors duration-300 mt-1">
                     {metal.unit === 'per_gram' ? 'Per Gram' : 'Per Ounce'}
                   </p>
                 </div>
@@ -65,7 +65,7 @@ export default function MetalCard({ metal }) {
           
           <div className="mt-auto">
             <div className="flex items-baseline justify-between mb-4 flex-wrap gap-2">
-              <span className="text-3xl md:text-4xl font-extrabold text-gray-900 group-hover:text-white transition-colors duration-300">
+              <span className="text-3xl md:text-4xl font-extrabold text-accent group-hover:text-white transition-colors duration-300">
                 ₹{metal.currentPrice?.toLocaleString('en-IN', { minimumFractionDigits: 2 }) || 'N/A'}
               </span>
               <span className={`text-base md:text-lg font-bold px-4 py-2 rounded-xl ${changeColor} ${changeBg} group-hover:bg-white/20 group-hover:text-white transition-all duration-300 transform group-hover:scale-105 flex items-center gap-1`}>
@@ -73,8 +73,8 @@ export default function MetalCard({ metal }) {
                 <span>{Math.abs(metal.changePercent || 0).toFixed(2)}%</span>
               </span>
             </div>
-            <div className="text-sm text-gray-500 group-hover:text-white/70 transition-colors duration-300">
-              <span className="inline-block px-3 py-1.5 bg-gray-100 group-hover:bg-white/20 rounded-lg font-medium">
+            <div className="text-sm text-accent/70 group-hover:text-white/70 transition-colors duration-300">
+              <span className="inline-block px-3 py-1.5 bg-primary group-hover:bg-white/20 rounded-lg font-medium">
                 Currency: {metal.currency}
               </span>
             </div>

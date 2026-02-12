@@ -77,7 +77,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en-IN" suppressHydrationWarning className="scroll-smooth">
       <head>
-        {" "}
         {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-RX9K69665P"
@@ -107,7 +106,7 @@ export default function RootLayout({ children }) {
           />
         )}
         <Navigation />
-        <main className="min-h-screen">{children}</main>
+        <main className="min-h-screen bg-primary">{children}</main>
         <Footer />
       </body>
     </html>

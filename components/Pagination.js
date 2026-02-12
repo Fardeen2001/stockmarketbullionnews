@@ -62,11 +62,11 @@ export default function Pagination({
     return (
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-12 animate-fade-in">
         <div className="flex items-center gap-3">
-          <span className="text-sm text-gray-600">Items per page:</span>
+          <span className="text-sm text-accent">Items per page:</span>
           <select
             value={selectedLimit}
             onChange={handleLimitChange}
-            className="px-4 py-2.5 glass rounded-xl font-semibold text-gray-700 border-2 border-transparent hover:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300 cursor-pointer shadow-sm"
+            className="px-4 py-2.5 bg-primary rounded-xl font-semibold text-accent border-2 border-transparent hover:border-accent focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-300 cursor-pointer shadow-sm"
           >
             {limitOptions.map((option) => (
               <option key={option} value={option}>
@@ -75,7 +75,7 @@ export default function Pagination({
             ))}
           </select>
         </div>
-        <div className="text-sm text-gray-600">
+        <div className="text-sm text-accent">
           Showing {totalItems} of {totalItems} items
         </div>
       </div>
@@ -143,11 +143,11 @@ export default function Pagination({
       {/* Items per page selector and info */}
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-3">
-          <span className="text-sm text-gray-600 font-medium">Items per page:</span>
+          <span className="text-sm text-accent font-medium">Items per page:</span>
           <select
             value={selectedLimit}
             onChange={handleLimitChange}
-            className="px-4 py-2.5 glass rounded-xl font-semibold text-gray-700 border-2 border-transparent hover:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300 cursor-pointer shadow-sm"
+            className="px-4 py-2.5 bg-primary rounded-xl font-semibold text-accent border-2 border-transparent hover:border-accent focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-300 cursor-pointer shadow-sm"
           >
             {limitOptions.map((option) => (
               <option key={option} value={option}>
@@ -156,10 +156,10 @@ export default function Pagination({
             ))}
           </select>
         </div>
-        <div className="text-sm text-gray-600">
-          Showing <span className="font-semibold text-gray-900">{startItem}</span> to{' '}
-          <span className="font-semibold text-gray-900">{endItem}</span> of{' '}
-          <span className="font-semibold text-gray-900">{totalItems}</span> items
+        <div className="text-sm text-accent">
+          Showing <span className="font-semibold text-accent">{startItem}</span> to{' '}
+          <span className="font-semibold text-accent">{endItem}</span> of{' '}
+          <span className="font-semibold text-accent">{totalItems}</span> items
         </div>
       </div>
 
@@ -169,12 +169,12 @@ export default function Pagination({
         {currentPage > 1 ? (
           <a
             href={buildUrl(currentPage - 1, currentLimit)}
-            className="px-4 py-2.5 bg-gradient-primary text-white rounded-xl font-semibold shadow-lg shadow-indigo-500/50 hover:shadow-xl hover:shadow-indigo-500/50 hover-lift transition-all duration-300 min-w-[100px] text-center"
+            className="px-4 py-2.5 bg-accent text-white rounded-xl font-semibold shadow-lg hover:shadow-xl hover-lift transition-all duration-300 min-w-[100px] text-center"
           >
             ← Previous
           </a>
         ) : (
-          <span className="px-4 py-2.5 glass rounded-xl font-semibold text-gray-400 cursor-not-allowed min-w-[100px] text-center border border-white/30">
+          <span className="px-4 py-2.5 bg-primary rounded-xl font-semibold text-secondary cursor-not-allowed min-w-[100px] text-center border border-secondary-300">
             ← Previous
           </span>
         )}
@@ -186,7 +186,7 @@ export default function Pagination({
               return (
                 <span
                   key={`ellipsis-${index}`}
-                  className="px-4 py-2.5 glass rounded-xl font-semibold text-gray-500 border border-white/30"
+                  className="px-4 py-2.5 bg-primary rounded-xl font-semibold text-accent border border-secondary-300"
                 >
                   ...
                 </span>
@@ -200,8 +200,8 @@ export default function Pagination({
                 href={buildUrl(pageNum, currentLimit)}
                 className={`px-4 py-2.5 rounded-xl font-semibold min-w-[44px] text-center transition-all duration-300 ${
                   isActive
-                    ? 'bg-gradient-primary text-white shadow-lg shadow-indigo-500/50 scale-105'
-                    : 'glass text-gray-700 hover:bg-gradient-primary hover:text-white hover-lift border border-white/30'
+                    ? 'bg-accent text-white shadow-lg scale-105'
+                    : 'bg-primary text-accent hover:bg-accent hover:text-white hover-lift border border-secondary-300'
                 }`}
               >
                 {pageNum}
@@ -214,12 +214,12 @@ export default function Pagination({
         {currentPage < totalPages ? (
           <a
             href={buildUrl(currentPage + 1, currentLimit)}
-            className="px-4 py-2.5 bg-gradient-primary text-white rounded-xl font-semibold shadow-lg shadow-indigo-500/50 hover:shadow-xl hover:shadow-indigo-500/50 hover-lift transition-all duration-300 min-w-[100px] text-center"
+            className="px-4 py-2.5 bg-accent text-white rounded-xl font-semibold shadow-lg hover:shadow-xl hover-lift transition-all duration-300 min-w-[100px] text-center"
           >
             Next →
           </a>
         ) : (
-          <span className="px-4 py-2.5 glass rounded-xl font-semibold text-gray-400 cursor-not-allowed min-w-[100px] text-center border border-white/30">
+          <span className="px-4 py-2.5 bg-primary rounded-xl font-semibold text-secondary cursor-not-allowed min-w-[100px] text-center border border-secondary-300">
             Next →
           </span>
         )}

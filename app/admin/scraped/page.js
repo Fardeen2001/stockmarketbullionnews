@@ -32,8 +32,8 @@ export default async function AdminScrapedPage({ searchParams }) {
   return (
     <div className="p-8">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">Scraped Content</h1>
-        <div className="text-sm text-gray-600">
+        <h1 className="text-3xl font-bold text-accent">Scraped Content</h1>
+        <div className="text-sm text-accent/80">
           Total: {total} items | Pending: {pending}
         </div>
       </div>
@@ -41,19 +41,19 @@ export default async function AdminScrapedPage({ searchParams }) {
       <div className="mb-4 flex space-x-2">
         <a
           href="/admin/scraped?filter=all"
-          className={`px-4 py-2 rounded ${filter === 'all' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}
+          className={`px-4 py-2 rounded ${filter === 'all' ? 'bg-accent text-white' : 'bg-primary text-accent'}`}
         >
           All
         </a>
         <a
           href="/admin/scraped?filter=pending"
-          className={`px-4 py-2 rounded ${filter === 'pending' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}
+          className={`px-4 py-2 rounded ${filter === 'pending' ? 'bg-accent text-white' : 'bg-primary text-accent'}`}
         >
           Pending
         </a>
         <a
           href="/admin/scraped?filter=processed"
-          className={`px-4 py-2 rounded ${filter === 'processed' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}
+          className={`px-4 py-2 rounded ${filter === 'processed' ? 'bg-accent text-white' : 'bg-primary text-accent'}`}
         >
           Processed
         </a>

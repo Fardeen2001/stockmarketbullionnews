@@ -77,11 +77,11 @@ export default async function NewsPage({ searchParams }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
       <div className="mb-12 animate-fade-in">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4">
-          <span className="gradient-text bg-gradient-primary bg-clip-text text-transparent">
+          <span className="gradient-text text-accent">
             Latest News
           </span>
         </h1>
-        <p className="text-lg sm:text-xl text-gray-700">
+        <p className="text-lg sm:text-xl text-accent/80">
           Stay updated with the latest stock market and precious metals news
         </p>
       </div>
@@ -92,8 +92,8 @@ export default async function NewsPage({ searchParams }) {
           href="/news"
           className={`px-5 py-2.5 md:px-6 md:py-3 rounded-xl font-semibold text-sm md:text-base transition-all duration-300 hover-lift ${
             !category 
-              ? 'bg-gradient-primary text-white shadow-lg shadow-indigo-500/50' 
-              : 'glass text-gray-700 hover:bg-gradient-primary hover:text-white border border-white/30'
+              ? 'bg-accent text-white shadow-lg' 
+              : 'bg-primary text-accent hover:bg-accent hover:text-white border border-secondary-300'
           }`}
         >
           All
@@ -102,8 +102,8 @@ export default async function NewsPage({ searchParams }) {
           href="/news?category=stocks"
           className={`px-5 py-2.5 md:px-6 md:py-3 rounded-xl font-semibold text-sm md:text-base transition-all duration-300 hover-lift ${
             category === 'stocks' 
-              ? 'bg-gradient-primary text-white shadow-lg shadow-indigo-500/50' 
-              : 'glass text-gray-700 hover:bg-gradient-primary hover:text-white border border-white/30'
+              ? 'bg-accent text-white shadow-lg' 
+              : 'bg-primary text-accent hover:bg-accent hover:text-white border border-secondary-300'
           }`}
         >
           Stocks
@@ -112,8 +112,8 @@ export default async function NewsPage({ searchParams }) {
           href="/news?category=metals"
           className={`px-5 py-2.5 md:px-6 md:py-3 rounded-xl font-semibold text-sm md:text-base transition-all duration-300 hover-lift ${
             category === 'metals' 
-              ? 'bg-gradient-primary text-white shadow-lg shadow-indigo-500/50' 
-              : 'glass text-gray-700 hover:bg-gradient-primary hover:text-white border border-white/30'
+              ? 'bg-accent text-white shadow-lg' 
+              : 'bg-primary text-accent hover:bg-accent hover:text-white border border-secondary-300'
           }`}
         >
           Metals
@@ -122,8 +122,8 @@ export default async function NewsPage({ searchParams }) {
           href="/news?category=sharia"
           className={`px-5 py-2.5 md:px-6 md:py-3 rounded-xl font-semibold text-sm md:text-base transition-all duration-300 hover-lift ${
             category === 'sharia' 
-              ? 'bg-gradient-primary text-white shadow-lg shadow-indigo-500/50' 
-              : 'glass text-gray-700 hover:bg-gradient-primary hover:text-white border border-white/30'
+              ? 'bg-accent text-white shadow-lg' 
+              : 'bg-primary text-accent hover:bg-accent hover:text-white border border-secondary-300'
           }`}
         >
           Sharia
@@ -133,7 +133,7 @@ export default async function NewsPage({ searchParams }) {
       {/* Ad Banner */}
       {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
         <div className="mb-12 animate-scale-in">
-          <div className="glass rounded-2xl p-4 shadow-xl">
+          <div className="bg-secondary/80 rounded-2xl p-4 shadow-xl border border-secondary-300">
             <AdSense adSlot="1234567890" style={{ minHeight: '90px' }} />
           </div>
         </div>
@@ -168,8 +168,8 @@ export default async function NewsPage({ searchParams }) {
           )}
         </>
       ) : (
-        <div className="text-center py-16 md:py-20 glass rounded-3xl animate-fade-in border border-white/30">
-          <p className="text-gray-600 text-lg md:text-xl">No news available. Check back soon!</p>
+        <div className="text-center py-16 md:py-20 bg-secondary/80 rounded-3xl animate-fade-in border border-secondary-300">
+          <p className="text-accent/80 text-lg md:text-xl">No news available. Check back soon!</p>
         </div>
       )}
     </div>

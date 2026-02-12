@@ -25,7 +25,7 @@ export default function AdSense({ adSlot, adFormat = 'auto', style = {}, showPla
   if (!hasAdSenseId && showPlaceholder) {
     return (
       <div 
-        className="flex items-center justify-center text-gray-400 text-sm"
+        className="flex items-center justify-center text-accent/60 text-sm"
         style={{ minHeight: style.minHeight || '90px', ...style }}
       >
         Ad Space

@@ -45,8 +45,8 @@ export default async function AdminDashboard() {
   return (
     <div className="p-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-        <p className="text-gray-600 mt-2">Welcome back, {session.user?.username}</p>
+        <h1 className="text-3xl font-bold text-accent">Admin Dashboard</h1>
+        <p className="text-accent/80 mt-2">Welcome back, {session.user?.username}</p>
       </div>
 
       <AdminStats

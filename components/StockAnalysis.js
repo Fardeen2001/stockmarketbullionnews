@@ -65,28 +65,28 @@ export default function StockAnalysis({ stock }) {
   return (
     <div className="space-y-6 md:space-y-8">
       {/* Performance Analysis */}
-      <div className="glass rounded-3xl shadow-xl p-6 md:p-8 border border-white/30 animate-fade-in">
-        <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-6">Performance Analysis</h3>
+      <div className="bg-secondary/80 rounded-3xl shadow-xl p-6 md:p-8 border border-secondary-300 animate-fade-in">
+        <h3 className="text-xl md:text-2xl font-bold text-accent mb-6">Performance Analysis</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           <div className="p-4 bg-white/50 rounded-xl">
-            <p className="text-xs md:text-sm text-gray-500 font-medium mb-2">52W Range Position</p>
-            <p className="text-lg md:text-xl font-bold text-gray-900 mb-1">
+            <p className="text-xs md:text-sm text-accent/70 font-medium mb-2">52W Range Position</p>
+            <p className="text-lg md:text-xl font-bold text-accent mb-1">
               {analysis.priceFrom52WLow !== null 
                 ? `${analysis.priceFrom52WLow.toFixed(1)}%` 
                 : 'N/A'}
             </p>
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-accent/60">
               {analysis.priceFrom52WLow !== null && analysis.priceFrom52WLow > 50 
                 ? 'Above midpoint' 
                 : 'Below midpoint'}
             </p>
           </div>
           <div className="p-4 bg-white/50 rounded-xl">
-            <p className="text-xs md:text-sm text-gray-500 font-medium mb-2">From 52W High</p>
+            <p className="text-xs md:text-sm text-accent/70 font-medium mb-2">From 52W High</p>
             <p className={`text-lg md:text-xl font-bold ${
               analysis.priceFrom52WHigh !== null && analysis.priceFrom52WHigh < 90 
                 ? 'text-red-600' 
-                : 'text-gray-900'
+                : 'text-accent'
             }`}>
               {analysis.priceFrom52WHigh !== null 
                 ? `${(100 - analysis.priceFrom52WHigh).toFixed(1)}%` 
@@ -94,11 +94,11 @@ export default function StockAnalysis({ stock }) {
             </p>
           </div>
           <div className="p-4 bg-white/50 rounded-xl">
-            <p className="text-xs md:text-sm text-gray-500 font-medium mb-2">From 52W Low</p>
+            <p className="text-xs md:text-sm text-accent/70 font-medium mb-2">From 52W Low</p>
             <p className={`text-lg md:text-xl font-bold ${
               analysis.priceFrom52WLowPercent !== null && analysis.priceFrom52WLowPercent > 20 
                 ? 'text-emerald-600' 
-                : 'text-gray-900'
+                : 'text-accent'
             }`}>
               {analysis.priceFrom52WLowPercent !== null 
                 ? `+${analysis.priceFrom52WLowPercent.toFixed(1)}%` 
@@ -106,8 +106,8 @@ export default function StockAnalysis({ stock }) {
             </p>
           </div>
           <div className="p-4 bg-white/50 rounded-xl">
-            <p className="text-xs md:text-sm text-gray-500 font-medium mb-2">Average Price</p>
-            <p className="text-lg md:text-xl font-bold text-gray-900">
+            <p className="text-xs md:text-sm text-accent/70 font-medium mb-2">Average Price</p>
+            <p className="text-lg md:text-xl font-bold text-accent">
               {analysis.avgPrice 
                 ? `₹${analysis.avgPrice.toFixed(2)}` 
                 : 'N/A'}
@@ -117,39 +117,39 @@ export default function StockAnalysis({ stock }) {
       </div>
 
       {/* Trading Metrics */}
-      <div className="glass rounded-3xl shadow-xl p-6 md:p-8 border border-white/30 animate-fade-in">
-        <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-6">Trading Metrics</h3>
+      <div className="bg-secondary/80 rounded-3xl shadow-xl p-6 md:p-8 border border-secondary-300 animate-fade-in">
+        <h3 className="text-xl md:text-2xl font-bold text-accent mb-6">Trading Metrics</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           <div className="p-4 bg-white/50 rounded-xl">
-            <p className="text-xs md:text-sm text-gray-500 font-medium mb-2">Volume</p>
-            <p className="text-lg md:text-xl font-bold text-gray-900">
+            <p className="text-xs md:text-sm text-accent/70 font-medium mb-2">Volume</p>
+            <p className="text-lg md:text-xl font-bold text-accent">
               {stock.volume 
                 ? stock.volume.toLocaleString('en-IN') 
                 : 'N/A'}
             </p>
           </div>
           <div className="p-4 bg-white/50 rounded-xl">
-            <p className="text-xs md:text-sm text-gray-500 font-medium mb-2">Avg Volume</p>
-            <p className="text-lg md:text-xl font-bold text-gray-900">
+            <p className="text-xs md:text-sm text-accent/70 font-medium mb-2">Avg Volume</p>
+            <p className="text-lg md:text-xl font-bold text-accent">
               {analysis.avgVolume 
                 ? analysis.avgVolume.toLocaleString('en-IN') 
                 : 'N/A'}
             </p>
           </div>
           <div className="p-4 bg-white/50 rounded-xl">
-            <p className="text-xs md:text-sm text-gray-500 font-medium mb-2">Volume Ratio</p>
+            <p className="text-xs md:text-sm text-accent/70 font-medium mb-2">Volume Ratio</p>
             <p className={`text-lg md:text-xl font-bold ${
               analysis.volumeRatio && parseFloat(analysis.volumeRatio) > 1.5 
                 ? 'text-emerald-600' 
                 : analysis.volumeRatio && parseFloat(analysis.volumeRatio) < 0.5 
                 ? 'text-red-600' 
-                : 'text-gray-900'
+                : 'text-accent'
             }`}>
               {analysis.volumeRatio 
                 ? `${analysis.volumeRatio}x` 
                 : 'N/A'}
             </p>
-            <p className="text-xs text-gray-400 mt-1">
+            <p className="text-xs text-accent/60 mt-1">
               {analysis.volumeRatio && parseFloat(analysis.volumeRatio) > 1.5 
                 ? 'High activity' 
                 : analysis.volumeRatio && parseFloat(analysis.volumeRatio) < 0.5 
@@ -158,17 +158,17 @@ export default function StockAnalysis({ stock }) {
             </p>
           </div>
           <div className="p-4 bg-white/50 rounded-xl">
-            <p className="text-xs md:text-sm text-gray-500 font-medium mb-2">Volatility</p>
+            <p className="text-xs md:text-sm text-accent/70 font-medium mb-2">Volatility</p>
             <p className={`text-lg md:text-xl font-bold ${
               analysis.volatility && analysis.volatility > 0.05 
                 ? 'text-red-600' 
-                : 'text-gray-900'
+                : 'text-accent'
             }`}>
               {analysis.volatility 
                 ? `${(analysis.volatility * 100).toFixed(2)}%` 
                 : 'N/A'}
             </p>
-            <p className="text-xs text-gray-400 mt-1">
+            <p className="text-xs text-accent/60 mt-1">
               {analysis.volatility && analysis.volatility > 0.05 
                 ? 'High volatility' 
                 : 'Moderate'}
@@ -179,20 +179,20 @@ export default function StockAnalysis({ stock }) {
 
       {/* Financial Fundamentals */}
       {stock.fundamentals && (
-        <div className="glass rounded-3xl shadow-xl p-6 md:p-8 border border-white/30 animate-fade-in">
-          <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-6">Financial Fundamentals</h3>
+        <div className="bg-secondary/80 rounded-3xl shadow-xl p-6 md:p-8 border border-secondary-300 animate-fade-in">
+          <h3 className="text-xl md:text-2xl font-bold text-accent mb-6">Financial Fundamentals</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {stock.fundamentals.revenue > 0 && (
               <div className="p-4 bg-white/50 rounded-xl">
-                <p className="text-xs md:text-sm text-gray-500 font-medium mb-2">Revenue</p>
-                <p className="text-lg md:text-xl font-bold text-gray-900">
+                <p className="text-xs md:text-sm text-accent/70 font-medium mb-2">Revenue</p>
+                <p className="text-lg md:text-xl font-bold text-accent">
                   ₹{(stock.fundamentals.revenue / 10000000).toFixed(2)} Cr
                 </p>
               </div>
             )}
             {stock.fundamentals.profit !== undefined && (
               <div className="p-4 bg-white/50 rounded-xl">
-                <p className="text-xs md:text-sm text-gray-500 font-medium mb-2">Profit</p>
+                <p className="text-xs md:text-sm text-accent/70 font-medium mb-2">Profit</p>
                 <p className={`text-lg md:text-xl font-bold ${
                   stock.fundamentals.profit >= 0 
                     ? 'text-emerald-600' 
@@ -204,23 +204,23 @@ export default function StockAnalysis({ stock }) {
             )}
             {stock.fundamentals.debt !== undefined && (
               <div className="p-4 bg-white/50 rounded-xl">
-                <p className="text-xs md:text-sm text-gray-500 font-medium mb-2">Debt</p>
-                <p className="text-lg md:text-xl font-bold text-gray-900">
+                <p className="text-xs md:text-sm text-accent/70 font-medium mb-2">Debt</p>
+                <p className="text-lg md:text-xl font-bold text-accent">
                   ₹{(stock.fundamentals.debt / 10000000).toFixed(2)} Cr
                 </p>
               </div>
             )}
             {stock.fundamentals.equity > 0 && (
               <div className="p-4 bg-white/50 rounded-xl">
-                <p className="text-xs md:text-sm text-gray-500 font-medium mb-2">Equity</p>
-                <p className="text-lg md:text-xl font-bold text-gray-900">
+                <p className="text-xs md:text-sm text-accent/70 font-medium mb-2">Equity</p>
+                <p className="text-lg md:text-xl font-bold text-accent">
                   ₹{(stock.fundamentals.equity / 10000000).toFixed(2)} Cr
                 </p>
               </div>
             )}
             {stock.fundamentals.debt > 0 && stock.fundamentals.equity > 0 && (
               <div className="p-4 bg-white/50 rounded-xl">
-                <p className="text-xs md:text-sm text-gray-500 font-medium mb-2">Debt/Equity</p>
+                <p className="text-xs md:text-sm text-accent/70 font-medium mb-2">Debt/Equity</p>
                 <p className={`text-lg md:text-xl font-bold ${
                   (stock.fundamentals.debt / stock.fundamentals.equity) > 1 
                     ? 'text-red-600' 
@@ -232,8 +232,8 @@ export default function StockAnalysis({ stock }) {
             )}
             {stock.fundamentals.revenue > 0 && stock.fundamentals.profit > 0 && (
               <div className="p-4 bg-white/50 rounded-xl">
-                <p className="text-xs md:text-sm text-gray-500 font-medium mb-2">Profit Margin</p>
-                <p className="text-lg md:text-xl font-bold text-gray-900">
+                <p className="text-xs md:text-sm text-accent/70 font-medium mb-2">Profit Margin</p>
+                <p className="text-lg md:text-xl font-bold text-accent">
                   {((stock.fundamentals.profit / stock.fundamentals.revenue) * 100).toFixed(2)}%
                 </p>
               </div>
@@ -243,12 +243,12 @@ export default function StockAnalysis({ stock }) {
       )}
 
       {/* Risk Assessment */}
-      <div className="glass rounded-3xl shadow-xl p-6 md:p-8 border border-white/30 animate-fade-in">
-        <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-6">Risk Assessment</h3>
+      <div className="bg-secondary/80 rounded-3xl shadow-xl p-6 md:p-8 border border-secondary-300 animate-fade-in">
+        <h3 className="text-xl md:text-2xl font-bold text-accent mb-6">Risk Assessment</h3>
         <div className="space-y-4">
           <div>
             <div className="flex justify-between items-center mb-2">
-              <span className="text-sm text-gray-600">Overall Risk Level</span>
+              <span className="text-sm text-accent/80">Overall Risk Level</span>
               <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
                 analysis.riskLevel === 'Low' 
                   ? 'bg-green-100 text-green-800' 
@@ -259,7 +259,7 @@ export default function StockAnalysis({ stock }) {
                 {analysis.riskLevel}
               </span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
+            <div className="w-full bg-secondary/50 rounded-full h-2">
               <div 
                 className={`h-2 rounded-full ${
                   analysis.riskLevel === 'Low' 
@@ -280,7 +280,7 @@ export default function StockAnalysis({ stock }) {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
             <div>
-              <p className="text-sm text-gray-500">Price Stability</p>
+              <p className="text-sm text-accent/70">Price Stability</p>
               <p className={`font-semibold ${
                 analysis.volatility && analysis.volatility < 0.03 
                   ? 'text-green-600' 
@@ -296,7 +296,7 @@ export default function StockAnalysis({ stock }) {
               </p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Market Position</p>
+              <p className="text-sm text-accent/70">Market Position</p>
               <p className={`font-semibold ${
                 analysis.priceFrom52WLow !== null && analysis.priceFrom52WLow > 70 
                   ? 'text-green-600' 
@@ -312,7 +312,7 @@ export default function StockAnalysis({ stock }) {
               </p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Liquidity</p>
+              <p className="text-sm text-accent/70">Liquidity</p>
               <p className={`font-semibold ${
                 analysis.volumeRatio && parseFloat(analysis.volumeRatio) > 1 
                   ? 'text-green-600' 
@@ -328,21 +328,21 @@ export default function StockAnalysis({ stock }) {
       </div>
 
       {/* Valuation Metrics */}
-      <div className="glass rounded-3xl shadow-xl p-6 md:p-8 border border-white/30 animate-fade-in">
-        <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-6">Valuation Metrics</h3>
+      <div className="bg-secondary/80 rounded-3xl shadow-xl p-6 md:p-8 border border-secondary-300 animate-fade-in">
+        <h3 className="text-xl md:text-2xl font-bold text-accent mb-6">Valuation Metrics</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           <div className="p-4 bg-white/50 rounded-xl">
-            <p className="text-xs md:text-sm text-gray-500 font-medium mb-2">P/E Ratio</p>
+            <p className="text-xs md:text-sm text-accent/70 font-medium mb-2">P/E Ratio</p>
             <p className={`text-lg md:text-xl font-bold ${
               stock.peRatio && stock.peRatio > 0 && stock.peRatio < 25 
                 ? 'text-emerald-600' 
                 : stock.peRatio && stock.peRatio > 0 
                 ? 'text-amber-600' 
-                : 'text-gray-900'
+                : 'text-accent'
             }`}>
               {stock.peRatio || 'N/A'}
             </p>
-            <p className="text-xs text-gray-400 mt-1">
+            <p className="text-xs text-accent/60 mt-1">
               {stock.peRatio && stock.peRatio > 0 && stock.peRatio < 15 
                 ? 'Undervalued' 
                 : stock.peRatio && stock.peRatio < 25 
@@ -354,24 +354,24 @@ export default function StockAnalysis({ stock }) {
           </div>
           {stock.marketCap > 0 && stock.fundamentals?.revenue > 0 && (
             <div className="p-4 bg-white/50 rounded-xl">
-              <p className="text-xs md:text-sm text-gray-500 font-medium mb-2">Price/Sales</p>
-              <p className="text-lg md:text-xl font-bold text-gray-900">
+              <p className="text-xs md:text-sm text-accent/70 font-medium mb-2">Price/Sales</p>
+              <p className="text-lg md:text-xl font-bold text-accent">
                 {(stock.marketCap / stock.fundamentals.revenue).toFixed(2)}
               </p>
             </div>
           )}
           {stock.marketCap > 0 && stock.fundamentals?.equity > 0 && (
             <div className="p-4 bg-white/50 rounded-xl">
-              <p className="text-xs md:text-sm text-gray-500 font-medium mb-2">Price/Book</p>
-              <p className="text-lg md:text-xl font-bold text-gray-900">
+              <p className="text-xs md:text-sm text-accent/70 font-medium mb-2">Price/Book</p>
+              <p className="text-lg md:text-xl font-bold text-accent">
                 {(stock.marketCap / stock.fundamentals.equity).toFixed(2)}
               </p>
             </div>
           )}
           {stock.currentPrice > 0 && stock.fundamentals?.profit > 0 && (
             <div className="p-4 bg-white/50 rounded-xl">
-              <p className="text-xs md:text-sm text-gray-500 font-medium mb-2">Earnings Yield</p>
-              <p className="text-lg md:text-xl font-bold text-gray-900">
+              <p className="text-xs md:text-sm text-accent/70 font-medium mb-2">Earnings Yield</p>
+              <p className="text-lg md:text-xl font-bold text-accent">
                 {((stock.fundamentals.profit / stock.marketCap) * 100).toFixed(2)}%
               </p>
             </div>

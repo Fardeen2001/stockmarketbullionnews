@@ -126,14 +126,14 @@ export default async function ShariaStockDetailPage({ params }) {
         </Link>
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">
+            <h1 className="text-4xl font-bold text-accent mb-2">
               {stock.name || stock.symbol}
             </h1>
             <div className="flex items-center gap-2">
               <span className="px-3 py-1 bg-green-100 text-green-800 rounded text-sm font-semibold">
                 ✓ Sharia Compliant
               </span>
-              <p className="text-lg text-gray-600">
+              <p className="text-lg text-accent/80">
                 {stock.symbol} • {stock.exchange}
               </p>
             </div>
@@ -162,7 +162,7 @@ export default async function ShariaStockDetailPage({ params }) {
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
         <div className="flex items-baseline justify-between mb-4">
           <div>
-            <span className="text-4xl font-bold text-gray-900">
+            <span className="text-4xl font-bold text-accent">
               ₹{stock.currentPrice?.toLocaleString('en-IN', { minimumFractionDigits: 2 }) || 'N/A'}
             </span>
             <span className={`text-2xl font-semibold ml-4 ${changeColor}`}>
@@ -174,22 +174,22 @@ export default async function ShariaStockDetailPage({ params }) {
         {/* Sharia Compliance Details */}
         {stock.shariaComplianceData && (
           <div className="mt-6 pt-6 border-t">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">Sharia Compliance Details</h3>
+            <h3 className="text-xl font-bold text-accent mb-4">Sharia Compliance Details</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <p className="text-sm text-gray-500">Compliance Status</p>
+                <p className="text-sm text-accent/70">Compliance Status</p>
                 <p className="text-lg font-semibold text-green-600">
                   {stock.shariaComplianceData.complianceStatus || 'Compliant'}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-gray-500">Source</p>
+                <p className="text-sm text-accent/70">Source</p>
                 <p className="text-lg font-semibold">
                   {stock.shariaComplianceData.source || 'halalstock.in'}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-gray-500">Last Checked</p>
+                <p className="text-sm text-accent/70">Last Checked</p>
                 <p className="text-lg font-semibold">
                   {stock.shariaComplianceData.lastChecked 
                     ? new Date(stock.shariaComplianceData.lastChecked).toLocaleDateString('en-IN')
@@ -203,23 +203,23 @@ export default async function ShariaStockDetailPage({ params }) {
         {/* Key Metrics */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-6 border-t">
           <div>
-            <p className="text-sm text-gray-500">Market Cap</p>
+            <p className="text-sm text-accent/70">Market Cap</p>
             <p className="text-lg font-semibold">
               ₹{(stock.marketCap / 10000000).toFixed(2)} Cr
             </p>
           </div>
           <div>
-            <p className="text-sm text-gray-500">P/E Ratio</p>
+            <p className="text-sm text-accent/70">P/E Ratio</p>
             <p className="text-lg font-semibold">{stock.peRatio || 'N/A'}</p>
           </div>
           <div>
-            <p className="text-sm text-gray-500">52W High</p>
+            <p className="text-sm text-accent/70">52W High</p>
             <p className="text-lg font-semibold">
               ₹{stock.high52Week?.toLocaleString('en-IN', { minimumFractionDigits: 2 }) || 'N/A'}
             </p>
           </div>
           <div>
-            <p className="text-sm text-gray-500">52W Low</p>
+            <p className="text-sm text-accent/70">52W Low</p>
             <p className="text-lg font-semibold">
               ₹{stock.low52Week?.toLocaleString('en-IN', { minimumFractionDigits: 2 }) || 'N/A'}
             </p>
@@ -230,14 +230,14 @@ export default async function ShariaStockDetailPage({ params }) {
       {/* Chart Section */}
       {stock.priceHistory && stock.priceHistory.length > 0 && (
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Price Chart</h2>
+          <h2 className="text-2xl font-bold text-accent mb-4">Price Chart</h2>
           <PriceChart data={stock.priceHistory} />
         </div>
       )}
 
       {/* News Section */}
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Latest News</h2>
+        <h2 className="text-2xl font-bold text-accent mb-4">Latest News</h2>
         {news.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {news.map((article) => (
@@ -245,7 +245,7 @@ export default async function ShariaStockDetailPage({ params }) {
             ))}
           </div>
         ) : (
-          <p className="text-gray-500">No news available for this stock.</p>
+          <p className="text-accent/70">No news available for this stock.</p>
         )}
       </div>
 

@@ -51,42 +51,42 @@ export default function AdminNewsTable({ news, currentPage, totalPages }) {
 
   return (
     <div className="bg-white rounded-lg shadow overflow-hidden">
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
+      <table className="min-w-full divide-y divide-secondary-300">
+        <thead className="bg-primary">
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-accent/70 uppercase tracking-wider">
               Title
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-accent/70 uppercase tracking-wider">
               Category
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-accent/70 uppercase tracking-wider">
               Published
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-accent/70 uppercase tracking-wider">
               Date
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-accent/70 uppercase tracking-wider">
               Views
             </th>
-            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-right text-xs font-medium text-accent/70 uppercase tracking-wider">
               Actions
             </th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="bg-white divide-y divide-secondary-300">
           {news.map((article) => (
             <tr key={article._id.toString()}>
               <td className="px-6 py-4 whitespace-nowrap">
                 <Link
                   href={`/news/${article.slug}`}
-                  className="text-sm font-medium text-blue-600 hover:text-blue-800"
+                  className="text-sm font-medium text-accent hover:text-accent-300"
                 >
                   {article.title}
                 </Link>
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
-                <span className="px-2 py-1 text-xs font-medium rounded bg-blue-100 text-blue-800">
+                <span className="px-2 py-1 text-xs font-medium rounded bg-primary text-accent">
                   {article.category}
                 </span>
               </td>
@@ -95,22 +95,22 @@ export default function AdminNewsTable({ news, currentPage, totalPages }) {
                   className={`px-2 py-1 text-xs font-medium rounded ${
                     article.isPublished
                       ? 'bg-green-100 text-green-800'
-                      : 'bg-gray-100 text-gray-800'
+                      : 'bg-primary text-accent'
                   }`}
                 >
                   {article.isPublished ? 'Yes' : 'No'}
                 </span>
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-accent/70">
                 {new Date(article.publishedAt).toLocaleDateString()}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-accent/70">
                 {article.viewCount || 0}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                 <button
                   onClick={() => handleTogglePublish(article._id.toString(), article.isPublished)}
-                  className="text-blue-600 hover:text-blue-900 mr-4"
+                  className="text-accent hover:text-accent-300 mr-4"
                 >
                   {article.isPublished ? 'Unpublish' : 'Publish'}
                 </button>
@@ -128,15 +128,15 @@ export default function AdminNewsTable({ news, currentPage, totalPages }) {
       </table>
 
       {totalPages > 1 && (
-        <div className="bg-gray-50 px-6 py-4 flex items-center justify-between border-t border-gray-200">
-          <div className="text-sm text-gray-700">
+        <div className="bg-primary px-6 py-4 flex items-center justify-between border-t border-secondary-300">
+          <div className="text-sm text-accent/80">
             Page {currentPage} of {totalPages}
           </div>
           <div className="flex space-x-2">
             {currentPage > 1 && (
               <Link
                 href={`/admin/news?page=${currentPage - 1}`}
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                className="px-4 py-2 text-sm font-medium text-accent/80 bg-white border border-secondary-300 rounded-md hover:bg-primary"
               >
                 Previous
               </Link>
@@ -144,7 +144,7 @@ export default function AdminNewsTable({ news, currentPage, totalPages }) {
             {currentPage < totalPages && (
               <Link
                 href={`/admin/news?page=${currentPage + 1}`}
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                className="px-4 py-2 text-sm font-medium text-accent/80 bg-white border border-secondary-300 rounded-md hover:bg-primary"
               >
                 Next
               </Link>

@@ -28,7 +28,7 @@ export default async function AdminLayout({ children }) {
   return (
     <>
       <AdminStyle />
-      <div className="min-h-screen bg-gray-100">
+      <div className="min-h-screen bg-primary">
         <AdminSidebar />
         <div className="ml-64">
           {children}

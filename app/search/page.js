@@ -85,11 +85,11 @@ export default async function SearchPage({ searchParams }) {
       <>
         <StructuredData data={pageSchema} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="text-center py-16 md:py-20 glass rounded-3xl animate-fade-in border border-white/30">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            <span className="gradient-text bg-gradient-primary bg-clip-text text-transparent">Search</span>
+        <div className="text-center py-16 md:py-20 bg-secondary/80 rounded-3xl animate-fade-in border border-secondary-300">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-accent mb-4">
+            <span className="gradient-text text-accent">Search</span>
           </h1>
-          <p className="text-gray-600 text-lg md:text-xl">Enter a search query to find stocks, metals, and news</p>
+          <p className="text-accent/80 text-lg md:text-xl">Enter a search query to find stocks, metals, and news</p>
         </div>
       </div>
       </>
@@ -125,24 +125,24 @@ export default async function SearchPage({ searchParams }) {
       {/* Header */}
       <div className="mb-10 md:mb-12 lg:mb-16 animate-fade-in">
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 md:mb-6 leading-tight">
-          <span className="gradient-text bg-gradient-primary bg-clip-text text-transparent">
+          <span className="gradient-text text-accent">
             Search Results
           </span>
         </h1>
-        <p className="text-lg sm:text-xl md:text-2xl text-gray-700 mb-4">
-          Results for &quot;<span className="font-bold text-gray-900">{query}</span>&quot;
+        <p className="text-lg sm:text-xl md:text-2xl text-accent/80 mb-4">
+          Results for &quot;<span className="font-bold text-accent">{query}</span>&quot;
         </p>
         <div className="flex flex-wrap gap-4 md:gap-6 text-sm md:text-base">
-          <span className="px-4 py-2 glass rounded-xl font-semibold border border-white/30">
-            <span className="text-indigo-600">{searchResults.counts.stocks || 0}</span> Stocks
+          <span className="px-4 py-2 bg-primary rounded-xl font-semibold border border-secondary-300">
+            <span className="text-accent">{searchResults.counts.stocks || 0}</span> Stocks
           </span>
-          <span className="px-4 py-2 glass rounded-xl font-semibold border border-white/30">
-            <span className="text-indigo-600">{searchResults.counts.metals || 0}</span> Metals
+          <span className="px-4 py-2 bg-primary rounded-xl font-semibold border border-secondary-300">
+            <span className="text-accent">{searchResults.counts.metals || 0}</span> Metals
           </span>
-          <span className="px-4 py-2 glass rounded-xl font-semibold border border-white/30">
-            <span className="text-indigo-600">{searchResults.counts.news || 0}</span> News
+          <span className="px-4 py-2 bg-primary rounded-xl font-semibold border border-secondary-300">
+            <span className="text-accent">{searchResults.counts.news || 0}</span> News
           </span>
-          <span className="px-4 py-2 bg-gradient-primary text-white rounded-xl font-bold shadow-lg">
+          <span className="px-4 py-2 bg-accent text-white rounded-xl font-bold shadow-lg">
             {searchResults.counts.total || 0} Total
           </span>
         </div>
@@ -151,7 +151,7 @@ export default async function SearchPage({ searchParams }) {
       {/* Ad Banner */}
       {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
         <div className="mb-10 md:mb-12 animate-scale-in">
-          <div className="glass rounded-3xl p-4 md:p-6 shadow-xl border border-white/30">
+          <div className="bg-secondary/80 rounded-3xl p-4 md:p-6 shadow-xl border border-secondary-300">
             <AdSense adSlot="1234567890" style={{ minHeight: '90px' }} />
           </div>
         </div>
@@ -199,9 +199,9 @@ export default async function SearchPage({ searchParams }) {
           )}
         </>
       ) : (
-        <div className="text-center py-16 glass rounded-2xl animate-fade-in">
-          <p className="text-gray-600 text-xl mb-4">No results found for &quot;{query}&quot;</p>
-          <p className="text-gray-500">Try different keywords or search terms</p>
+        <div className="text-center py-16 bg-secondary/80 rounded-2xl animate-fade-in border border-secondary-300">
+          <p className="text-accent/80 text-xl mb-4">No results found for &quot;{query}&quot;</p>
+          <p className="text-accent/70">Try different keywords or search terms</p>
         </div>
       )}
     </div>

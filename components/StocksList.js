@@ -18,7 +18,7 @@ export default function StocksList({ initialStocks, initialPagination, currentPa
       {/* Refresh Button */}
       <div className="mb-8 flex items-center justify-between flex-wrap gap-4">
         <RefreshPricesButton stocks={stocks} onRefresh={handleRefresh} />
-        <div className="text-sm text-gray-500">
+        <div className="text-sm text-accent/70">
           Showing {stocks.length} of {pagination.total || 0} stocks
         </div>
       </div>
@@ -51,8 +51,8 @@ export default function StocksList({ initialStocks, initialPagination, currentPa
           )}
         </>
       ) : (
-        <div className="text-center py-16 md:py-20 glass rounded-3xl animate-fade-in border border-white/30">
-          <p className="text-gray-600 text-lg md:text-xl">No stocks available. Data is being updated.</p>
+        <div className="text-center py-16 md:py-20 bg-secondary/80 rounded-3xl animate-fade-in border border-secondary-300">
+          <p className="text-accent/80 text-lg md:text-xl">No stocks available. Data is being updated.</p>
         </div>
       )}
     </>
