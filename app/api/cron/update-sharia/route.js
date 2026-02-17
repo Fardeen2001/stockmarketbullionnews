@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getStocksCollection } from '@/lib/db';
-import { NewsScraper } from '@/lib/scrapers/newsScraper';
 import { verifyCronRequest } from '@/lib/utils/cronAuth';
 import { logger } from '@/lib/utils/logger';
+import { getVerifiedHalalSymbols, getShariaFieldsForStock, normalizeSymbol } from '@/lib/utils/shariaCompliance';
 
 export async function GET(request) {
   const authResult = verifyCronRequest(request);
@@ -19,19 +19,18 @@ export async function GET(request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const scraper = new NewsScraper();
-    await scraper.init();
     const collection = await getStocksCollection();
 
-    // Scrape halalstock.in
-    const halalStocks = await scraper.scrapeHalalStock();
-    await scraper.close();
+    // Same source of truth as update-stocks: halalstock.in via shared utility
+    const verifiedHalalSet = await getVerifiedHalalSymbols();
 
-    if (halalStocks.length === 0) {
+    if (verifiedHalalSet.size === 0) {
       return NextResponse.json({
         success: true,
-        message: 'No Sharia-compliant stocks found',
+        message: 'No verified Sharia list available (halalstock.in unreachable or empty)',
         updated: 0,
+        verifiedCompliant: 0,
+        removedFalsePositives: 0,
       });
     }
 
@@ -39,25 +38,23 @@ export async function GET(request) {
     let verifiedCompliant = 0;
     let removedFalsePositives = 0;
 
-    // First, get all currently marked sharia compliant stocks
+    // Remove false positives: marked compliant but not in verified list
     const currentlyCompliant = await collection.find({ isShariaCompliant: true }).toArray();
-    const verifiedCompliantSymbols = new Set(
-      halalStocks
-        .filter(s => s.isCompliant === true)
-        .map(s => s.symbol.toUpperCase())
-    );
-
-    // Remove false positives - stocks marked as compliant but not in verified list
     for (const stock of currentlyCompliant) {
-      if (!verifiedCompliantSymbols.has(stock.symbol)) {
+      const normalized = normalizeSymbol(stock.symbol);
+      if (!verifiedHalalSet.has(normalized)) {
         await collection.updateOne(
           { symbol: stock.symbol },
           {
             $set: {
               isShariaCompliant: false,
-              'shariaComplianceData.lastChecked': new Date(),
-              'shariaComplianceData.complianceStatus': 'non-compliant',
-              'shariaComplianceData.removedReason': 'Not found in verified sharia compliant list',
+              shariaComplianceData: {
+                source: 'halalstock.in',
+                verified: true,
+                complianceStatus: 'non-compliant',
+                lastChecked: new Date(),
+                removedReason: 'Not found in verified sharia compliant list',
+              },
             },
           }
         );
@@ -65,56 +62,22 @@ export async function GET(request) {
       }
     }
 
-    // Update stocks with Sharia compliance data - ONLY mark as compliant if explicitly verified
-    for (const halalStock of halalStocks) {
-      try {
-        const symbol = halalStock.symbol.toUpperCase();
-        
-        // Only update if stock exists in database (must be a real stock)
-        const existingStock = await collection.findOne({ symbol: symbol });
-        if (!existingStock) {
-          console.log(`Skipping ${symbol} - stock not found in database`);
-          continue;
-        }
+    // Update every stock in DB that is in the verified list (same logic as update-stocks)
+    const allStocks = await collection.find({}).toArray();
+    for (const stock of allStocks) {
+      const normalized = normalizeSymbol(stock.symbol);
+      if (!verifiedHalalSet.has(normalized)) continue;
 
-        // STRICT: Only mark as compliant if explicitly marked as compliant
-        const isCompliant = halalStock.isCompliant === true;
-        
-        // Verify the stock has proper compliance data
-        const hasValidComplianceData = halalStock.source === 'halalstock.in' && 
-                                      halalStock.symbol && 
-                                      halalStock.symbol.length > 0;
-
-        if (!hasValidComplianceData) {
-          console.log(`Skipping ${symbol} - invalid compliance data`);
-          continue;
-        }
-
-        await collection.updateOne(
-          { symbol: symbol },
-          {
-            $set: {
-              // Only set to true if explicitly compliant AND verified
-              isShariaCompliant: isCompliant,
-              'shariaComplianceData.source': 'halalstock.in',
-              'shariaComplianceData.lastChecked': new Date(),
-              'shariaComplianceData.complianceStatus': isCompliant ? 'compliant' : 'non-compliant',
-              'shariaComplianceData.verified': true,
-              'shariaComplianceData.verifiedDate': new Date(),
-            },
-          }
-        );
-
-        if (isCompliant) {
-          verifiedCompliant++;
-        }
-        updated++;
-      } catch (error) {
-        console.error(`Error updating Sharia compliance for ${halalStock.symbol}:`, error.message);
-      }
+      const { isShariaCompliant, shariaComplianceData } = getShariaFieldsForStock(stock.symbol, verifiedHalalSet);
+      await collection.updateOne(
+        { symbol: stock.symbol },
+        { $set: { isShariaCompliant, shariaComplianceData } }
+      );
+      verifiedCompliant++;
+      updated++;
     }
 
-    // Final cleanup: Ensure all stocks marked as compliant have verified compliance data
+    // Final cleanup: only allow compliant if verified + source + status all match
     const allCompliantStocks = await collection.find({ isShariaCompliant: true }).toArray();
     for (const stock of allCompliantStocks) {
       const hasVerifiedData = stock.shariaComplianceData?.verified === true &&
@@ -127,9 +90,13 @@ export async function GET(request) {
           {
             $set: {
               isShariaCompliant: false,
-              'shariaComplianceData.lastChecked': new Date(),
-              'shariaComplianceData.complianceStatus': 'non-compliant',
-              'shariaComplianceData.removedReason': 'Missing verified compliance data',
+              shariaComplianceData: {
+                source: 'halalstock.in',
+                verified: stock.shariaComplianceData?.verified ?? false,
+                complianceStatus: 'non-compliant',
+                lastChecked: new Date(),
+                removedReason: 'Missing verified compliance data',
+              },
             },
           }
         );

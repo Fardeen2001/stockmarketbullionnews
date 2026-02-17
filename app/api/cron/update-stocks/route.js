@@ -4,6 +4,7 @@ import { YahooFinanceAPI, AlphaVantageAPI, getAllStocks } from '@/lib/api/stockA
 import { UnsplashAPI } from '@/lib/api/imageAPI';
 import { logger } from '@/lib/utils/logger';
 import { verifyCronRequest } from '@/lib/utils/cronAuth';
+import { getVerifiedHalalSymbols, getShariaFieldsForStock } from '@/lib/utils/shariaCompliance';
 
 export async function GET(request) {
   const authResult = verifyCronRequest(request);
@@ -27,6 +28,11 @@ export async function GET(request) {
 
     const imageAPI = new UnsplashAPI(process.env.UNSPLASH_ACCESS_KEY);
     const collection = await getStocksCollection();
+
+    // Fetch verified Sharia list once so we set isShariaCompliant at creation time (100% accurate)
+    logger.info('Fetching verified Sharia-compliant symbols from halalstock.in...');
+    const verifiedHalalSet = await getVerifiedHalalSymbols();
+    logger.info(`Verified halal list: ${verifiedHalalSet.size} symbols`);
 
     // Use Yahoo Finance for Indian stocks, Alpha Vantage for global stocks
     const yahooAPI = new YahooFinanceAPI();
@@ -110,6 +116,9 @@ export async function GET(request) {
           console.error(`Image fetch error for ${stock.symbol}:`, imgError.message);
         }
 
+        // Sharia: set at creation time from verified halalstock.in list only (strict, 100% accurate)
+        const { isShariaCompliant, shariaComplianceData } = getShariaFieldsForStock(stock.symbol, verifiedHalalSet);
+
         const stockData = {
           symbol: stock.symbol,
           name: overview?.name || stock.name,
@@ -128,7 +137,8 @@ export async function GET(request) {
           high52Week: overview?.high52Week || 0,
           low52Week: overview?.low52Week || 0,
           lastUpdated: new Date(),
-          isShariaCompliant: false, // Will be updated by sharia cron (only if verified)
+          isShariaCompliant,
+          shariaComplianceData,
           priceHistory: [], // Can be populated with historical data
           fundamentals: {
             revenue: 0,

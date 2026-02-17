@@ -3,6 +3,7 @@ import { getStocksCollection } from '@/lib/db';
 import { validateSymbol } from '@/lib/utils/validation';
 import { handleApiError } from '@/lib/utils/errorHandler';
 import { YahooFinanceAPI } from '@/lib/api/stockAPI';
+import { getVerifiedHalalSymbols, getShariaFieldsForStock } from '@/lib/utils/shariaCompliance';
 
 export async function GET(request, { params }) {
   try {
@@ -71,17 +72,21 @@ export async function GET(request, { params }) {
             // Preserve fields that shouldn't be overwritten
             imageUrl: stock.imageUrl,
             isShariaCompliant: stock.isShariaCompliant,
+            shariaComplianceData: stock.shariaComplianceData,
             priceHistory: stock.priceHistory,
             fundamentals: stock.fundamentals,
           };
         } else {
-          // If stock doesn't exist in DB, create new entry
+          // If stock doesn't exist in DB, create new entry (root cause: set Sharia at creation)
+          const verifiedHalalSet = await getVerifiedHalalSymbols();
+          const { isShariaCompliant, shariaComplianceData } = getShariaFieldsForStock(validatedSymbol, verifiedHalalSet);
           stock = {
             symbol: validatedSymbol,
             exchange: 'NSE', // Default, can be updated
             ...liveData,
             imageUrl: null,
-            isShariaCompliant: false,
+            isShariaCompliant,
+            shariaComplianceData,
             priceHistory: [],
             fundamentals: {
               revenue: 0,

@@ -3,29 +3,32 @@
 @tailwind utilities;
 
 @layer base {
+  /* ===== CANONICAL COLOR PALETTE (root cause) =====
+   * Change primary/secondary/accent here; keep tailwind.config.js and lib/design-system.js in sync.
+   */
   :root {
     --font-geist-sans: var(--font-geist-sans);
     --font-geist-mono: var(--font-geist-mono);
     
-    /* 60-30-10 Color Palette */
-    --color-primary: #F0F0F0;   /* 60% - main backgrounds */
-    --color-secondary: #96AAAA; /* 30% - nav, footer, sections */
-    --color-accent: #192D3C;    /* 10% - buttons, links, highlights */
+    /* 60-30-10 Light bluish palette */
+    --color-primary: #F2F7FC;   /* 60% - very light blue-white backgrounds */
+    --color-secondary: #B0D0E8; /* 30% - soft sky blue, nav, footer, sections */
+    --color-accent: #4A90B5;    /* 10% - medium soft blue, buttons, links */
     
-    --gradient-primary: linear-gradient(135deg, #192D3C 0%, #2a4555 100%);
-    --gradient-secondary: linear-gradient(135deg, #96AAAA 0%, #7a9a9a 100%);
+    --gradient-primary: linear-gradient(135deg, #4A90B5 0%, #5BA3C9 100%);
+    --gradient-secondary: linear-gradient(135deg, #B0D0E8 0%, #9BC4E0 100%);
     --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
     --gradient-warning: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-    --gradient-info: linear-gradient(135deg, #96AAAA 0%, #7a9a9a 100%);
+    --gradient-info: linear-gradient(135deg, #B0D0E8 0%, #9BC4E0 100%);
     
     /* Semantic colors from palette */
-    --color-bg-primary: #F0F0F0;
-    --color-bg-secondary: #96AAAA;
-    --color-bg-tertiary: #e8e8e8;
-    --color-text-primary: #192D3C;
-    --color-text-secondary: #2d4a5c;
-    --color-text-tertiary: #475569;
-    --color-border: #96AAAA;
+    --color-bg-primary: #F2F7FC;
+    --color-bg-secondary: #B0D0E8;
+    --color-bg-tertiary: #E8F2F9;
+    --color-text-primary: #2E6B8A;
+    --color-text-secondary: #4A90B5;
+    --color-text-tertiary: #6BA3C4;
+    --color-border: #B0D0E8;
     
     /* Shadows */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
@@ -113,10 +116,10 @@
 
   @keyframes pulse-glow {
     0%, 100% {
-      box-shadow: 0 0 20px rgba(25, 45, 60, 0.4);
+      box-shadow: 0 0 20px rgba(74, 144, 181, 0.4);
     }
     50% {
-      box-shadow: 0 0 40px rgba(25, 45, 60, 0.6);
+      box-shadow: 0 0 40px rgba(74, 144, 181, 0.5);
     }
   }
 
@@ -157,25 +160,25 @@
     animation: gradient-shift 3s ease infinite;
   }
 
-  /* Enhanced Glass morphism - secondary tint (30%) */
+  /* Enhanced Glass morphism - soft blue tint (30%) */
   .glass {
-    background: rgba(150, 170, 170, 0.9);
+    background: rgba(176, 208, 232, 0.9);
     backdrop-filter: blur(16px) saturate(180%);
     -webkit-backdrop-filter: blur(16px) saturate(180%);
-    border: 1px solid rgba(150, 170, 170, 0.5);
+    border: 1px solid rgba(176, 208, 232, 0.6);
     box-shadow: var(--shadow-lg);
   }
 
   .glass-dark {
-    background: rgba(25, 45, 60, 0.85);
+    background: rgba(74, 144, 181, 0.9);
     backdrop-filter: blur(16px) saturate(180%);
     -webkit-backdrop-filter: blur(16px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
 
-  /* Accent gradient text (10%) */
+  /* Accent gradient text - light blue (10%) */
   .gradient-text {
-    background: linear-gradient(135deg, #192D3C 0%, #2a4555 100%);
+    background: linear-gradient(135deg, #4A90B5 0%, #5BA3C9 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -208,9 +211,9 @@
   .shimmer {
     background: linear-gradient(
       90deg,
-      #F0F0F0 0%,
-      #e0e8e8 50%,
-      #F0F0F0 100%
+      #F2F7FC 0%,
+      #E0EDF7 50%,
+      #F2F7FC 100%
     );
     background-size: 1000px 100%;
     animation: shimmer 2s infinite;
@@ -232,7 +235,7 @@
 
   /* Focus styles for accessibility */
   *:focus-visible {
-    outline: 2px solid #192D3C;
+    outline: 2px solid #4A90B5;
     outline-offset: 2px;
     border-radius: 4px;
   }
