@@ -26,7 +26,7 @@ export async function GET(request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const imageAPI = new UnsplashAPI(process.env.UNSPLASH_ACCESS_KEY);
+    const imageAPI = process.env.UNSPLASH_ACCESS_KEY ? new UnsplashAPI(process.env.UNSPLASH_ACCESS_KEY) : null;
     const collection = await getStocksCollection();
 
     // Fetch verified Sharia list once so we set isShariaCompliant at creation time (100% accurate)
@@ -106,14 +106,17 @@ export async function GET(request) {
           errors++;
           continue;
         }
-        
-        // Get or generate image
-        let imageUrl = null;
-        try {
-          const imageResult = await imageAPI.getStockImage(stock.name);
-          imageUrl = imageResult?.url || null;
-        } catch (imgError) {
-          console.error(`Image fetch error for ${stock.symbol}:`, imgError.message);
+
+        // Preserve existing image when we have one to avoid re-hitting Unsplash every run (reduces 403s and timeout)
+        const existing = await collection.findOne({ symbol: stock.symbol }, { projection: { imageUrl: 1 } });
+        let imageUrl = existing?.imageUrl ?? null;
+        if (!imageUrl && imageAPI) {
+          try {
+            const imageResult = await imageAPI.getStockImage(stock.name);
+            imageUrl = imageResult?.url || null;
+          } catch (imgError) {
+            console.error(`Image fetch error for ${stock.symbol}:`, imgError.message);
+          }
         }
 
         // Sharia: set at creation time from verified halalstock.in list only (strict, 100% accurate)
