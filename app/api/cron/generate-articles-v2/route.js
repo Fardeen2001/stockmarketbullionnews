@@ -36,6 +36,9 @@ export async function GET(request) {
       ...(result.stats && {
         totalTrends: result.stats.totalTrends,
         trendsWithArticles: result.stats.trendsWithArticles,
+        ...(result.stats.trendsRejectedByValidation != null && {
+          trendsRejectedByValidation: result.stats.trendsRejectedByValidation,
+        }),
       }),
     });
   } catch (error) {
