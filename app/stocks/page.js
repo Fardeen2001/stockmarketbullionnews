@@ -8,7 +8,7 @@ async function getStocks(page = 1, limit = 12) {
   try {
     const baseUrl = getBaseUrl();
     const res = await fetch(`${baseUrl}/api/stocks?page=${page}&limit=${limit}`, {
-      next: { revalidate: 3600 }, // Revalidate every hour
+      next: { revalidate: 3600 },
     });
     const data = await res.json();
     return data.success ? data : { data: [], pagination: {} };
@@ -20,7 +20,7 @@ async function getStocks(page = 1, limit = 12) {
 
 export const metadata = generateSEOMetadata({
   title: 'Stocks - StockMarket Bullion | Stock Market News & Analysis',
-  description: 'Browse stocks, view prices, analysis, and latest news. Real-time stock market data for NSE, BSE, and global markets. Track your favorite stocks with detailed charts and historical data.',
+  description: 'Browse stocks, view prices, analysis, and latest news. Real-time stock market data for NSE, BSE, and global markets.',
   keywords: generateKeywords({
     baseKeywords: ["stocks", "stock market", "NSE", "BSE", "share price", "stock analysis", "equity", "trading", "investment"],
     category: "stocks",
@@ -42,7 +42,6 @@ export default async function StocksPage({ searchParams }) {
   const limit = parseInt(params.limit || '12');
   const { data: stocks, pagination } = await getStocks(page, limit);
 
-  // Generate structured data
   const pageSchema = generateWebPageSchema({
     name: 'Stocks - StockMarket Bullion',
     description: 'Browse stocks, view prices, analysis, and latest news.',
@@ -57,35 +56,35 @@ export default async function StocksPage({ searchParams }) {
     <>
       <StructuredData data={pageSchema} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
-      {/* Page Header */}
-      <div className="mb-10 md:mb-12 lg:mb-16 animate-fade-in">
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 md:mb-6 leading-tight">
-          <span className="gradient-text text-accent">
-            Stocks
-          </span>
-        </h1>
-        <p className="text-lg sm:text-xl md:text-2xl text-accent/80 max-w-3xl leading-relaxed">
-          Explore stocks with real-time prices, analysis, and market news
-        </p>
-      </div>
-
-      {/* Ad Banner */}
-      {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
-        <div className="mb-10 md:mb-12 animate-scale-in">
-          <div className="bg-secondary/80 rounded-3xl p-4 md:p-6 shadow-xl border border-secondary-300">
-            <AdSense adSlot="1234567890" style={{ minHeight: '90px' }} />
-          </div>
+        {/* Page Header */}
+        <div className="mb-10 md:mb-12 lg:mb-16 animate-fade-in">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 md:mb-6 leading-tight">
+            <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+              Stocks
+            </span>
+          </h1>
+          <p className="text-lg sm:text-xl md:text-2xl text-slate-400 max-w-3xl leading-relaxed">
+            Explore stocks with real-time prices, analysis, and market news
+          </p>
         </div>
-      )}
 
-      {/* Stocks List with Refresh Button */}
-      <StocksList
-        initialStocks={stocks}
-        initialPagination={pagination}
-        currentPage={page}
-        currentLimit={limit}
-      />
-    </div>
+        {/* Ad Banner */}
+        {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
+          <div className="mb-10 md:mb-12 animate-scale-in">
+            <div className="bg-gradient-to-r from-slate-800 to-slate-900 rounded-2xl p-4 md:p-6 shadow-lg border border-slate-700">
+              <AdSense adSlot="1234567890" style={{ minHeight: '90px' }} />
+            </div>
+          </div>
+        )}
+
+        {/* Stocks List with Refresh Button */}
+        <StocksList
+          initialStocks={stocks}
+          initialPagination={pagination}
+          currentPage={page}
+          currentLimit={limit}
+        />
+      </div>
     </>
   );
 }

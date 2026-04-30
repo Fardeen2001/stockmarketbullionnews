@@ -1,0 +1,111 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e4]:
+      - link "SMB StockMarket Bullion" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e8]: SMB
+        - generic [ref=e9]: StockMarket Bullion
+      - generic [ref=e13]:
+        - combobox [ref=e14] [cursor=pointer]:
+          - option "All" [selected]
+          - option "Stocks"
+          - option "Metals"
+          - option "News"
+        - generic [ref=e15]:
+          - textbox "Search stocks, metals, news..." [ref=e16]
+          - img [ref=e17]
+        - button "Search" [ref=e19] [cursor=pointer]
+      - generic [ref=e20]:
+        - link "📈 Stocks" [ref=e21] [cursor=pointer]:
+          - /url: /stocks
+          - generic [ref=e22]:
+            - generic [ref=e23]: 📈
+            - generic [ref=e24]: Stocks
+        - link "🥇 Metals" [ref=e25] [cursor=pointer]:
+          - /url: /metals
+          - generic [ref=e26]:
+            - generic [ref=e27]: 🥇
+            - generic [ref=e28]: Metals
+        - link "✨ Sharia Stocks" [ref=e29] [cursor=pointer]:
+          - /url: /sharia
+          - generic [ref=e30]:
+            - generic [ref=e31]: ✨
+            - generic [ref=e32]: Sharia Stocks
+        - link "📰 News" [ref=e34] [cursor=pointer]:
+          - /url: /news
+          - generic [ref=e35]:
+            - generic [ref=e36]: 📰
+            - generic [ref=e37]: News
+  - main [ref=e38]:
+    - generic [ref=e39]:
+      - generic [ref=e40]:
+        - heading "Sharia Compliant Stocks" [level=1] [ref=e41]
+        - paragraph [ref=e42]: Browse stocks that comply with Islamic finance principles. All stocks are verified for Sharia compliance.
+      - paragraph [ref=e44]: No Sharia-compliant stocks available. Compliance data is being updated.
+  - contentinfo [ref=e45]:
+    - generic [ref=e46]:
+      - generic [ref=e47]:
+        - generic [ref=e48]:
+          - heading "StockMarket Bullion" [level=3] [ref=e49]
+          - paragraph [ref=e50]: Your trusted source for stock market news, precious metals prices, and Sharia-compliant stock analysis.
+        - generic [ref=e51]:
+          - heading "Sections" [level=4] [ref=e52]
+          - list [ref=e53]:
+            - listitem [ref=e54]:
+              - link "Stocks" [ref=e55] [cursor=pointer]:
+                - /url: /stocks
+                - img [ref=e56]
+                - text: Stocks
+            - listitem [ref=e58]:
+              - link "Metals" [ref=e59] [cursor=pointer]:
+                - /url: /metals
+                - img [ref=e60]
+                - text: Metals
+            - listitem [ref=e62]:
+              - link "Sharia Stocks" [ref=e63] [cursor=pointer]:
+                - /url: /sharia
+                - img [ref=e64]
+                - text: Sharia Stocks
+            - listitem [ref=e66]:
+              - link "News" [ref=e67] [cursor=pointer]:
+                - /url: /news
+                - img [ref=e68]
+                - text: News
+        - generic [ref=e70]:
+          - heading "Resources" [level=4] [ref=e71]
+          - list [ref=e72]:
+            - listitem [ref=e73]:
+              - link "About" [ref=e74] [cursor=pointer]:
+                - /url: /about
+                - img [ref=e75]
+                - text: About
+            - listitem [ref=e77]:
+              - link "Contact" [ref=e78] [cursor=pointer]:
+                - /url: /contact
+                - img [ref=e79]
+                - text: Contact
+            - listitem [ref=e81]:
+              - link "Sitemap" [ref=e82] [cursor=pointer]:
+                - /url: /sitemap-index.xml
+                - img [ref=e83]
+                - text: Sitemap
+        - generic [ref=e85]:
+          - heading "Legal" [level=4] [ref=e86]
+          - list [ref=e87]:
+            - listitem [ref=e88]:
+              - link "Privacy Policy" [ref=e89] [cursor=pointer]:
+                - /url: /privacy-policy
+                - img [ref=e90]
+                - text: Privacy Policy
+            - listitem [ref=e92]:
+              - link "Terms & Conditions" [ref=e93] [cursor=pointer]:
+                - /url: /terms-and-conditions
+                - img [ref=e94]
+                - text: Terms & Conditions
+          - paragraph [ref=e96]: This website provides information for educational purposes only. It does not constitute financial advice. Always consult with a qualified financial advisor before making investment decisions.
+      - generic [ref=e97]:
+        - paragraph [ref=e98]: © 2026 StockMarket Bullion. All rights reserved.
+        - paragraph [ref=e99]: stockmarketbullion.com
+  - button "Open Next.js Dev Tools" [ref=e105] [cursor=pointer]:
+    - img [ref=e106]
+  - alert [ref=e109]

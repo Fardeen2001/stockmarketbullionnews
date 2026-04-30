@@ -46,7 +46,7 @@ export default function SearchBar() {
           `/api/search?q=${encodeURIComponent(query)}&type=${selectedType}&limit=5`
         );
         const data = await response.json();
-        
+
         if (data.success) {
           setResults(data);
           setIsOpen(true);
@@ -56,7 +56,7 @@ export default function SearchBar() {
       } finally {
         setIsLoading(false);
       }
-    }, 300); // 300ms debounce
+    }, 300);
 
     return () => clearTimeout(timeoutId);
   }, [query, selectedType]);
@@ -85,13 +85,13 @@ export default function SearchBar() {
           <select
             value={selectedType}
             onChange={(e) => setSelectedType(e.target.value)}
-            className="px-3 py-2.5 bg-primary rounded-xl text-sm font-semibold text-accent border-2 border-transparent hover:border-accent focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-300 cursor-pointer shadow-sm"
+            className="px-3 py-2.5 bg-slate-800 rounded-xl text-sm font-semibold text-slate-300 border border-slate-700 hover:border-emerald-500 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all duration-300 cursor-pointer"
             onClick={(e) => e.stopPropagation()}
           >
-            <option value="all">All</option>
-            <option value="stocks">Stocks</option>
-            <option value="metals">Metals</option>
-            <option value="news">News</option>
+            <option value="all" className="bg-slate-800">All</option>
+            <option value="stocks" className="bg-slate-800">Stocks</option>
+            <option value="metals" className="bg-slate-800">Metals</option>
+            <option value="news" className="bg-slate-800">News</option>
           </select>
 
           {/* Search Input */}
@@ -107,10 +107,10 @@ export default function SearchBar() {
                 }
               }}
               placeholder="Search stocks, metals, news..."
-              className="w-full px-4 py-2.5 pl-11 bg-primary rounded-xl text-accent placeholder-secondary-500 border-2 border-transparent hover:border-accent focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-300 shadow-sm"
+              className="w-full px-4 py-2.5 pl-11 bg-slate-800 rounded-xl text-slate-100 placeholder-slate-500 border border-slate-700 hover:border-slate-600 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all duration-300"
             />
             <svg
-              className="absolute left-3.5 top-1/2 transform -translate-y-1/2 w-5 h-5 text-secondary-500"
+              className="absolute left-3.5 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-500"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -124,7 +124,7 @@ export default function SearchBar() {
             </svg>
             {isLoading && (
               <div className="absolute right-3.5 top-1/2 transform -translate-y-1/2">
-                <div className="w-5 h-5 border-2 border-accent border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-5 h-5 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
               </div>
             )}
           </div>
@@ -132,7 +132,7 @@ export default function SearchBar() {
           {/* Search Button */}
           <button
             type="submit"
-            className="px-6 py-2.5 bg-accent text-white rounded-xl font-semibold shadow-lg hover:shadow-xl hover-lift transition-all duration-300"
+            className="px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-xl font-semibold shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 hover:-translate-y-0.5 transition-all duration-300"
           >
             Search
           </button>
@@ -143,29 +143,29 @@ export default function SearchBar() {
       {isOpen && results && totalResults > 0 && (
         <div
           ref={resultsRef}
-          className="absolute top-full left-0 right-0 mt-2 bg-secondary rounded-2xl shadow-2xl border border-secondary-300 max-h-96 overflow-y-auto z-50 animate-fade-in backdrop-blur-xl"
+          className="absolute top-full left-0 right-0 mt-2 bg-slate-800 rounded-2xl shadow-xl shadow-slate-900/50 border border-slate-700 max-h-96 overflow-y-auto z-50 animate-fade-in"
         >
           {/* Stocks Results */}
           {results.results.stocks.length > 0 && (
-            <div className="p-4 border-b border-secondary-300">
-              <h3 className="text-xs font-bold text-primary-500 uppercase mb-2">Stocks ({results.results.stocks.length})</h3>
-              <div className="space-y-2">
+            <div className="p-4 border-b border-slate-700">
+              <h3 className="text-xs font-bold text-emerald-400 uppercase mb-2 tracking-wider">Stocks ({results.results.stocks.length})</h3>
+              <div className="space-y-1">
                 {results.results.stocks.map((stock) => (
                   <Link
                     key={stock._id}
                     href={stock.url}
                     onClick={() => setIsOpen(false)}
-                    className="block p-3 rounded-lg hover:bg-white/10 transition-colors"
+                    className="block p-3 rounded-xl hover:bg-slate-700/50 transition-colors"
                   >
                     <div className="flex items-center justify-between">
                       <div>
-                        <div className="font-semibold text-accent">{stock.symbol}</div>
-                        <div className="text-sm text-accent/80">{stock.name}</div>
+                        <div className="font-semibold text-slate-100">{stock.symbol}</div>
+                        <div className="text-sm text-slate-400">{stock.name}</div>
                       </div>
                       {stock.currentPrice && (
                         <div className="text-right">
-                          <div className="font-semibold text-accent">₹{stock.currentPrice.toLocaleString()}</div>
-                          <div className={`text-sm ${stock.changePercent >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                          <div className="font-semibold text-slate-100">₹{stock.currentPrice.toLocaleString()}</div>
+                          <div className={`text-sm ${stock.changePercent >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                             {stock.changePercent >= 0 ? '+' : ''}{stock.changePercent?.toFixed(2)}%
                           </div>
                         </div>
@@ -179,28 +179,28 @@ export default function SearchBar() {
 
           {/* Metals Results */}
           {results.results.metals.length > 0 && (
-            <div className="p-4 border-b border-secondary-300">
-              <h3 className="text-xs font-bold text-primary-500 uppercase mb-2">Metals ({results.results.metals.length})</h3>
-              <div className="space-y-2">
+            <div className="p-4 border-b border-slate-700">
+              <h3 className="text-xs font-bold text-emerald-400 uppercase mb-2 tracking-wider">Metals ({results.results.metals.length})</h3>
+              <div className="space-y-1">
                 {results.results.metals.map((metal) => (
                   <Link
                     key={metal._id}
                     href={metal.url}
                     onClick={() => setIsOpen(false)}
-                    className="block p-3 rounded-lg hover:bg-white/10 transition-colors"
+                    className="block p-3 rounded-xl hover:bg-slate-700/50 transition-colors"
                   >
                     <div className="flex items-center justify-between">
                       <div>
-                        <div className="font-semibold text-accent capitalize">{metal.name || metal.metalType}</div>
-                        <div className="text-sm text-accent/80">{metal.currency || 'INR'}</div>
+                        <div className="font-semibold text-slate-100 capitalize">{metal.name || metal.metalType}</div>
+                        <div className="text-sm text-slate-400">{metal.currency || 'INR'}</div>
                       </div>
                       {metal.currentPrice && (
                         <div className="text-right">
-                          <div className="font-semibold text-accent">
+                          <div className="font-semibold text-slate-100">
                             {metal.currency === 'USD' ? '$' : '₹'}{metal.currentPrice.toLocaleString()}
                           </div>
                           {metal.changePercent !== undefined && (
-                            <div className={`text-sm ${metal.changePercent >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                            <div className={`text-sm ${metal.changePercent >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                               {metal.changePercent >= 0 ? '+' : ''}{metal.changePercent.toFixed(2)}%
                             </div>
                           )}
@@ -216,18 +216,18 @@ export default function SearchBar() {
           {/* News Results */}
           {results.results.news.length > 0 && (
             <div className="p-4">
-              <h3 className="text-xs font-bold text-primary-500 uppercase mb-2">News ({results.results.news.length})</h3>
-              <div className="space-y-2">
+              <h3 className="text-xs font-bold text-emerald-400 uppercase mb-2 tracking-wider">News ({results.results.news.length})</h3>
+              <div className="space-y-1">
                 {results.results.news.map((article) => (
                   <Link
                     key={article._id}
                     href={article.url}
                     onClick={() => setIsOpen(false)}
-                    className="block p-3 rounded-lg hover:bg-white/10 transition-colors"
+                    className="block p-3 rounded-xl hover:bg-slate-700/50 transition-colors"
                   >
-                    <div className="font-semibold text-accent line-clamp-1">{article.title}</div>
+                    <div className="font-semibold text-slate-100 line-clamp-1">{article.title}</div>
                     {article.summary && (
-                      <div className="text-sm text-accent/80 line-clamp-1 mt-1">{article.summary}</div>
+                      <div className="text-sm text-slate-400 line-clamp-1 mt-1">{article.summary}</div>
                     )}
                   </Link>
                 ))}
@@ -237,13 +237,13 @@ export default function SearchBar() {
 
           {/* View All Results Link */}
           {totalResults > 5 && (
-            <div className="p-4 border-t border-secondary-300">
+            <div className="p-4 border-t border-slate-700">
               <Link
                 href={`/search?q=${encodeURIComponent(query)}&type=${selectedType}`}
                 onClick={() => setIsOpen(false)}
-                className="block text-center py-2.5 px-4 bg-accent text-white rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
+                className="block text-center py-2.5 px-4 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-emerald-500/40 transition-all duration-300"
               >
-                View All {totalResults} Results →
+                View All {totalResults} Results
               </Link>
             </div>
           )}
@@ -254,9 +254,9 @@ export default function SearchBar() {
       {isOpen && results && totalResults === 0 && query.trim().length >= 2 && (
         <div
           ref={resultsRef}
-          className="absolute top-full left-0 right-0 mt-2 bg-secondary rounded-2xl shadow-2xl border border-secondary-300 p-6 z-50 animate-fade-in backdrop-blur-xl"
+          className="absolute top-full left-0 right-0 mt-2 bg-slate-800 rounded-2xl shadow-xl shadow-slate-900/50 border border-slate-700 p-6 z-50 animate-fade-in"
         >
-          <div className="text-center text-accent">
+          <div className="text-center text-slate-400">
             <p className="font-semibold text-base">No results found</p>
             <p className="text-sm mt-1">Try different keywords or search type</p>
           </div>

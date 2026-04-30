@@ -14,7 +14,6 @@ export default function RefreshPricesButton({ stocks, onRefresh }) {
     setError(null);
 
     try {
-      // Extract symbols from stocks array
       const symbols = stocks.map(stock => stock.symbol);
 
       const response = await fetch('/api/stocks/refresh', {
@@ -35,26 +34,22 @@ export default function RefreshPricesButton({ stocks, onRefresh }) {
         throw new Error(data.error || 'Failed to refresh prices');
       }
 
-      // Update stocks with new data
       if (data.data && data.data.length > 0) {
         const updatedStocks = stocks.map(stock => {
           const updated = data.data.find(s => s.symbol === stock.symbol);
           return updated ? { ...stock, ...updated } : stock;
         });
-        
-        // Call parent callback to update state
+
         if (onRefresh) {
           onRefresh(updatedStocks);
         }
       }
 
       setLastRefreshed(new Date());
-      
-      // Show success message or partial success warning
+
       if (data.errors && data.errors.length > 0) {
         setError(`Refreshed ${data.data?.length || 0} stocks. ${data.errors.length} failed.`);
       } else if (data.data && data.data.length > 0) {
-        // Clear any previous errors on full success
         setError(null);
       }
     } catch (err) {
@@ -74,8 +69,8 @@ export default function RefreshPricesButton({ stocks, onRefresh }) {
           inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold
           transition-all duration-300 shadow-lg hover:shadow-xl
           ${isRefreshing || !stocks || stocks.length === 0
-            ? 'bg-secondary cursor-not-allowed text-white'
-            : 'bg-accent text-white hover:scale-105 active:scale-95'
+            ? 'bg-slate-700 cursor-not-allowed text-slate-400'
+            : 'bg-gradient-to-r from-emerald-500 to-emerald-600 text-white hover:shadow-emerald-500/30 hover:-translate-y-0.5'
           }
         `}
       >
@@ -124,19 +119,19 @@ export default function RefreshPricesButton({ stocks, onRefresh }) {
       </button>
 
       {lastRefreshed && !error && (
-        <p className="mt-2 text-sm text-green-600">
-          ✓ Last refreshed: {lastRefreshed.toLocaleTimeString()}
+        <p className="mt-2 text-sm text-emerald-400">
+          Last refreshed: {lastRefreshed.toLocaleTimeString()}
         </p>
       )}
 
       {error && (
-        <p className="mt-2 text-sm text-red-600">
-          ⚠ {error}
+        <p className="mt-2 text-sm text-red-400">
+          {error}
         </p>
       )}
 
       {!isRefreshing && stocks && stocks.length > 0 && (
-        <p className="mt-2 text-sm text-accent/70">
+        <p className="mt-2 text-sm text-slate-400">
           Click to fetch live prices for {stocks.length} stock{stocks.length !== 1 ? 's' : ''}
         </p>
       )}

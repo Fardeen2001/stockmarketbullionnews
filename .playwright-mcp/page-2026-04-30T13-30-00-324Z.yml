@@ -1,0 +1,302 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e4]:
+      - link "SMB StockMarket Bullion" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e8]: SMB
+        - generic [ref=e9]: StockMarket Bullion
+      - generic [ref=e13]:
+        - combobox [ref=e14] [cursor=pointer]:
+          - option "All" [selected]
+          - option "Stocks"
+          - option "Metals"
+          - option "News"
+        - generic [ref=e15]:
+          - textbox "Search stocks, metals, news..." [ref=e16]
+          - img [ref=e17]
+        - button "Search" [ref=e19] [cursor=pointer]
+      - generic [ref=e20]:
+        - link "📈 Stocks" [ref=e21] [cursor=pointer]:
+          - /url: /stocks
+          - generic [ref=e22]:
+            - generic [ref=e23]: 📈
+            - generic [ref=e24]: Stocks
+        - link "🥇 Metals" [ref=e25] [cursor=pointer]:
+          - /url: /metals
+          - generic [ref=e26]:
+            - generic [ref=e27]: 🥇
+            - generic [ref=e28]: Metals
+        - link "✨ Sharia Stocks" [ref=e29] [cursor=pointer]:
+          - /url: /sharia
+          - generic [ref=e30]:
+            - generic [ref=e31]: ✨
+            - generic [ref=e32]: Sharia Stocks
+        - link "📰 News" [ref=e33] [cursor=pointer]:
+          - /url: /news
+          - generic [ref=e34]:
+            - generic [ref=e35]: 📰
+            - generic [ref=e36]: News
+  - main [ref=e38]:
+    - generic [ref=e39]:
+      - generic [ref=e40]:
+        - heading "Latest News" [level=1] [ref=e41]
+        - paragraph [ref=e42]: Stay updated with the latest stock market and precious metals news
+      - generic [ref=e43]:
+        - link "All" [ref=e44] [cursor=pointer]:
+          - /url: /news
+        - link "Stocks" [ref=e45] [cursor=pointer]:
+          - /url: /news?category=stocks
+        - link "Metals" [ref=e46] [cursor=pointer]:
+          - /url: /news?category=metals
+        - link "Sharia" [ref=e47] [cursor=pointer]:
+          - /url: /news?category=sharia
+      - generic [ref=e48]:
+        - 'link "a close up of a clock with different colored numbers stocks 11 Feb 2026 PV - Latest Market Updates: Latest Market Updates and Analysis This article covers the latest developments regarding PV - Latest Market Updates in the stock market and precious metals sector. Read more" [ref=e50] [cursor=pointer]':
+          - /url: /news/pv-latest-market-updates-latest-market-updates-and-analysis
+          - generic [ref=e51]:
+            - generic [ref=e52]:
+              - img "a close up of a clock with different colored numbers" [ref=e53]
+              - generic [ref=e55]: stocks
+            - generic [ref=e56]:
+              - generic [ref=e58]: 11 Feb 2026
+              - 'heading "PV - Latest Market Updates: Latest Market Updates and Analysis" [level=3] [ref=e59]'
+              - paragraph [ref=e60]: This article covers the latest developments regarding PV - Latest Market Updates in the stock market and precious metals sector.
+              - generic [ref=e61]:
+                - generic [ref=e62]: Read more
+                - img [ref=e63]
+        - 'link "a wall that has a sign on it stocks 11 Feb 2026 Breaking: AI - Latest Market Updates Shows Significant Market Movement This article covers the latest developments regarding AI - Latest Market Updates in the stock market and precious metals sector. Read more" [ref=e66] [cursor=pointer]':
+          - /url: /news/breaking-ai-latest-market-updates-shows-significant-market-movement
+          - generic [ref=e67]:
+            - generic [ref=e68]:
+              - img "a wall that has a sign on it" [ref=e69]
+              - generic [ref=e71]: stocks
+            - generic [ref=e72]:
+              - generic [ref=e74]: 11 Feb 2026
+              - 'heading "Breaking: AI - Latest Market Updates Shows Significant Market Movement" [level=3] [ref=e75]'
+              - paragraph [ref=e76]: This article covers the latest developments regarding AI - Latest Market Updates in the stock market and precious metals sector.
+              - generic [ref=e77]:
+                - generic [ref=e78]: Read more
+                - img [ref=e79]
+        - 'link "a close up of a clock with different colored numbers stocks 11 Feb 2026 Breaking: FMCG - Latest Market Updates Shows Significant Market Movement This article covers the latest developments regarding FMCG - Latest Market Updates in the stock market and precious metals sector. Read more" [ref=e82] [cursor=pointer]':
+          - /url: /news/breaking-fmcg-latest-market-updates-shows-significant-market-movement
+          - generic [ref=e83]:
+            - generic [ref=e84]:
+              - img "a close up of a clock with different colored numbers" [ref=e85]
+              - generic [ref=e87]: stocks
+            - generic [ref=e88]:
+              - generic [ref=e90]: 11 Feb 2026
+              - 'heading "Breaking: FMCG - Latest Market Updates Shows Significant Market Movement" [level=3] [ref=e91]'
+              - paragraph [ref=e92]: This article covers the latest developments regarding FMCG - Latest Market Updates in the stock market and precious metals sector.
+              - generic [ref=e93]:
+                - generic [ref=e94]: Read more
+                - img [ref=e95]
+        - link "graphical user interface, application stocks 11 Feb 2026 HDFC - Latest Market Updates - Market Trends and Investor Insights This article covers the latest developments regarding HDFC - Latest Market Updates in the stock market and precious metals sector. Read more" [ref=e98] [cursor=pointer]:
+          - /url: /news/hdfc-latest-market-updates-market-trends-and-investor-insights
+          - generic [ref=e99]:
+            - generic [ref=e100]:
+              - img "graphical user interface, application" [ref=e101]
+              - generic [ref=e103]: stocks
+            - generic [ref=e104]:
+              - generic [ref=e106]: 11 Feb 2026
+              - heading "HDFC - Latest Market Updates - Market Trends and Investor Insights" [level=3] [ref=e107]
+              - paragraph [ref=e108]: This article covers the latest developments regarding HDFC - Latest Market Updates in the stock market and precious metals sector.
+              - generic [ref=e109]:
+                - generic [ref=e110]: Read more
+                - img [ref=e111]
+        - 'link "graphical user interface, application stocks 11 Feb 2026 Breaking: BSE - Latest Market Updates Shows Significant Market Movement This article covers the latest developments regarding BSE - Latest Market Updates in the stock market and precious metals sector. Read more" [ref=e114] [cursor=pointer]':
+          - /url: /news/breaking-bse-latest-market-updates-shows-significant-market-movement
+          - generic [ref=e115]:
+            - generic [ref=e116]:
+              - img "graphical user interface, application" [ref=e117]
+              - generic [ref=e119]: stocks
+            - generic [ref=e120]:
+              - generic [ref=e122]: 11 Feb 2026
+              - 'heading "Breaking: BSE - Latest Market Updates Shows Significant Market Movement" [level=3] [ref=e123]'
+              - paragraph [ref=e124]: This article covers the latest developments regarding BSE - Latest Market Updates in the stock market and precious metals sector.
+              - generic [ref=e125]:
+                - generic [ref=e126]: Read more
+                - img [ref=e127]
+        - 'link "a neon sign that is on the side of a building metals 11 Feb 2026 Breaking: tin - Latest Market Updates Shows Significant Market Movement This article covers the latest developments regarding tin - Latest Market Updates in the stock market and precious metals sector. Read more" [ref=e130] [cursor=pointer]':
+          - /url: /news/breaking-tin-latest-market-updates-shows-significant-market-movement
+          - generic [ref=e131]:
+            - generic [ref=e132]:
+              - img "a neon sign that is on the side of a building" [ref=e133]
+              - generic [ref=e135]: metals
+            - generic [ref=e136]:
+              - generic [ref=e138]: 11 Feb 2026
+              - 'heading "Breaking: tin - Latest Market Updates Shows Significant Market Movement" [level=3] [ref=e139]'
+              - paragraph [ref=e140]: This article covers the latest developments regarding tin - Latest Market Updates in the stock market and precious metals sector.
+              - generic [ref=e141]:
+                - generic [ref=e142]: Read more
+                - img [ref=e143]
+        - 'link "a large flag from the ceiling of a building stocks 11 Feb 2026 US - Latest Market Updates: Latest Market Updates and Analysis This article covers the latest developments regarding US - Latest Market Updates in the stock market and precious metals sector. Read more" [ref=e146] [cursor=pointer]':
+          - /url: /news/us-latest-market-updates-latest-market-updates-and-analysis
+          - generic [ref=e147]:
+            - generic [ref=e148]:
+              - img "a large flag from the ceiling of a building" [ref=e149]
+              - generic [ref=e151]: stocks
+            - generic [ref=e152]:
+              - generic [ref=e154]: 11 Feb 2026
+              - 'heading "US - Latest Market Updates: Latest Market Updates and Analysis" [level=3] [ref=e155]'
+              - paragraph [ref=e156]: This article covers the latest developments regarding US - Latest Market Updates in the stock market and precious metals sector.
+              - generic [ref=e157]:
+                - generic [ref=e158]: Read more
+                - img [ref=e159]
+        - link "graphical user interface, application stocks 11 Feb 2026 KOSPI - Latest Market Updates - Market Trends and Investor Insights This article covers the latest developments regarding KOSPI - Latest Market Updates in the stock market and precious metals sector. Read more" [ref=e162] [cursor=pointer]:
+          - /url: /news/kospi-latest-market-updates-market-trends-and-investor-insights
+          - generic [ref=e163]:
+            - generic [ref=e164]:
+              - img "graphical user interface, application" [ref=e165]
+              - generic [ref=e167]: stocks
+            - generic [ref=e168]:
+              - generic [ref=e170]: 11 Feb 2026
+              - heading "KOSPI - Latest Market Updates - Market Trends and Investor Insights" [level=3] [ref=e171]
+              - paragraph [ref=e172]: This article covers the latest developments regarding KOSPI - Latest Market Updates in the stock market and precious metals sector.
+              - generic [ref=e173]:
+                - generic [ref=e174]: Read more
+                - img [ref=e175]
+        - 'link "a close up of a clock with different colored numbers stocks 11 Feb 2026 SEZ - Latest Market Updates: Latest Market Updates and Analysis This article covers the latest developments regarding SEZ - Latest Market Updates in the stock market and precious metals sector. Read more" [ref=e178] [cursor=pointer]':
+          - /url: /news/sez-latest-market-updates-latest-market-updates-and-analysis
+          - generic [ref=e179]:
+            - generic [ref=e180]:
+              - img "a close up of a clock with different colored numbers" [ref=e181]
+              - generic [ref=e183]: stocks
+            - generic [ref=e184]:
+              - generic [ref=e186]: 11 Feb 2026
+              - 'heading "SEZ - Latest Market Updates: Latest Market Updates and Analysis" [level=3] [ref=e187]'
+              - paragraph [ref=e188]: This article covers the latest developments regarding SEZ - Latest Market Updates in the stock market and precious metals sector.
+              - generic [ref=e189]:
+                - generic [ref=e190]: Read more
+                - img [ref=e191]
+        - 'link "a close up of a clock with different colored numbers stocks 10 Feb 2026 NTPC - Latest Market Updates: Latest Market Updates and Analysis This article covers the latest developments regarding NTPC - Latest Market Updates in the stock market and precious metals sector. Read more" [ref=e194] [cursor=pointer]':
+          - /url: /news/ntpc-latest-market-updates-latest-market-updates-and-analysis
+          - generic [ref=e195]:
+            - generic [ref=e196]:
+              - img "a close up of a clock with different colored numbers" [ref=e197]
+              - generic [ref=e199]: stocks
+            - generic [ref=e200]:
+              - generic [ref=e202]: 10 Feb 2026
+              - 'heading "NTPC - Latest Market Updates: Latest Market Updates and Analysis" [level=3] [ref=e203]'
+              - paragraph [ref=e204]: This article covers the latest developments regarding NTPC - Latest Market Updates in the stock market and precious metals sector.
+              - generic [ref=e205]:
+                - generic [ref=e206]: Read more
+                - img [ref=e207]
+        - link "a close up of a clock with different colored numbers stocks 10 Feb 2026 HL - Latest Market Updates - Market Trends and Investor Insights This article covers the latest developments regarding HL - Latest Market Updates in the stock market and precious metals sector. Read more" [ref=e210] [cursor=pointer]:
+          - /url: /news/hl-latest-market-updates-market-trends-and-investor-insights
+          - generic [ref=e211]:
+            - generic [ref=e212]:
+              - img "a close up of a clock with different colored numbers" [ref=e213]
+              - generic [ref=e215]: stocks
+            - generic [ref=e216]:
+              - generic [ref=e218]: 10 Feb 2026
+              - heading "HL - Latest Market Updates - Market Trends and Investor Insights" [level=3] [ref=e219]
+              - paragraph [ref=e220]: This article covers the latest developments regarding HL - Latest Market Updates in the stock market and precious metals sector.
+              - generic [ref=e221]:
+                - generic [ref=e222]: Read more
+                - img [ref=e223]
+        - 'link "graphical user interface, application stocks 10 Feb 2026 HDFC - Latest Market Updates: Latest Market Updates and Analysis This article covers the latest developments regarding HDFC - Latest Market Updates in the stock market and precious metals sector. Read more" [ref=e226] [cursor=pointer]':
+          - /url: /news/hdfc-latest-market-updates-latest-market-updates-and-analysis
+          - generic [ref=e227]:
+            - generic [ref=e228]:
+              - img "graphical user interface, application" [ref=e229]
+              - generic [ref=e231]: stocks
+            - generic [ref=e232]:
+              - generic [ref=e234]: 10 Feb 2026
+              - 'heading "HDFC - Latest Market Updates: Latest Market Updates and Analysis" [level=3] [ref=e235]'
+              - paragraph [ref=e236]: This article covers the latest developments regarding HDFC - Latest Market Updates in the stock market and precious metals sector.
+              - generic [ref=e237]:
+                - generic [ref=e238]: Read more
+                - img [ref=e239]
+      - generic [ref=e241]:
+        - generic [ref=e242]:
+          - generic [ref=e243]:
+            - generic [ref=e244]: "Items per page:"
+            - combobox [ref=e245] [cursor=pointer]:
+              - option "12" [selected]
+              - option "24"
+              - option "48"
+              - option "96"
+          - generic [ref=e246]: Showing 1 to 12 of 143 items
+        - generic [ref=e247]:
+          - generic [ref=e248]: ← Previous
+          - generic [ref=e249]:
+            - link "1" [ref=e250] [cursor=pointer]:
+              - /url: /news?page=1&limit=12
+            - link "2" [ref=e251] [cursor=pointer]:
+              - /url: /news?page=2&limit=12
+            - link "3" [ref=e252] [cursor=pointer]:
+              - /url: /news?page=3&limit=12
+            - link "4" [ref=e253] [cursor=pointer]:
+              - /url: /news?page=4&limit=12
+            - generic [ref=e254]: ...
+            - link "12" [ref=e255] [cursor=pointer]:
+              - /url: /news?page=12&limit=12
+          - link "Next →" [ref=e256] [cursor=pointer]:
+            - /url: /news?page=2&limit=12
+  - contentinfo [ref=e257]:
+    - generic [ref=e258]:
+      - generic [ref=e259]:
+        - generic [ref=e260]:
+          - heading "StockMarket Bullion" [level=3] [ref=e261]
+          - paragraph [ref=e262]: Your trusted source for stock market news, precious metals prices, and Sharia-compliant stock analysis.
+        - generic [ref=e263]:
+          - heading "Sections" [level=4] [ref=e264]
+          - list [ref=e265]:
+            - listitem [ref=e266]:
+              - link "Stocks" [ref=e267] [cursor=pointer]:
+                - /url: /stocks
+                - img [ref=e268]
+                - text: Stocks
+            - listitem [ref=e270]:
+              - link "Metals" [ref=e271] [cursor=pointer]:
+                - /url: /metals
+                - img [ref=e272]
+                - text: Metals
+            - listitem [ref=e274]:
+              - link "Sharia Stocks" [ref=e275] [cursor=pointer]:
+                - /url: /sharia
+                - img [ref=e276]
+                - text: Sharia Stocks
+            - listitem [ref=e278]:
+              - link "News" [ref=e279] [cursor=pointer]:
+                - /url: /news
+                - img [ref=e280]
+                - text: News
+        - generic [ref=e282]:
+          - heading "Resources" [level=4] [ref=e283]
+          - list [ref=e284]:
+            - listitem [ref=e285]:
+              - link "About" [ref=e286] [cursor=pointer]:
+                - /url: /about
+                - img [ref=e287]
+                - text: About
+            - listitem [ref=e289]:
+              - link "Contact" [ref=e290] [cursor=pointer]:
+                - /url: /contact
+                - img [ref=e291]
+                - text: Contact
+            - listitem [ref=e293]:
+              - link "Sitemap" [ref=e294] [cursor=pointer]:
+                - /url: /sitemap-index.xml
+                - img [ref=e295]
+                - text: Sitemap
+        - generic [ref=e297]:
+          - heading "Legal" [level=4] [ref=e298]
+          - list [ref=e299]:
+            - listitem [ref=e300]:
+              - link "Privacy Policy" [ref=e301] [cursor=pointer]:
+                - /url: /privacy-policy
+                - img [ref=e302]
+                - text: Privacy Policy
+            - listitem [ref=e304]:
+              - link "Terms & Conditions" [ref=e305] [cursor=pointer]:
+                - /url: /terms-and-conditions
+                - img [ref=e306]
+                - text: Terms & Conditions
+          - paragraph [ref=e308]: This website provides information for educational purposes only. It does not constitute financial advice. Always consult with a qualified financial advisor before making investment decisions.
+      - generic [ref=e309]:
+        - paragraph [ref=e310]: © 2026 StockMarket Bullion. All rights reserved.
+        - paragraph [ref=e311]: stockmarketbullion.com
+  - button "Open Next.js Dev Tools" [ref=e317] [cursor=pointer]:
+    - img [ref=e318]
+  - alert [ref=e321]

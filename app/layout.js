@@ -106,7 +106,7 @@ export default function RootLayout({ children }) {
           />
         )}
         <Navigation />
-        <main className="min-h-screen bg-primary">{children}</main>
+        <main className="min-h-screen bg-slate-900">{children}</main>
         <Footer />
       </body>
     </html>

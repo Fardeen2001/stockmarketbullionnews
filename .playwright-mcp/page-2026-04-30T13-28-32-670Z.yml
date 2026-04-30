@@ -1,0 +1,321 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e4]:
+      - link "SMB StockMarket Bullion" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e8]: SMB
+        - generic [ref=e9]: StockMarket Bullion
+      - generic [ref=e13]:
+        - combobox [ref=e14] [cursor=pointer]:
+          - option "All" [selected]
+          - option "Stocks"
+          - option "Metals"
+          - option "News"
+        - generic [ref=e15]:
+          - textbox "Search stocks, metals, news..." [ref=e16]
+          - img [ref=e17]
+        - button "Search" [ref=e19] [cursor=pointer]
+      - generic [ref=e20]:
+        - link "📈 Stocks" [ref=e21] [cursor=pointer]:
+          - /url: /stocks
+          - generic [ref=e22]:
+            - generic [ref=e23]: 📈
+            - generic [ref=e24]: Stocks
+        - link "🥇 Metals" [ref=e26] [cursor=pointer]:
+          - /url: /metals
+          - generic [ref=e27]:
+            - generic [ref=e28]: 🥇
+            - generic [ref=e29]: Metals
+        - link "✨ Sharia Stocks" [ref=e30] [cursor=pointer]:
+          - /url: /sharia
+          - generic [ref=e31]:
+            - generic [ref=e32]: ✨
+            - generic [ref=e33]: Sharia Stocks
+        - link "📰 News" [ref=e34] [cursor=pointer]:
+          - /url: /news
+          - generic [ref=e35]:
+            - generic [ref=e36]: 📰
+            - generic [ref=e37]: News
+  - main [ref=e38]:
+    - generic [ref=e39]:
+      - generic [ref=e40]:
+        - heading "Stocks" [level=1] [ref=e41]
+        - paragraph [ref=e42]: Explore stocks with real-time prices, analysis, and market news
+      - generic [ref=e43]:
+        - generic [ref=e44]:
+          - button "Refresh Prices" [ref=e45] [cursor=pointer]:
+            - img [ref=e46]
+            - generic [ref=e48]: Refresh Prices
+          - paragraph [ref=e49]: Click to fetch live prices for 12 stocks
+        - generic [ref=e50]: Showing 12 of 212 stocks
+      - generic [ref=e51]:
+        - link "SRF Limited SRF • NSE SRF Limited ₹2,949.10 0.43% Industrials" [ref=e53] [cursor=pointer]:
+          - /url: /stocks/SRF
+          - generic [ref=e56]:
+            - generic [ref=e57]:
+              - generic [ref=e58]:
+                - heading "SRF Limited" [level=3] [ref=e59]
+                - paragraph [ref=e60]: SRF • NSE
+              - img "SRF Limited" [ref=e62]
+            - generic [ref=e63]:
+              - generic [ref=e64]:
+                - generic [ref=e65]: ₹2,949.10
+                - generic [ref=e66]:
+                  - img [ref=e67]
+                  - generic [ref=e69]: 0.43%
+              - generic [ref=e71]: Industrials
+        - link "Eternal Limited ETERNAL • NSE Eternal Limited ₹300.70 1.02% Consumer Cyclical" [ref=e73] [cursor=pointer]:
+          - /url: /stocks/ETERNAL
+          - generic [ref=e76]:
+            - generic [ref=e77]:
+              - generic [ref=e78]:
+                - heading "Eternal Limited" [level=3] [ref=e79]
+                - paragraph [ref=e80]: ETERNAL • NSE
+              - img "Eternal Limited" [ref=e82]
+            - generic [ref=e83]:
+              - generic [ref=e84]:
+                - generic [ref=e85]: ₹300.70
+                - generic [ref=e86]:
+                  - img [ref=e87]
+                  - generic [ref=e89]: 1.02%
+              - generic [ref=e91]: Consumer Cyclical
+        - link "Indian Railway Finance Corporation Limited IRFC • NSE Indian Railway Finance Corporation Limited ₹114.33 0.98% Financial Services" [ref=e93] [cursor=pointer]:
+          - /url: /stocks/IRFC
+          - generic [ref=e96]:
+            - generic [ref=e97]:
+              - generic [ref=e98]:
+                - heading "Indian Railway Finance Corporation Limited" [level=3] [ref=e99]
+                - paragraph [ref=e100]: IRFC • NSE
+              - img "Indian Railway Finance Corporation Limited" [ref=e102]
+            - generic [ref=e103]:
+              - generic [ref=e104]:
+                - generic [ref=e105]: ₹114.33
+                - generic [ref=e106]:
+                  - img [ref=e107]
+                  - generic [ref=e109]: 0.98%
+              - generic [ref=e111]: Financial Services
+        - link "Rail Vikas Nigam Limited RVNL • NSE Rail Vikas Nigam Limited ₹316.55 0.91% Industrials" [ref=e113] [cursor=pointer]:
+          - /url: /stocks/RVNL
+          - generic [ref=e116]:
+            - generic [ref=e117]:
+              - generic [ref=e118]:
+                - heading "Rail Vikas Nigam Limited" [level=3] [ref=e119]
+                - paragraph [ref=e120]: RVNL • NSE
+              - img "Rail Vikas Nigam Limited" [ref=e122]
+            - generic [ref=e123]:
+              - generic [ref=e124]:
+                - generic [ref=e125]: ₹316.55
+                - generic [ref=e126]:
+                  - img [ref=e127]
+                  - generic [ref=e129]: 0.91%
+              - generic [ref=e131]: Industrials
+        - link "Canara Bank CANBK • NSE Canara Bank ₹145.51 0.90% Financial Services" [ref=e133] [cursor=pointer]:
+          - /url: /stocks/CANBK
+          - generic [ref=e136]:
+            - generic [ref=e137]:
+              - generic [ref=e138]:
+                - heading "Canara Bank" [level=3] [ref=e139]
+                - paragraph [ref=e140]: CANBK • NSE
+              - img "Canara Bank" [ref=e142]
+            - generic [ref=e143]:
+              - generic [ref=e144]:
+                - generic [ref=e145]: ₹145.51
+                - generic [ref=e146]:
+                  - img [ref=e147]
+                  - generic [ref=e149]: 0.90%
+              - generic [ref=e151]: Financial Services
+        - link "ABB India Limited ABB • NSE ABB India Limited ₹5,825.50 0.76% Industrials" [ref=e153] [cursor=pointer]:
+          - /url: /stocks/ABB
+          - generic [ref=e156]:
+            - generic [ref=e157]:
+              - generic [ref=e158]:
+                - heading "ABB India Limited" [level=3] [ref=e159]
+                - paragraph [ref=e160]: ABB • NSE
+              - img "ABB India Limited" [ref=e162]
+            - generic [ref=e163]:
+              - generic [ref=e164]:
+                - generic [ref=e165]: ₹5,825.50
+                - generic [ref=e166]:
+                  - img [ref=e167]
+                  - generic [ref=e169]: 0.76%
+              - generic [ref=e171]: Industrials
+        - link "Grasim Industries Limited GRASIM • NSE Grasim Industries Limited ₹2,932.60 0.72% Basic Materials" [ref=e173] [cursor=pointer]:
+          - /url: /stocks/GRASIM
+          - generic [ref=e176]:
+            - generic [ref=e177]:
+              - generic [ref=e178]:
+                - heading "Grasim Industries Limited" [level=3] [ref=e179]
+                - paragraph [ref=e180]: GRASIM • NSE
+              - img "Grasim Industries Limited" [ref=e182]
+            - generic [ref=e183]:
+              - generic [ref=e184]:
+                - generic [ref=e185]: ₹2,932.60
+                - generic [ref=e186]:
+                  - img [ref=e187]
+                  - generic [ref=e189]: 0.72%
+              - generic [ref=e191]: Basic Materials
+        - link "GAIL (India) Limited GAIL • NSE GAIL (India) Limited ₹163.47 0.66% Utilities" [ref=e193] [cursor=pointer]:
+          - /url: /stocks/GAIL
+          - generic [ref=e196]:
+            - generic [ref=e197]:
+              - generic [ref=e198]:
+                - heading "GAIL (India) Limited" [level=3] [ref=e199]
+                - paragraph [ref=e200]: GAIL • NSE
+              - img "GAIL (India) Limited" [ref=e202]
+            - generic [ref=e203]:
+              - generic [ref=e204]:
+                - generic [ref=e205]: ₹163.47
+                - generic [ref=e206]:
+                  - img [ref=e207]
+                  - generic [ref=e209]: 0.66%
+              - generic [ref=e211]: Utilities
+        - link "Torrent Pharmaceuticals Limited TORNTPHARM • NSE Torrent Pharmaceuticals Limited ₹4,056.70 0.56% Healthcare" [ref=e213] [cursor=pointer]:
+          - /url: /stocks/TORNTPHARM
+          - generic [ref=e216]:
+            - generic [ref=e217]:
+              - generic [ref=e218]:
+                - heading "Torrent Pharmaceuticals Limited" [level=3] [ref=e219]
+                - paragraph [ref=e220]: TORNTPHARM • NSE
+              - img "Torrent Pharmaceuticals Limited" [ref=e222]
+            - generic [ref=e223]:
+              - generic [ref=e224]:
+                - generic [ref=e225]: ₹4,056.70
+                - generic [ref=e226]:
+                  - img [ref=e227]
+                  - generic [ref=e229]: 0.56%
+              - generic [ref=e231]: Healthcare
+        - link "Titan Company Limited TITAN • NSE Titan Company Limited ₹4,249.10 0.47% Consumer Cyclical" [ref=e233] [cursor=pointer]:
+          - /url: /stocks/TITAN
+          - generic [ref=e236]:
+            - generic [ref=e237]:
+              - generic [ref=e238]:
+                - heading "Titan Company Limited" [level=3] [ref=e239]
+                - paragraph [ref=e240]: TITAN • NSE
+              - img "Titan Company Limited" [ref=e242]
+            - generic [ref=e243]:
+              - generic [ref=e244]:
+                - generic [ref=e245]: ₹4,249.10
+                - generic [ref=e246]:
+                  - img [ref=e247]
+                  - generic [ref=e249]: 0.47%
+              - generic [ref=e251]: Consumer Cyclical
+        - link "Axis Bank Limited AXISBANK • NSE Axis Bank Limited ₹1,347.30 0.69% Financial Services" [ref=e253] [cursor=pointer]:
+          - /url: /stocks/AXISBANK
+          - generic [ref=e256]:
+            - generic [ref=e257]:
+              - generic [ref=e258]:
+                - heading "Axis Bank Limited" [level=3] [ref=e259]
+                - paragraph [ref=e260]: AXISBANK • NSE
+              - img "Axis Bank Limited" [ref=e262]
+            - generic [ref=e263]:
+              - generic [ref=e264]:
+                - generic [ref=e265]: ₹1,347.30
+                - generic [ref=e266]:
+                  - img [ref=e267]
+                  - generic [ref=e269]: 0.69%
+              - generic [ref=e271]: Financial Services
+        - link "Wipro Limited WIPRO • NSE Wipro Limited ₹229.81 0.72% Technology" [ref=e273] [cursor=pointer]:
+          - /url: /stocks/WIPRO
+          - generic [ref=e276]:
+            - generic [ref=e277]:
+              - generic [ref=e278]:
+                - heading "Wipro Limited" [level=3] [ref=e279]
+                - paragraph [ref=e280]: WIPRO • NSE
+              - img "Wipro Limited" [ref=e282]
+            - generic [ref=e283]:
+              - generic [ref=e284]:
+                - generic [ref=e285]: ₹229.81
+                - generic [ref=e286]:
+                  - img [ref=e287]
+                  - generic [ref=e289]: 0.72%
+              - generic [ref=e291]: Technology
+      - generic [ref=e292]:
+        - generic [ref=e293]:
+          - generic [ref=e294]:
+            - generic [ref=e295]: "Items per page:"
+            - combobox [ref=e296] [cursor=pointer]:
+              - option "12" [selected]
+              - option "24"
+              - option "48"
+              - option "96"
+          - generic [ref=e297]: Showing 1 to 12 of 212 items
+        - generic [ref=e298]:
+          - generic [ref=e299]: ← Previous
+          - generic [ref=e300]:
+            - link "1" [ref=e301] [cursor=pointer]:
+              - /url: /stocks?page=1&limit=12
+            - link "2" [ref=e302] [cursor=pointer]:
+              - /url: /stocks?page=2&limit=12
+            - link "3" [ref=e303] [cursor=pointer]:
+              - /url: /stocks?page=3&limit=12
+            - link "4" [ref=e304] [cursor=pointer]:
+              - /url: /stocks?page=4&limit=12
+            - generic [ref=e305]: ...
+            - link "18" [ref=e306] [cursor=pointer]:
+              - /url: /stocks?page=18&limit=12
+          - link "Next →" [ref=e307] [cursor=pointer]:
+            - /url: /stocks?page=2&limit=12
+  - contentinfo [ref=e308]:
+    - generic [ref=e309]:
+      - generic [ref=e310]:
+        - generic [ref=e311]:
+          - heading "StockMarket Bullion" [level=3] [ref=e312]
+          - paragraph [ref=e313]: Your trusted source for stock market news, precious metals prices, and Sharia-compliant stock analysis.
+        - generic [ref=e314]:
+          - heading "Sections" [level=4] [ref=e315]
+          - list [ref=e316]:
+            - listitem [ref=e317]:
+              - link "Stocks" [ref=e318] [cursor=pointer]:
+                - /url: /stocks
+                - img [ref=e319]
+                - text: Stocks
+            - listitem [ref=e321]:
+              - link "Metals" [ref=e322] [cursor=pointer]:
+                - /url: /metals
+                - img [ref=e323]
+                - text: Metals
+            - listitem [ref=e325]:
+              - link "Sharia Stocks" [ref=e326] [cursor=pointer]:
+                - /url: /sharia
+                - img [ref=e327]
+                - text: Sharia Stocks
+            - listitem [ref=e329]:
+              - link "News" [ref=e330] [cursor=pointer]:
+                - /url: /news
+                - img [ref=e331]
+                - text: News
+        - generic [ref=e333]:
+          - heading "Resources" [level=4] [ref=e334]
+          - list [ref=e335]:
+            - listitem [ref=e336]:
+              - link "About" [ref=e337] [cursor=pointer]:
+                - /url: /about
+                - img [ref=e338]
+                - text: About
+            - listitem [ref=e340]:
+              - link "Contact" [ref=e341] [cursor=pointer]:
+                - /url: /contact
+                - img [ref=e342]
+                - text: Contact
+            - listitem [ref=e344]:
+              - link "Sitemap" [ref=e345] [cursor=pointer]:
+                - /url: /sitemap-index.xml
+                - img [ref=e346]
+                - text: Sitemap
+        - generic [ref=e348]:
+          - heading "Legal" [level=4] [ref=e349]
+          - list [ref=e350]:
+            - listitem [ref=e351]:
+              - link "Privacy Policy" [ref=e352] [cursor=pointer]:
+                - /url: /privacy-policy
+                - img [ref=e353]
+                - text: Privacy Policy
+            - listitem [ref=e355]:
+              - link "Terms & Conditions" [ref=e356] [cursor=pointer]:
+                - /url: /terms-and-conditions
+                - img [ref=e357]
+                - text: Terms & Conditions
+          - paragraph [ref=e359]: This website provides information for educational purposes only. It does not constitute financial advice. Always consult with a qualified financial advisor before making investment decisions.
+      - generic [ref=e360]:
+        - paragraph [ref=e361]: © 2026 StockMarket Bullion. All rights reserved.
+        - paragraph [ref=e362]: stockmarketbullion.com

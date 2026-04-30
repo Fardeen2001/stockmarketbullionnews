@@ -1,0 +1,215 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e4]:
+      - link "SMB StockMarket Bullion" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e8]: SMB
+        - generic [ref=e9]: StockMarket Bullion
+      - generic [ref=e13]:
+        - combobox [ref=e14] [cursor=pointer]:
+          - option "All" [selected]
+          - option "Stocks"
+          - option "Metals"
+          - option "News"
+        - generic [ref=e15]:
+          - textbox "Search stocks, metals, news..." [ref=e16]
+          - img [ref=e17]
+        - button "Search" [ref=e19] [cursor=pointer]
+      - generic [ref=e20]:
+        - link "📈 Stocks" [ref=e21] [cursor=pointer]:
+          - /url: /stocks
+          - generic [ref=e22]:
+            - generic [ref=e23]: 📈
+            - generic [ref=e24]: Stocks
+        - link "🥇 Metals" [ref=e25] [cursor=pointer]:
+          - /url: /metals
+          - generic [ref=e26]:
+            - generic [ref=e27]: 🥇
+            - generic [ref=e28]: Metals
+        - link "✨ Sharia Stocks" [ref=e29] [cursor=pointer]:
+          - /url: /sharia
+          - generic [ref=e30]:
+            - generic [ref=e31]: ✨
+            - generic [ref=e32]: Sharia Stocks
+        - link "📰 News" [ref=e33] [cursor=pointer]:
+          - /url: /news
+          - generic [ref=e34]:
+            - generic [ref=e35]: 📰
+            - generic [ref=e36]: News
+  - main [ref=e37]:
+    - generic [ref=e38]:
+      - generic [ref=e39]:
+        - heading "StockMarket Bullion" [level=1] [ref=e41]:
+          - generic [ref=e42]: StockMarket Bullion
+        - paragraph [ref=e43]: Your trusted source for stock market news, precious metals prices, and Sharia-compliant stock analysis. Real-time data and AI-powered insights.
+      - generic [ref=e48]:
+        - link "Stocks Explore stock prices, analysis, and market news" [ref=e49] [cursor=pointer]:
+          - /url: /stocks
+          - generic [ref=e51]:
+            - img [ref=e53]
+            - heading "Stocks" [level=2] [ref=e55]
+            - paragraph [ref=e56]: Explore stock prices, analysis, and market news
+        - link "Metals Gold, silver, and precious metals prices" [ref=e57] [cursor=pointer]:
+          - /url: /metals
+          - generic [ref=e59]:
+            - img [ref=e61]
+            - heading "Metals" [level=2] [ref=e63]
+            - paragraph [ref=e64]: Gold, silver, and precious metals prices
+        - link "Sharia Stocks Sharia-compliant stock analysis and news" [ref=e65] [cursor=pointer]:
+          - /url: /sharia
+          - generic [ref=e67]:
+            - img [ref=e69]
+            - heading "Sharia Stocks" [level=2] [ref=e71]
+            - paragraph [ref=e72]: Sharia-compliant stock analysis and news
+      - generic [ref=e73]:
+        - heading "Trending News" [level=2] [ref=e75]
+        - generic [ref=e77]:
+          - 'link "a close up of a clock with different colored numbers stocks 11 Feb 2026 PV - Latest Market Updates: Latest Market Updates and Analysis This article covers the latest developments regarding PV - Latest Market Updates in the stock market and precious metals sector. Read more" [ref=e79] [cursor=pointer]':
+            - /url: /news/pv-latest-market-updates-latest-market-updates-and-analysis
+            - generic [ref=e80]:
+              - generic [ref=e81]:
+                - img "a close up of a clock with different colored numbers" [ref=e82]
+                - generic [ref=e84]: stocks
+              - generic [ref=e85]:
+                - generic [ref=e87]: 11 Feb 2026
+                - 'heading "PV - Latest Market Updates: Latest Market Updates and Analysis" [level=3] [ref=e88]'
+                - paragraph [ref=e89]: This article covers the latest developments regarding PV - Latest Market Updates in the stock market and precious metals sector.
+                - generic [ref=e90]:
+                  - generic [ref=e91]: Read more
+                  - img [ref=e92]
+          - 'link "a wall that has a sign on it stocks 11 Feb 2026 Breaking: AI - Latest Market Updates Shows Significant Market Movement This article covers the latest developments regarding AI - Latest Market Updates in the stock market and precious metals sector. Read more" [ref=e95] [cursor=pointer]':
+            - /url: /news/breaking-ai-latest-market-updates-shows-significant-market-movement
+            - generic [ref=e96]:
+              - generic [ref=e97]:
+                - img "a wall that has a sign on it" [ref=e98]
+                - generic [ref=e100]: stocks
+              - generic [ref=e101]:
+                - generic [ref=e103]: 11 Feb 2026
+                - 'heading "Breaking: AI - Latest Market Updates Shows Significant Market Movement" [level=3] [ref=e104]'
+                - paragraph [ref=e105]: This article covers the latest developments regarding AI - Latest Market Updates in the stock market and precious metals sector.
+                - generic [ref=e106]:
+                  - generic [ref=e107]: Read more
+                  - img [ref=e108]
+          - 'link "a close up of a clock with different colored numbers stocks 11 Feb 2026 Breaking: FMCG - Latest Market Updates Shows Significant Market Movement This article covers the latest developments regarding FMCG - Latest Market Updates in the stock market and precious metals sector. Read more" [ref=e111] [cursor=pointer]':
+            - /url: /news/breaking-fmcg-latest-market-updates-shows-significant-market-movement
+            - generic [ref=e112]:
+              - generic [ref=e113]:
+                - img "a close up of a clock with different colored numbers" [ref=e114]
+                - generic [ref=e116]: stocks
+              - generic [ref=e117]:
+                - generic [ref=e119]: 11 Feb 2026
+                - 'heading "Breaking: FMCG - Latest Market Updates Shows Significant Market Movement" [level=3] [ref=e120]'
+                - paragraph [ref=e121]: This article covers the latest developments regarding FMCG - Latest Market Updates in the stock market and precious metals sector.
+                - generic [ref=e122]:
+                  - generic [ref=e123]: Read more
+                  - img [ref=e124]
+          - link "graphical user interface, application stocks 11 Feb 2026 HDFC - Latest Market Updates - Market Trends and Investor Insights This article covers the latest developments regarding HDFC - Latest Market Updates in the stock market and precious metals sector. Read more" [ref=e127] [cursor=pointer]:
+            - /url: /news/hdfc-latest-market-updates-market-trends-and-investor-insights
+            - generic [ref=e128]:
+              - generic [ref=e129]:
+                - img "graphical user interface, application" [ref=e130]
+                - generic [ref=e132]: stocks
+              - generic [ref=e133]:
+                - generic [ref=e135]: 11 Feb 2026
+                - heading "HDFC - Latest Market Updates - Market Trends and Investor Insights" [level=3] [ref=e136]
+                - paragraph [ref=e137]: This article covers the latest developments regarding HDFC - Latest Market Updates in the stock market and precious metals sector.
+                - generic [ref=e138]:
+                  - generic [ref=e139]: Read more
+                  - img [ref=e140]
+          - 'link "graphical user interface, application stocks 11 Feb 2026 Breaking: BSE - Latest Market Updates Shows Significant Market Movement This article covers the latest developments regarding BSE - Latest Market Updates in the stock market and precious metals sector. Read more" [ref=e143] [cursor=pointer]':
+            - /url: /news/breaking-bse-latest-market-updates-shows-significant-market-movement
+            - generic [ref=e144]:
+              - generic [ref=e145]:
+                - img "graphical user interface, application" [ref=e146]
+                - generic [ref=e148]: stocks
+              - generic [ref=e149]:
+                - generic [ref=e151]: 11 Feb 2026
+                - 'heading "Breaking: BSE - Latest Market Updates Shows Significant Market Movement" [level=3] [ref=e152]'
+                - paragraph [ref=e153]: This article covers the latest developments regarding BSE - Latest Market Updates in the stock market and precious metals sector.
+                - generic [ref=e154]:
+                  - generic [ref=e155]: Read more
+                  - img [ref=e156]
+          - 'link "a neon sign that is on the side of a building metals 11 Feb 2026 Breaking: tin - Latest Market Updates Shows Significant Market Movement This article covers the latest developments regarding tin - Latest Market Updates in the stock market and precious metals sector. Read more" [ref=e159] [cursor=pointer]':
+            - /url: /news/breaking-tin-latest-market-updates-shows-significant-market-movement
+            - generic [ref=e160]:
+              - generic [ref=e161]:
+                - img "a neon sign that is on the side of a building" [ref=e162]
+                - generic [ref=e164]: metals
+              - generic [ref=e165]:
+                - generic [ref=e167]: 11 Feb 2026
+                - 'heading "Breaking: tin - Latest Market Updates Shows Significant Market Movement" [level=3] [ref=e168]'
+                - paragraph [ref=e169]: This article covers the latest developments regarding tin - Latest Market Updates in the stock market and precious metals sector.
+                - generic [ref=e170]:
+                  - generic [ref=e171]: Read more
+                  - img [ref=e172]
+      - link "View All News" [ref=e175] [cursor=pointer]:
+        - /url: /news
+        - generic [ref=e176]: View All News
+        - img [ref=e177]
+  - contentinfo [ref=e179]:
+    - generic [ref=e180]:
+      - generic [ref=e181]:
+        - generic [ref=e182]:
+          - heading "StockMarket Bullion" [level=3] [ref=e183]
+          - paragraph [ref=e184]: Your trusted source for stock market news, precious metals prices, and Sharia-compliant stock analysis.
+        - generic [ref=e185]:
+          - heading "Sections" [level=4] [ref=e186]
+          - list [ref=e187]:
+            - listitem [ref=e188]:
+              - link "Stocks" [ref=e189] [cursor=pointer]:
+                - /url: /stocks
+                - img [ref=e190]
+                - text: Stocks
+            - listitem [ref=e192]:
+              - link "Metals" [ref=e193] [cursor=pointer]:
+                - /url: /metals
+                - img [ref=e194]
+                - text: Metals
+            - listitem [ref=e196]:
+              - link "Sharia Stocks" [ref=e197] [cursor=pointer]:
+                - /url: /sharia
+                - img [ref=e198]
+                - text: Sharia Stocks
+            - listitem [ref=e200]:
+              - link "News" [ref=e201] [cursor=pointer]:
+                - /url: /news
+                - img [ref=e202]
+                - text: News
+        - generic [ref=e204]:
+          - heading "Resources" [level=4] [ref=e205]
+          - list [ref=e206]:
+            - listitem [ref=e207]:
+              - link "About" [ref=e208] [cursor=pointer]:
+                - /url: /about
+                - img [ref=e209]
+                - text: About
+            - listitem [ref=e211]:
+              - link "Contact" [ref=e212] [cursor=pointer]:
+                - /url: /contact
+                - img [ref=e213]
+                - text: Contact
+            - listitem [ref=e215]:
+              - link "Sitemap" [ref=e216] [cursor=pointer]:
+                - /url: /sitemap-index.xml
+                - img [ref=e217]
+                - text: Sitemap
+        - generic [ref=e219]:
+          - heading "Legal" [level=4] [ref=e220]
+          - list [ref=e221]:
+            - listitem [ref=e222]:
+              - link "Privacy Policy" [ref=e223] [cursor=pointer]:
+                - /url: /privacy-policy
+                - img [ref=e224]
+                - text: Privacy Policy
+            - listitem [ref=e226]:
+              - link "Terms & Conditions" [ref=e227] [cursor=pointer]:
+                - /url: /terms-and-conditions
+                - img [ref=e228]
+                - text: Terms & Conditions
+          - paragraph [ref=e230]: This website provides information for educational purposes only. It does not constitute financial advice. Always consult with a qualified financial advisor before making investment decisions.
+      - generic [ref=e231]:
+        - paragraph [ref=e232]: © 2026 StockMarket Bullion. All rights reserved.
+        - paragraph [ref=e233]: stockmarketbullion.com
+  - button "Open Next.js Dev Tools" [ref=e239] [cursor=pointer]:
+    - img [ref=e240]
+  - alert [ref=e243]

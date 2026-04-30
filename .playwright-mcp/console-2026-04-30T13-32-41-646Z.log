@@ -1,0 +1,205 @@
+[     330ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[   10960ms] [LOG] [Fast Refresh] done in 10737ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[   22167ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[   37875ms] [LOG] [Fast Refresh] done in 15814ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[   68269ms] [LOG] %c Console Ninja extension is connected to Next.js browser, background: rgb(30,30,30); color: rgb(255,213,92) see https://tinyurl.com/2vt8jxzw for more info. @ :0
+[   68371ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[   68606ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[   70254ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[   70414ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/stocks/SRF:0
+[   70833ms] [LOG] [Fast Refresh] done in 1031ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 1300314ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 1300432ms] [LOG] [Fast Refresh] done in 221ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 1300815ms] [WARNING] Image with src "https://images.unsplash.com/photo-1648275913341-7973ae7bc9b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjU5NTF8MHwxfHNlYXJjaHwxfHxQViUyMC0lMjBMYXRlc3QlMjBNYXJrZXQlMjBVcGRhdGVzJTIwc3RvY2slMjBtYXJrZXR8ZW58MHwwfHx8MTc3MDcyNjIxMHww&ixlib=rb-4.1.0&q=80&w=1080" is using quality "85" which is not configured in images.qualities [75]. Please update your config to [75, 85].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 1300818ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 1300827ms] [WARNING] Image with src "https://images.unsplash.com/photo-1672870153636-32a5e5218792?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjU5NTF8MHwxfHNlYXJjaHwxfHxBSSUyMC0lMjBMYXRlc3QlMjBNYXJrZXQlMjBVcGRhdGVzJTIwc3RvY2slMjBtYXJrZXR8ZW58MHwwfHx8MTc3MDgxMjYxOXww&ixlib=rb-4.1.0&q=80&w=1080" is using quality "85" which is not configured in images.qualities [75]. Please update your config to [75, 85].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 1300832ms] [WARNING] Image with src "https://images.unsplash.com/photo-1648275913341-7973ae7bc9b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjU5NTF8MHwxfHNlYXJjaHwxfHxGTUNHJTIwLSUyMExhdGVzdCUyME1hcmtldCUyMFVwZGF0ZXMlMjBzdG9jayUyMG1hcmtldHxlbnwwfDB8fHwxNzcwODEyNjE1fDA&ixlib=rb-4.1.0&q=80&w=1080" is using quality "85" which is not configured in images.qualities [75]. Please update your config to [75, 85].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 1300844ms] [WARNING] Image with src "https://images.unsplash.com/photo-1651341050677-24dba59ce0fd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjU5NTF8MHwxfHNlYXJjaHwxfHxzdG9jayUyMG1hcmtldCUyMHRyYWRpbmd8ZW58MHwwfHx8MTc3MDc2OTMyOXww&ixlib=rb-4.1.0&q=80&w=1080" is using quality "85" which is not configured in images.qualities [75]. Please update your config to [75, 85].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 1300858ms] [WARNING] Image with src "https://images.unsplash.com/photo-1643297498934-f51ac4dbea12?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjU5NTF8MHwxfHNlYXJjaHwxfHx0aW4lMjAtJTIwTGF0ZXN0JTIwTWFya2V0JTIwVXBkYXRlcyUyMGJhcnN8ZW58MHwwfHx8MTc3MDgxMjYwM3ww&ixlib=rb-4.1.0&q=80&w=1080" is using quality "85" which is not configured in images.qualities [75]. Please update your config to [75, 85].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 1300938ms] [WARNING] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 1301773ms] [LOG] [Fast Refresh] done in 1064ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 1301978ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/:0
+[ 3015466ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 3046196ms] [LOG] [Fast Refresh] done in 30369ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 3678827ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 3682222ms] [LOG] [Fast Refresh] done in 3408ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 3967032ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 3968876ms] [LOG] [Fast Refresh] done in 1925ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4274303ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4276535ms] [LOG] [Fast Refresh] done in 2267ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4597809ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4600573ms] [LOG] [Fast Refresh] done in 944ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4600686ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4601172ms] [LOG] [Fast Refresh] done in 590ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4601416ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4601919ms] [LOG] [Fast Refresh] done in 606ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4602091ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4602453ms] [LOG] [Fast Refresh] done in 469ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4602685ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4603217ms] [LOG] [Fast Refresh] done in 633ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4603391ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4603761ms] [LOG] [Fast Refresh] done in 484ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4604003ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4604431ms] [LOG] [Fast Refresh] done in 530ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4606292ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/:0
+[ 4876373ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4877412ms] [LOG] [Fast Refresh] done in 1131ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4877632ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4877722ms] [LOG] [Fast Refresh] done in 195ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4877838ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4877895ms] [LOG] [Fast Refresh] done in 164ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4878048ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4878058ms] [LOG] [Fast Refresh] done in 115ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4878181ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4878223ms] [LOG] [Fast Refresh] done in 144ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4878350ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4878421ms] [LOG] [Fast Refresh] done in 174ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 4878899ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/:0
+[ 5068972ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 5069399ms] [LOG] [Fast Refresh] done in 534ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 5069773ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/stocks:0
+[ 5076061ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 5076398ms] [LOG] [Fast Refresh] done in 437ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 5076647ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 5076668ms] [LOG] [Fast Refresh] done in 128ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 5081189ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/stocks/HINDUNILVR:0
+[ 5199125ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 5200412ms] [LOG] [Fast Refresh] done in 1327ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 5479147ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 5482177ms] [LOG] [Fast Refresh] done in 1198ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 5483139ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/stocks/HINDUNILVR:0
+[ 5762259ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 5764995ms] [LOG] [Fast Refresh] done in 832ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 5767931ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/stocks/HINDUNILVR:0
+[ 6036402ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 6037651ms] [LOG] [Fast Refresh] done in 763ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 6038124ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/stocks/HINDUNILVR:0
+[ 6439788ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 6440562ms] [LOG] [Fast Refresh] done in 653ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 6734128ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 6735109ms] [LOG] [Fast Refresh] done in 977ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 6735215ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 6735750ms] [LOG] [Fast Refresh] done in 638ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 6736289ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/stocks/HINDUNILVR:0
+[ 6994128ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 6995621ms] [LOG] [Fast Refresh] done in 1410ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 6995733ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 6997197ms] [LOG] [Fast Refresh] done in 1570ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 6997504ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 6998022ms] [LOG] [Fast Refresh] done in 620ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 6998215ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 6998507ms] [LOG] [Fast Refresh] done in 407ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 6998637ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 6998975ms] [LOG] [Fast Refresh] done in 451ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 6999193ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 6999555ms] [LOG] [Fast Refresh] done in 475ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 6999775ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 7000030ms] [LOG] [Fast Refresh] done in 376ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 7000385ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 7000797ms] [LOG] [Fast Refresh] done in 520ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 7001821ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/stocks/HINDUNILVR:0
+[ 7827974ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 7829359ms] [LOG] [Fast Refresh] done in 1496ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 7830064ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/stocks:0
+[ 9354031ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 9356915ms] [LOG] [Fast Refresh] done in 899ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 9358089ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/stocks:0
+[ 9489485ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[ 9490251ms] [LOG] [Fast Refresh] done in 773ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[10803091ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[10803874ms] [LOG] [Fast Refresh] done in 820ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[10804065ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[10805969ms] [LOG] [Fast Refresh] done in 2005ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[10807246ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/stocks:0
+[12151730ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[12153063ms] [LOG] [Fast Refresh] done in 1184ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[12153868ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/stocks:0
+[13384023ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[13385037ms] [LOG] [Fast Refresh] done in 809ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[13385945ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/stocks:0
+[13457454ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[13458289ms] [LOG] [Fast Refresh] done in 923ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[13537325ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[13537833ms] [LOG] [Fast Refresh] done in 571ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[13577233ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[13577904ms] [LOG] [Fast Refresh] done in 754ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[13904433ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[13905582ms] [LOG] [Fast Refresh] done in 1158ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[13946527ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[13947227ms] [LOG] [Fast Refresh] done in 808ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[13956288ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[13956723ms] [LOG] [Fast Refresh] done in 569ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14142462ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14144866ms] [LOG] [Fast Refresh] done in 1117ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14145484ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/stocks:0
+[14184713ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14185657ms] [LOG] [Fast Refresh] done in 969ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14195409ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14195529ms] [LOG] [Fast Refresh] done in 234ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14195633ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14195979ms] [LOG] [Fast Refresh] done in 450ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14206075ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14206608ms] [LOG] [Fast Refresh] done in 657ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14268916ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14269746ms] [LOG] [Fast Refresh] done in 869ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14311600ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14311994ms] [LOG] [Fast Refresh] done in 504ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14568085ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14568499ms] [LOG] [Fast Refresh] done in 529ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14568873ms] [WARNING] Image with src "https://images.unsplash.com/photo-1664138481334-12626f0e8708?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjU5NTF8MHwxfHNlYXJjaHwxfHxVUyUyMC0lMjBMYXRlc3QlMjBNYXJrZXQlMjBVcGRhdGVzJTIwc3RvY2slMjBtYXJrZXR8ZW58MHwwfHx8MTc3MDgxMjU5M3ww&ixlib=rb-4.1.0&q=80&w=1080" is using quality "85" which is not configured in images.qualities [75]. Please update your config to [75, 85].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14568878ms] [WARNING] Image with src "https://images.unsplash.com/photo-1648275913341-7973ae7bc9b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjU5NTF8MHwxfHNlYXJjaHwxfHxTRVolMjAtJTIwTGF0ZXN0JTIwTWFya2V0JTIwVXBkYXRlcyUyMHN0b2NrJTIwbWFya2V0fGVufDB8MHx8fDE3NzA4MTI1Njh8MA&ixlib=rb-4.1.0&q=80&w=1080" is using quality "85" which is not configured in images.qualities [75]. Please update your config to [75, 85].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14568882ms] [WARNING] Image with src "https://images.unsplash.com/photo-1648275913341-7973ae7bc9b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjU5NTF8MHwxfHNlYXJjaHwxfHxOVFBDJTIwLSUyMExhdGVzdCUyME1hcmtldCUyMFVwZGF0ZXMlMjBzdG9jayUyMG1hcmtldHxlbnwwfDB8fHwxNzcwNzI2MjIzfDA&ixlib=rb-4.1.0&q=80&w=1080" is using quality "85" which is not configured in images.qualities [75]. Please update your config to [75, 85].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14568885ms] [WARNING] Image with src "https://images.unsplash.com/photo-1648275913341-7973ae7bc9b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjU5NTF8MHwxfHNlYXJjaHwxfHxITCUyMC0lMjBMYXRlc3QlMjBNYXJrZXQlMjBVcGRhdGVzJTIwc3RvY2slMjBtYXJrZXR8ZW58MHwwfHx8MTc3MDcyNjIxOXww&ixlib=rb-4.1.0&q=80&w=1080" is using quality "85" which is not configured in images.qualities [75]. Please update your config to [75, 85].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14568891ms] [WARNING] Image with src "https://images.unsplash.com/photo-1651341050677-24dba59ce0fd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjU5NTF8MHwxfHNlYXJjaHwxfHxzdG9jayUyMG1hcmtldCUyMHRyYWRpbmd8ZW58MHwwfHx8MTc3MDY0MTQ1OXww&ixlib=rb-4.1.0&q=80&w=1080" is using quality "85" which is not configured in images.qualities [75]. Please update your config to [75, 85].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14569227ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/news:0
+[14575280ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14575949ms] [LOG] [Fast Refresh] done in 776ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14578058ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14578250ms] [LOG] [Fast Refresh] done in 295ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14581540ms] [WARNING] Image with src "https://images.unsplash.com/photo-1627570120184-7aec90f5613a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjU5NTF8MHwxfHNlYXJjaHwxfHxVU0QlMjBzdG9jayUyMG1hcmtldHxlbnwwfDB8fHwxNzY5ODQ4Mzc2fDA&ixlib=rb-4.1.0&q=80&w=1080" is using quality "85" which is not configured in images.qualities [75]. Please update your config to [75, 85].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14581542ms] [WARNING] Image with src "https://images.unsplash.com/photo-1651341050677-24dba59ce0fd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjU5NTF8MHwxfHNlYXJjaHwxfHxzdG9jayUyMG1hcmtldCUyMHRyYWRpbmd8ZW58MHwwfHx8MTc2OTg0NzI4Nnww&ixlib=rb-4.1.0&q=80&w=1080" is using quality "85" which is not configured in images.qualities [75]. Please update your config to [75, 85].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14581547ms] [WARNING] Image with src "https://images.unsplash.com/photo-1561518129-7855327c4c4c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjU5NTF8MHwxfHNlYXJjaHwxfHxDQVJFJTIwY29tcGFueXxlbnwwfDB8fHwxNzY5ODQ4MzY2fDA&ixlib=rb-4.1.0&q=80&w=1080" is using quality "85" which is not configured in images.qualities [75]. Please update your config to [75, 85].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14581708ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/news/kospi-latest-market-updates-market-trends-and-investor-insights:0
+[14581710ms] [WARNING] Image with src "https://images.unsplash.com/photo-1627570120184-7aec90f5613a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjU5NTF8MHwxfHNlYXJjaHwxfHxVU0QlMjBzdG9jayUyMG1hcmtldHxlbnwwfDB8fHwxNzY5ODQ4Mzc2fDA&ixlib=rb-4.1.0&q=80&w=1080" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14581736ms] [WARNING] Image with src "https://images.unsplash.com/photo-1651341050677-24dba59ce0fd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjU5NTF8MHwxfHNlYXJjaHwxfHxzdG9jayUyMG1hcmtldCUyMHRyYWRpbmd8ZW58MHwwfHx8MTc2OTg0NzI4Nnww&ixlib=rb-4.1.0&q=80&w=1080" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14603111ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14606199ms] [LOG] [Fast Refresh] done in 3190ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[14606306ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/contact:0
+[15150713ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[15151110ms] [LOG] [Fast Refresh] done in 506ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[15151354ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/stocks:0
+[15165101ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[15166163ms] [LOG] [Fast Refresh] done in 1170ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[15166292ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/sharia:0
+[15170787ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[15170794ms] [LOG] [Fast Refresh] done in 112ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[15171033ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/stocks:0
+[15175218ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[15176057ms] [LOG] [Fast Refresh] done in 945ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[15177455ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/stocks/WIPRO:0
+[15209354ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[15209926ms] [LOG] [Fast Refresh] done in 675ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[15210306ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/metals:0
+[15224453ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[15226352ms] [LOG] [Fast Refresh] done in 2014ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[15227415ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[15227937ms] [LOG] [Fast Refresh] done in 631ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[15237970ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[15238035ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/metals/gold:0
+[15238090ms] [LOG] [Fast Refresh] done in 330ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[15259396ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[15259437ms] [LOG] [Fast Refresh] done in 149ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[15259747ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/news:0

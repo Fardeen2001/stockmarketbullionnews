@@ -6,7 +6,6 @@ import AdminRecentActivity from '@/components/admin/AdminRecentActivity';
 export default async function AdminDashboard() {
   const session = await requireAdmin();
 
-  // Fetch statistics
   const stocksCollection = await getStocksCollection();
   const metalsCollection = await getMetalsCollection();
   const newsCollection = await getNewsCollection();
@@ -28,14 +27,12 @@ export default async function AdminDashboard() {
     scrapedCollection.countDocuments({ isProcessed: false }),
   ]);
 
-  // Get recent news (latest created first)
   const recentNews = await newsCollection
     .find({ isPublished: true })
     .sort({ createdAt: -1 })
     .limit(10)
     .toArray();
 
-  // Get recent scraped content
   const recentScraped = await scrapedCollection
     .find({})
     .sort({ scrapedAt: -1 })
@@ -45,8 +42,8 @@ export default async function AdminDashboard() {
   return (
     <div className="p-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-accent">Admin Dashboard</h1>
-        <p className="text-accent/80 mt-2">Welcome back, {session.user?.username}</p>
+        <h1 className="text-3xl font-bold text-slate-100">Admin Dashboard</h1>
+        <p className="text-slate-400 mt-2">Welcome back, {session.user?.username}</p>
       </div>
 
       <AdminStats

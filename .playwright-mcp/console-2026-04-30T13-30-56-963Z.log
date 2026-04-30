@@ -1,0 +1,10 @@
+[     162ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[    8954ms] [LOG] [Fast Refresh] done in 8895ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[   11347ms] [LOG] %c Console Ninja extension is connected to Next.js browser, background: rgb(30,30,30); color: rgb(255,213,92) see https://tinyurl.com/2vt8jxzw for more info. @ :0
+[   11360ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[   11642ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[   13012ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[   13226ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:3000/favicon.ico (Resource size is not correct - typo in the Manifest?) @ http://localhost:3000/sharia:0
+[   13302ms] [LOG] [Fast Refresh] done in 393ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[   14024ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
+[   14179ms] [LOG] [Fast Refresh] done in 258ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2307
