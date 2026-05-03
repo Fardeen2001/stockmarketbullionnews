@@ -9,18 +9,20 @@ import { verifyGCPRequest } from '@/lib/cron/gcpAuth';
 import { bindSchedulerHttpMethods } from '@/lib/cron/scheduleHttp';
 
 async function handleCron(request) {
-  try {
-    const authResult = await verifyGCPRequest(request);
-    if (!authResult.authorized) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+  const authResult = await verifyGCPRequest(request);
+  if (!authResult.authorized) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
 
-    const hfApiKey = process.env.HUGGINGFACE_API_KEY;
-    if (!hfApiKey) {
-      return NextResponse.json({ error: 'HuggingFace API key not configured' }, { status: 500 });
-    }
+  const hfApiKey = process.env.HUGGINGFACE_API_KEY;
+  if (!hfApiKey) {
+    return NextResponse.json(
+      { success: false, error: 'HUGGINGFACE_API_KEY not configured' },
+      { status: 503 }
+    );
+  }
 
-    const contentGenerator = new ContentGenerator(hfApiKey);
+  const contentGenerator = new ContentGenerator(hfApiKey);
     const embeddingGenerator = new EmbeddingGenerator(hfApiKey);
     const vectorDB = getVectorDB();
     await vectorDB.initialize();
@@ -257,18 +259,11 @@ async function handleCron(request) {
       }
     }
 
-    return NextResponse.json({
-      success: true,
-      message: `Generated ${generated} articles`,
-      generated,
-    });
-  } catch (error) {
-    console.error('Cron generate-articles error:', error);
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json({
+    success: true,
+    message: `Generated ${generated} articles`,
+    generated,
+  });
 }
 
-export const { GET, POST } = bindSchedulerHttpMethods(handleCron);
+export const { GET, POST } = bindSchedulerHttpMethods(handleCron, { jobName: 'generate-articles' });

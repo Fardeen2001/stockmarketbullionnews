@@ -14,14 +14,13 @@ async function handleCron(request) {
     source: authResult.source,
     timestamp
   });
-  
-  try {
-    if (!authResult.authorized) {
-      logger.warn('Unauthorized cron request: update-metals', { timestamp });
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const metalpriceKey = process.env.METALPRICE_API_KEY;
+  if (!authResult.authorized) {
+    logger.warn('Unauthorized cron request: update-metals', { timestamp });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const metalpriceKey = process.env.METALPRICE_API_KEY;
     const goldKey = process.env.GOLD_API_KEY;
     const collection = await getMetalsCollection();
     const imageAPI = new UnsplashAPI(process.env.UNSPLASH_ACCESS_KEY);
@@ -251,19 +250,12 @@ async function handleCron(request) {
       }
     }
 
-    return NextResponse.json({
-      success: true,
-      message: `Updated ${updated} metals, ${errors} errors`,
-      updated,
-      errors,
-    });
-  } catch (error) {
-    console.error('Cron update-metals error:', error);
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json({
+    success: true,
+    message: `Updated ${updated} metals, ${errors} errors`,
+    updated,
+    errors,
+  });
 }
 
-export const { GET, POST } = bindSchedulerHttpMethods(handleCron);
+export const { GET, POST } = bindSchedulerHttpMethods(handleCron, { jobName: 'update-metals' });

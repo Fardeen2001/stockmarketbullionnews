@@ -44,4 +44,4 @@ async function handleCron(request) {
   });
 }
 
-export const { GET, POST } = bindSchedulerHttpMethods(handleCron);
+export const { GET, POST } = bindSchedulerHttpMethods(handleCron, { jobName: 'test' });

@@ -109,16 +109,23 @@ async function runPipeline() {
     const articleResult = await runArticleGeneration({ hfApiKey });
 
     results.articles = {
-      success: true,
+      success: articleResult.success !== false && !articleResult.fatal,
+      fatal: !!articleResult.fatal,
       generated: articleResult.generated || 0,
       skipped: articleResult.skipped || 0,
       errors: articleResult.errors || 0,
       message: articleResult.message,
     };
 
-    console.log(`[Pipeline] Generated ${results.articles.generated} articles`);
-    console.log(`[Pipeline] Skipped: ${results.articles.skipped}, Errors: ${results.articles.errors}`);
-    logger.info('Pipeline article generation completed', results.articles);
+    if (articleResult.fatal) {
+      results.errors.push({ step: 'articles', error: articleResult.message });
+      console.error('[Pipeline] Article generation aborted:', articleResult.message);
+      logger.error('Pipeline article generation aborted', { message: articleResult.message });
+    } else {
+      console.log(`[Pipeline] Generated ${results.articles.generated} articles`);
+      console.log(`[Pipeline] Skipped: ${results.articles.skipped}, Errors: ${results.articles.errors}`);
+      logger.info('Pipeline article generation completed', results.articles);
+    }
 
   } catch (err) {
     results.errors.push({ step: 'articles', error: err.message });

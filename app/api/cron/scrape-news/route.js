@@ -34,13 +34,12 @@ async function addEmbeddingForScrapedItem(embeddingGenerator, vectorDB, inserted
 }
 
 async function handleCron(request) {
-  try {
-    const authResult = await verifyGCPRequest(request);
-    if (!authResult.authorized) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+  const authResult = await verifyGCPRequest(request);
+  if (!authResult.authorized) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
 
-    const scraper = new NewsScraper();
+  const scraper = new NewsScraper();
     await scraper.init();
     const collection = await getScrapedContentCollection();
     const hfApiKey = process.env.HUGGINGFACE_API_KEY;
@@ -137,19 +136,12 @@ async function handleCron(request) {
 
     await scraper.close();
 
-    return NextResponse.json({
-      success: true,
-      message: `Scraped ${totalScraped} new items`,
-      totalScraped,
-      items: scrapedItems.slice(0, 10), // Return first 10 for preview
-    });
-  } catch (error) {
-    console.error('Cron scrape-news error:', error);
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json({
+    success: true,
+    message: `Scraped ${totalScraped} new items`,
+    totalScraped,
+    items: scrapedItems.slice(0, 10), // Return first 10 for preview
+  });
 }
 
-export const { GET, POST } = bindSchedulerHttpMethods(handleCron);
+export const { GET, POST } = bindSchedulerHttpMethods(handleCron, { jobName: 'scrape-news' });

@@ -16,14 +16,13 @@ async function handleCron(request) {
     source: authResult.source,
     timestamp,
   });
-  
-  try {
-    if (!authResult.authorized) {
-      logger.warn('Unauthorized cron request: update-stocks', { timestamp });
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const imageAPI = process.env.UNSPLASH_ACCESS_KEY ? new UnsplashAPI(process.env.UNSPLASH_ACCESS_KEY) : null;
+  if (!authResult.authorized) {
+    logger.warn('Unauthorized cron request: update-stocks', { timestamp });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const imageAPI = process.env.UNSPLASH_ACCESS_KEY ? new UnsplashAPI(process.env.UNSPLASH_ACCESS_KEY) : null;
     const collection = await getStocksCollection();
 
     // Fetch verified Sharia list once so we set isShariaCompliant at creation time (100% accurate)
@@ -182,20 +181,13 @@ async function handleCron(request) {
       }
     }
 
-    logger.info('Stock update completed', { updated, errors });
-    return NextResponse.json({
-      success: true,
-      message: `Updated ${updated} stocks, ${errors} errors`,
-      updated,
-      errors,
-    });
-  } catch (error) {
-    logger.error('Cron update-stocks error', { error: error.message });
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 }
-    );
-  }
+  logger.info('Stock update completed', { updated, errors });
+  return NextResponse.json({
+    success: true,
+    message: `Updated ${updated} stocks, ${errors} errors`,
+    updated,
+    errors,
+  });
 }
 
-export const { GET, POST } = bindSchedulerHttpMethods(handleCron);
+export const { GET, POST } = bindSchedulerHttpMethods(handleCron, { jobName: 'update-stocks' });

@@ -13,14 +13,13 @@ async function handleCron(request) {
     source: authResult.source,
     timestamp
   });
-  
-  try {
-    if (!authResult.authorized) {
-      logger.warn('Unauthorized cron request: update-sharia', { timestamp });
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const collection = await getStocksCollection();
+  if (!authResult.authorized) {
+    logger.warn('Unauthorized cron request: update-sharia', { timestamp });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const collection = await getStocksCollection();
 
     // Multi-source Sharia screening at bulk re-check time
     const verifiedHalalSet = await getMultiSourceHalalSymbols();
@@ -105,21 +104,14 @@ async function handleCron(request) {
       }
     }
 
-    return NextResponse.json({
-      success: true,
-      message: `Updated Sharia compliance: ${verifiedCompliant} verified compliant, ${removedFalsePositives} false positives removed`,
-      updated,
-      verifiedCompliant,
-      removedFalsePositives,
-      totalHalalStocks: verifiedCompliant,
-    });
-  } catch (error) {
-    logger.error('Cron update-sharia error', { error: error.message, timestamp });
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json({
+    success: true,
+    message: `Updated Sharia compliance: ${verifiedCompliant} verified compliant, ${removedFalsePositives} false positives removed`,
+    updated,
+    verifiedCompliant,
+    removedFalsePositives,
+    totalHalalStocks: verifiedCompliant,
+  });
 }
 
-export const { GET, POST } = bindSchedulerHttpMethods(handleCron);
+export const { GET, POST } = bindSchedulerHttpMethods(handleCron, { jobName: 'update-sharia' });

@@ -25,28 +25,20 @@ async function handleCron(request) {
     timestamp,
   });
 
-  try {
-    if (!authResult.authorized) {
-      logger.warn('Unauthorized cron request: full-workflow', { timestamp });
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const result = await runFullWorkflow();
-
-    return NextResponse.json({
-      ...result,
-      timestamp,
-      message: result.success
-        ? 'Full workflow completed successfully'
-        : 'Workflow completed with errors (see steps)',
-    });
-  } catch (error) {
-    logger.error('Full workflow error', { error: error.message, timestamp });
-    return NextResponse.json(
-      { success: false, error: error.message, timestamp },
-      { status: 500 }
-    );
+  if (!authResult.authorized) {
+    logger.warn('Unauthorized cron request: full-workflow', { timestamp });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
+
+  const result = await runFullWorkflow();
+
+  return NextResponse.json({
+    ...result,
+    timestamp,
+    message: result.success
+      ? 'Full workflow completed successfully'
+      : 'Workflow completed with errors (see steps)',
+  });
 }
 
-export const { GET, POST } = bindSchedulerHttpMethods(handleCron);
+export const { GET, POST } = bindSchedulerHttpMethods(handleCron, { jobName: 'full-workflow' });

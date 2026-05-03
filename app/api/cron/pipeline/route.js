@@ -18,38 +18,29 @@ async function handleCron(request) {
     timestamp,
   });
 
-  try {
-    if (!authResult.authorized) {
-      logger.warn('Unauthorized pipeline request', { timestamp });
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+  if (!authResult.authorized) {
+    logger.warn('Unauthorized pipeline request', { timestamp });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
 
-    const hfApiKey = process.env.HUGGINGFACE_API_KEY;
-    if (!hfApiKey) {
-      logger.error('HuggingFace API key not configured');
-      return NextResponse.json(
-        { error: 'HuggingFace API key not configured' },
-        { status: 500 }
-      );
-    }
-
-    // Run the full workflow
-    const { runFullWorkflow } = await import('@/lib/workflow/runFullWorkflow');
-    const result = await runFullWorkflow();
-
-    return NextResponse.json({
-      success: result.success,
-      message: 'Pipeline completed',
-      timestamp,
-      steps: result.steps,
-    });
-  } catch (error) {
-    logger.error('Pipeline error', { error: error.message, timestamp });
+  const hfApiKey = process.env.HUGGINGFACE_API_KEY;
+  if (!hfApiKey) {
+    logger.error('HuggingFace API key not configured');
     return NextResponse.json(
-      { success: false, error: error.message, timestamp },
-      { status: 500 }
+      { success: false, error: 'HUGGINGFACE_API_KEY not configured' },
+      { status: 503 }
     );
   }
+
+  const { runFullWorkflow } = await import('@/lib/workflow/runFullWorkflow');
+  const result = await runFullWorkflow();
+
+  return NextResponse.json({
+    success: result.success,
+    message: 'Pipeline completed',
+    timestamp,
+    steps: result.steps,
+  });
 }
 
-export const { GET, POST } = bindSchedulerHttpMethods(handleCron);
+export const { GET, POST } = bindSchedulerHttpMethods(handleCron, { jobName: 'pipeline' });

@@ -12,42 +12,35 @@ async function handleCron(request) {
     source: authResult.source,
     timestamp 
   });
-  
-  try {
-    if (!authResult.authorized) {
-      logger.warn('Unauthorized cron request: detect-trends', { timestamp });
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
 
-    const hfApiKey = process.env.HUGGINGFACE_API_KEY;
-    if (!hfApiKey) {
-      return NextResponse.json({ error: 'HuggingFace API key not configured' }, { status: 500 });
-    }
+  if (!authResult.authorized) {
+    logger.warn('Unauthorized cron request: detect-trends', { timestamp });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
 
-    // Initialize trend detection agent
-    const agent = new TrendDetectionAgent({
-      clusteringThreshold: 0.75,
-    });
-    await agent.initialize(hfApiKey);
-
-    // Execute trend detection (separate analysis per category)
-    const result = await agent.execute({
-      hours: 24,
-      categories: ['stocks', 'metals', 'sharia'],
-    });
-
-    return NextResponse.json({
-      success: true,
-      message: `Detected ${result.trends.length} trending topics`,
-      ...result,
-    });
-  } catch (error) {
-    logger.error('Cron detect-trends error', { error: error.message, timestamp });
+  const hfApiKey = process.env.HUGGINGFACE_API_KEY;
+  if (!hfApiKey) {
     return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 }
+      { success: false, error: 'HUGGINGFACE_API_KEY not configured' },
+      { status: 503 }
     );
   }
+
+  const agent = new TrendDetectionAgent({
+    clusteringThreshold: 0.75,
+  });
+  await agent.initialize(hfApiKey);
+
+  const result = await agent.execute({
+    hours: 24,
+    categories: ['stocks', 'metals', 'sharia'],
+  });
+
+  return NextResponse.json({
+    success: true,
+    message: `Detected ${result.trends.length} trending topics`,
+    ...result,
+  });
 }
 
-export const { GET, POST } = bindSchedulerHttpMethods(handleCron);
+export const { GET, POST } = bindSchedulerHttpMethods(handleCron, { jobName: 'detect-trends' });
