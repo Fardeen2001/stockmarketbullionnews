@@ -85,7 +85,7 @@ create_or_update_job() {
             --time-zone="${TIMEZONE}" \
             --uri="${URI}" \
             --oidc-service-account-email="${SA_EMAIL}" \
-            --oidc-audience="${SERVICE_URL}" \
+            --oidc-token-audience="${SERVICE_URL}" \
             --description="${DESCRIPTION}"
     else
         gcloud scheduler jobs create http "${JOB_NAME}" \
@@ -93,7 +93,7 @@ create_or_update_job() {
             --schedule="${SCHEDULE}" \
             --uri="${URI}" \
             --oidc-service-account-email="${SA_EMAIL}" \
-            --oidc-audience="${SERVICE_URL}" \
+            --oidc-token-audience="${SERVICE_URL}" \
             --description="${DESCRIPTION}"
     fi
 

@@ -176,7 +176,7 @@ gcloud scheduler jobs create http news-pipeline-6h \
     --time-zone="Asia/Kolkata" \
     --uri="${SERVICE_URL}/api/cron/full-workflow" \
     --oidc-service-account-email="${SA_EMAIL}" \
-    --oidc-audience="${SERVICE_URL}" \
+    --oidc-token-audience="${SERVICE_URL}" \
     --description="News pipeline: Scrape → Trends → Generate → Index"
 
 # Create daily full run at 8 AM IST
@@ -186,7 +186,7 @@ gcloud scheduler jobs create http news-pipeline-daily \
     --time-zone="Asia/Kolkata" \
     --uri="${SERVICE_URL}/api/cron/full-workflow" \
     --oidc-service-account-email="${SA_EMAIL}" \
-    --oidc-audience="${SERVICE_URL}" \
+    --oidc-token-audience="${SERVICE_URL}" \
     --description="Daily full news pipeline run"
 ```
 

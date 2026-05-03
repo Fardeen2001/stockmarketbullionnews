@@ -100,3 +100,7 @@ git push origin main
 
 - Check Cloud Run logs: `gcloud run logs read news-site --region asia-southeast1`
 - Verify all environment variables are set
+
+### Cloud Scheduler / `gcloud`: Cloud Resource Manager API disabled
+
+If logs mention `cloudresourcemanager.googleapis.com` / `SERVICE_DISABLED`, a project **Owner** must enable [Cloud Resource Manager API](https://console.developers.google.com/apis/api/cloudresourcemanager.googleapis.com/overview) for that project once.

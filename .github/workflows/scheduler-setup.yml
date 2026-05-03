@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       service_url:
-        description: "Cloud Run HTTPS URL (must match --oidc-audience), e.g. https://news-site-xxxxx.asia-southeast1.run.app"
+        description: "Cloud Run HTTPS URL (OIDC token audience; must match CLOUD_RUN_AUDIENCE), e.g. https://news-site-xxxxx.asia-southeast1.run.app"
         required: true
         type: string
 
