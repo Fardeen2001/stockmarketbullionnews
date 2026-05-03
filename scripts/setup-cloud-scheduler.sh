@@ -36,6 +36,16 @@ fi
 # Set project
 gcloud config set project "${PROJECT_ID}"
 
+# Best-effort: CRM + Scheduler APIs must be on for IAM and job lifecycle. Owner may need to run
+# scripts/fix-gcp-owner-prereqs.sh if the deploy key lacks serviceusage.services.enable.
+echo "Ensuring Cloud Resource Manager and Cloud Scheduler APIs (best-effort)..."
+for _api in cloudresourcemanager.googleapis.com cloudscheduler.googleapis.com; do
+    if ! gcloud services enable "${_api}" --project="${PROJECT_ID}" --quiet; then
+        echo "::warning::Could not enable ${_api}. If logs show SERVICE_DISABLED, a project Owner must enable it once (see scripts/fix-gcp-owner-prereqs.sh)."
+    fi
+done
+echo ""
+
 # Create service account if not exists
 if [ -z "$SA_EMAIL" ]; then
     SA_EMAIL="news-pipeline@${PROJECT_ID}.iam.gserviceaccount.com"
@@ -68,7 +78,8 @@ echo "Service Account: ${SA_EMAIL}"
 echo "Service URL: ${SERVICE_URL}"
 echo ""
 
-# Function to create or update scheduler job
+# Create or update a scheduler HTTP job (idempotent: no delete — delete was failing silently
+# when APIs/IAM were misconfigured, then create hit ALREADY_EXISTS).
 create_or_update_job() {
     local JOB_NAME=$1
     local SCHEDULE=$2
@@ -76,32 +87,38 @@ create_or_update_job() {
     local DESCRIPTION=$4
     local TIMEZONE=$5
 
-    echo "Creating job: ${JOB_NAME} (${SCHEDULE})"
-
-    # Delete existing job if exists
-    gcloud scheduler jobs delete "${JOB_NAME}" --location="${REGION}" 2>/dev/null || true
-
-    # Create new job
+    local -a tz_args=()
     if [ -n "${TIMEZONE}" ]; then
-        gcloud scheduler jobs create http "${JOB_NAME}" \
-            --location="${REGION}" \
-            --schedule="${SCHEDULE}" \
-            --time-zone="${TIMEZONE}" \
-            --uri="${URI}" \
-            --oidc-service-account-email="${SA_EMAIL}" \
-            --oidc-token-audience="${SERVICE_URL}" \
-            --description="${DESCRIPTION}"
-    else
-        gcloud scheduler jobs create http "${JOB_NAME}" \
-            --location="${REGION}" \
-            --schedule="${SCHEDULE}" \
-            --uri="${URI}" \
-            --oidc-service-account-email="${SA_EMAIL}" \
-            --oidc-token-audience="${SERVICE_URL}" \
-            --description="${DESCRIPTION}"
+        tz_args=(--time-zone="${TIMEZONE}")
     fi
 
-    echo "  ✓ ${JOB_NAME} created"
+    local verb=create
+    if gcloud scheduler jobs describe "${JOB_NAME}" --location="${REGION}" &>/dev/null; then
+        verb=update
+        echo "Updating job: ${JOB_NAME} (${SCHEDULE})"
+        gcloud scheduler jobs update http "${JOB_NAME}" \
+            --location="${REGION}" \
+            --schedule="${SCHEDULE}" \
+            "${tz_args[@]}" \
+            --uri="${URI}" \
+            --oidc-service-account-email="${SA_EMAIL}" \
+            --oidc-token-audience="${SERVICE_URL}" \
+            --description="${DESCRIPTION}" \
+            --quiet
+        echo "  ✓ ${JOB_NAME} updated"
+    else
+        echo "Creating job: ${JOB_NAME} (${SCHEDULE})"
+        gcloud scheduler jobs create http "${JOB_NAME}" \
+            --location="${REGION}" \
+            --schedule="${SCHEDULE}" \
+            "${tz_args[@]}" \
+            --uri="${URI}" \
+            --oidc-service-account-email="${SA_EMAIL}" \
+            --oidc-token-audience="${SERVICE_URL}" \
+            --description="${DESCRIPTION}" \
+            --quiet
+        echo "  ✓ ${JOB_NAME} created"
+    fi
 }
 
 echo ""
