@@ -45,6 +45,7 @@ jobs:
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     outputs:
       service_url: ${{ steps.deploy-url.outputs.service_url }}
+      scheduler_sa_ready: ${{ steps.scheduler_sa.outputs.ready }}
 
     steps:
       - uses: actions/checkout@v4
@@ -171,18 +172,21 @@ jobs:
             --quiet
 
       - name: Verify scheduler service account exists
+        id: scheduler_sa
         run: |
           set -euo pipefail
           PROJECT="${{ secrets.GCP_PROJECT_ID }}"
           SA="news-pipeline@${PROJECT}.iam.gserviceaccount.com"
           if gcloud iam service-accounts describe "$SA" --quiet &>/dev/null; then
             echo "Scheduler SA OK: $SA"
-            exit 0
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::Cloud Run is live, but $SA is missing. Skipping Run invoker for the scheduler and the Cloud Scheduler job until an Owner creates it (see docs/GCP_DEPLOYMENT.md): gcloud iam service-accounts create news-pipeline --project=\"$PROJECT\" --display-name=\"Cloud Scheduler HTTP OIDC\""
+            echo "ready=false" >> "$GITHUB_OUTPUT"
           fi
-          echo "::error::Missing service account $SA. Deploy keys usually cannot run iam.serviceAccounts.create. As a project Owner, create it once (see docs/GCP_DEPLOYMENT.md): gcloud iam service-accounts create news-pipeline --project=\"$PROJECT\" --display-name=\"Cloud Scheduler HTTP OIDC\". Alternatively grant the deploy SA iam.serviceAccounts.create (broader than typical)."
-          exit 1
 
       - name: Grant Cloud Run invoker to scheduler SA
+        if: steps.scheduler_sa.outputs.ready == 'true'
         run: |
           gcloud run services add-iam-policy-binding "${{ env.SERVICE_NAME }}" \
             --region="${{ env.REGION }}" \
@@ -193,7 +197,7 @@ jobs:
   setup-scheduler:
     name: Cloud Scheduler jobs
     needs: build-and-deploy
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && needs.build-and-deploy.outputs.scheduler_sa_ready == 'true'
     runs-on: ubuntu-latest
     env:
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
