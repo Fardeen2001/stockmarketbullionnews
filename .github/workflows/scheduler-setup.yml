@@ -28,13 +28,17 @@ jobs:
 
       - uses: google-github-actions/setup-gcloud@v2
 
-      - name: Ensure scheduler service account
+      - name: Verify scheduler service account exists
         run: |
+          set -euo pipefail
           gcloud config set project "${{ secrets.GCP_PROJECT_ID }}"
-          if ! gcloud iam service-accounts describe "${{ env.SA_EMAIL }}" &>/dev/null; then
-            gcloud iam service-accounts create news-pipeline \
-              --display-name="Cloud Scheduler -> Cloud Run"
+          SA="${{ env.SA_EMAIL }}"
+          if gcloud iam service-accounts describe "$SA" --quiet &>/dev/null; then
+            echo "Scheduler SA OK: $SA"
+            exit 0
           fi
+          echo "::error::Missing service account $SA. Create it once as Owner: gcloud iam service-accounts create news-pipeline --project=\"${{ secrets.GCP_PROJECT_ID }}\" --display-name=\"Cloud Scheduler -> Cloud Run\". See docs/GCP_DEPLOYMENT.md."
+          exit 1
 
       - name: Setup scheduler jobs
         env:

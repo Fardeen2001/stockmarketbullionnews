@@ -170,14 +170,17 @@ jobs:
             --update-env-vars="CLOUD_RUN_AUDIENCE=${URL}" \
             --quiet
 
-      - name: Ensure scheduler service account
+      - name: Verify scheduler service account exists
         run: |
+          set -euo pipefail
           PROJECT="${{ secrets.GCP_PROJECT_ID }}"
           SA="news-pipeline@${PROJECT}.iam.gserviceaccount.com"
-          if ! gcloud iam service-accounts describe "$SA" &>/dev/null; then
-            gcloud iam service-accounts create news-pipeline \
-              --display-name="Cloud Scheduler HTTP OIDC"
+          if gcloud iam service-accounts describe "$SA" --quiet &>/dev/null; then
+            echo "Scheduler SA OK: $SA"
+            exit 0
           fi
+          echo "::error::Missing service account $SA. Deploy keys usually cannot run iam.serviceAccounts.create. As a project Owner, create it once (see docs/GCP_DEPLOYMENT.md): gcloud iam service-accounts create news-pipeline --project=\"$PROJECT\" --display-name=\"Cloud Scheduler HTTP OIDC\". Alternatively grant the deploy SA iam.serviceAccounts.create (broader than typical)."
+          exit 1
 
       - name: Grant Cloud Run invoker to scheduler SA
         run: |
