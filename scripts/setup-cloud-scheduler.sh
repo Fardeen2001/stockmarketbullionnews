@@ -9,6 +9,10 @@
 
 set -e
 
+_SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=lib/gcloud-list-formats.sh
+source "${_SCRIPT_DIR}/lib/gcloud-list-formats.sh"
+
 PROJECT_ID="${GCP_PROJECT_ID:-your-project-id}"
 REGION="${REGION:-asia-southeast1}"
 SERVICE_URL="${SERVICE_URL:-https://your-service-url.run.app}"
@@ -204,7 +208,7 @@ echo "=========================================="
 echo ""
 echo "Jobs created:"
 echo ""
-gcloud scheduler jobs list --location="${REGION}" --format="table[name,schedule,state)"
+gcloud scheduler jobs list --location="${REGION}" --format="${GCLOUD_SCHEDULER_JOBS_LIST_FORMAT}"
 echo ""
 echo "=========================================="
 echo "CRON SCHEDULE SUMMARY"

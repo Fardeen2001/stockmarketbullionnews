@@ -12,9 +12,30 @@
 # Or derive email from the same JSON you pasted into GitHub as GCP_SA_KEY:
 #   GCP_PROJECT_ID=your-project-id GCP_SA_KEY_FILE=./path/to-key.json ./scripts/fix-gcp-owner-prereqs.sh
 #
+# Git Bash on Windows: use Unix-style paths, e.g. /d/stockmarketbullionnews/key.json or quoted "D:/path/key.json".
+# Avoid unquoted D:\... (backslashes are eaten by the shell).
+#
 # Requires: gcloud authenticated as a principal with Owner (or equivalent) on the project.
+# JSON parsing: uses jq if present; otherwise python3, python, or node.
 
 set -euo pipefail
+
+read_json_field() {
+  local file="$1"
+  local field="$2"
+  if command -v jq &>/dev/null; then
+    jq -r ".$field" "$file"
+  elif command -v python3 &>/dev/null; then
+    python3 -c "import json,sys; print(json.load(open(sys.argv[1], encoding='utf-8'))[sys.argv[2]])" "$file" "$field"
+  elif command -v python &>/dev/null; then
+    python -c "import json,sys; print(json.load(open(sys.argv[1], encoding='utf-8'))[sys.argv[2]])" "$file" "$field"
+  elif command -v node &>/dev/null; then
+    node -e "const fs=require('fs'); const j=JSON.parse(fs.readFileSync(process.argv[1],'utf8')); console.log(j[process.argv[2]]);" "$file" "$field"
+  else
+    echo "Error: Install jq, Python 3, or Node.js to read GCP_SA_KEY_FILE (client_email / project_id)." >&2
+    return 1
+  fi
+}
 
 PROJECT_ID="${GCP_PROJECT_ID:-}"
 SA_EMAIL="${DEPLOY_SA_KEY_EMAIL:-${DEPLOY_SA_EMAIL:-}}"
@@ -25,12 +46,19 @@ if [ -z "$PROJECT_ID" ]; then
 fi
 
 if [ -z "$SA_EMAIL" ] && [ -n "${GCP_SA_KEY_FILE:-}" ]; then
+  if [ ! -f "$GCP_SA_KEY_FILE" ] && command -v cygpath &>/dev/null; then
+    _norm="$(cygpath -u "$GCP_SA_KEY_FILE" 2>/dev/null || true)"
+    if [ -n "$_norm" ] && [ -f "$_norm" ]; then
+      GCP_SA_KEY_FILE="$_norm"
+    fi
+  fi
   if [ ! -f "$GCP_SA_KEY_FILE" ]; then
-    echo "Error: GCP_SA_KEY_FILE=$GCP_SA_KEY_FILE not found."
+    echo "Error: GCP_SA_KEY_FILE not found: $GCP_SA_KEY_FILE"
+    echo "Hint (Git Bash): use /d/your/repo/key.json or \"D:/your/repo/key.json\" — not unquoted D:\\..."
     exit 1
   fi
-  SA_EMAIL="$(jq -r .client_email "$GCP_SA_KEY_FILE")"
-  KEY_PROJECT="$(jq -r .project_id "$GCP_SA_KEY_FILE")"
+  SA_EMAIL="$(read_json_field "$GCP_SA_KEY_FILE" client_email)"
+  KEY_PROJECT="$(read_json_field "$GCP_SA_KEY_FILE" project_id)"
   if [ "$KEY_PROJECT" != "$PROJECT_ID" ]; then
     echo "Error: GCP_PROJECT_ID ($PROJECT_ID) does not match project_id in JSON ($KEY_PROJECT)."
     exit 1

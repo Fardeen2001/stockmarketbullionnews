@@ -110,4 +110,7 @@ jobs:
           ./scripts/setup-cloud-scheduler.sh
 
       - name: List scheduler jobs
-        run: gcloud scheduler jobs list --location="${{ env.REGION }}" --format="table(name,schedule,state)"
+        run: |
+          set -euo pipefail
+          source scripts/lib/gcloud-list-formats.sh
+          gcloud scheduler jobs list --location="${{ env.REGION }}" --format="${GCLOUD_SCHEDULER_JOBS_LIST_FORMAT}"
