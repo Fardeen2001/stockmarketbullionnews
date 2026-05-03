@@ -90,6 +90,13 @@ export default function RootLayout({ children }) {
             gtag('config', 'G-RX9K69665P');
           `}
         </Script>
+        {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID ? (
+          <script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID}`}
+            crossOrigin="anonymous"
+          />
+        ) : null}
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
@@ -97,14 +104,6 @@ export default function RootLayout({ children }) {
       >
         <StructuredData data={organizationSchema} />
         <StructuredData data={websiteSchema} />
-        {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
-          <Script
-            id="adsense-init"
-            strategy="afterInteractive"
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID}`}
-            crossOrigin="anonymous"
-          />
-        )}
         <Navigation />
         <main className="min-h-screen bg-slate-900">{children}</main>
         <Footer />
