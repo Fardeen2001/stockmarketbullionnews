@@ -3,7 +3,7 @@ import { getStocksCollection } from '@/lib/db';
 import { validateSymbol } from '@/lib/utils/validation';
 import { handleApiError } from '@/lib/utils/errorHandler';
 import { YahooFinanceAPI } from '@/lib/api/stockAPI';
-import { getVerifiedHalalSymbols, getShariaFieldsForStock } from '@/lib/utils/shariaCompliance';
+import { screenStockForSharia } from '@/lib/utils/shariaCompliance';
 
 export async function GET(request, { params }) {
   try {
@@ -78,8 +78,8 @@ export async function GET(request, { params }) {
           };
         } else {
           // If stock doesn't exist in DB, create new entry (root cause: set Sharia at creation)
-          const verifiedHalalSet = await getVerifiedHalalSymbols();
-          const { isShariaCompliant, shariaComplianceData } = getShariaFieldsForStock(validatedSymbol, verifiedHalalSet);
+          // Strict multi-source Sharia screening at creation time
+          const { isShariaCompliant, shariaComplianceData } = await screenStockForSharia(validatedSymbol, exchange);
           stock = {
             symbol: validatedSymbol,
             exchange: 'NSE', // Default, can be updated

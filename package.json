@@ -6,12 +6,13 @@
     "dev": "next dev",
     "dev:with-cron": "concurrently \"next dev\" \"node scripts/cron-runner.js\" --names \"SERVER,CRON\" --prefix-colors \"blue,green\"",
     "postinstall": "npx playwright install chromium || echo 'Playwright install failed, will use fallback methods'",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "start:with-cron": "concurrently \"next start\" \"node scripts/cron-runner.js\" --names \"SERVER,CRON\" --prefix-colors \"blue,green\"",
     "cron": "node scripts/cron-runner.js",
     "cron:no-wait": "node scripts/cron-runner.js --no-wait",
-    "lint": "eslint"
+    "lint": "eslint",
+    "lint:webmaster": "eslint lib/webmaster/ app/api/cron/index-urls/"
   },
   "dependencies": {
     "@huggingface/inference": "^4.13.11",
@@ -21,6 +22,7 @@
     "cheerio": "^1.0.0-rc.12",
     "date-fns": "^3.0.6",
     "dotenv": "^16.3.1",
+    "google-auth-library": "^9.15.1",
     "jose": "^5.2.0",
     "mongodb": "^6.3.0",
     "next": "16.1.6",

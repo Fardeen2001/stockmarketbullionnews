@@ -1,0 +1,77 @@
+# Cloud Build CI/CD Pipeline for GCP Cloud Run
+# Triggered on push to main branch
+
+steps:
+  # Step 1: Build the container image
+  - name: "gcr.io/cloud-builders/docker"
+    id: "build"
+    args:
+      - "build"
+      - "-t"
+      - "gcr.io/$PROJECT_ID/news-site:$SHORT_SHA"
+      - "-t"
+      - "gcr.io/$PROJECT_ID/news-site:latest"
+      - "--cache-from"
+      - "gcr.io/$PROJECT_ID/news-site:latest"
+      - "."
+    waitFor: ["-"]
+
+  # Step 2: Push the tagged image
+  - name: "gcr.io/cloud-builders/docker"
+    id: "push-sha"
+    args:
+      - "push"
+      - "gcr.io/$PROJECT_ID/news-site:$SHORT_SHA"
+    waitFor: ["build"]
+
+  # Step 3: Push latest tag
+  - name: "gcr.io/cloud-builders/docker"
+    id: "push-latest"
+    args:
+      - "push"
+      - "gcr.io/$PROJECT_ID/news-site:latest"
+    waitFor: ["push-sha"]
+
+  # Step 4: Deploy to Cloud Run
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    id: "deploy"
+    entrypoint: gcloud
+    args:
+      - "run"
+      - "deploy"
+      - "news-site"
+      - "--image"
+      - "gcr.io/$PROJECT_ID/news-site:$SHORT_SHA"
+      - "--region"
+      - "asia-southeast1"
+      - "--platform"
+      - "managed"
+      - "--allow-unauthenticated"
+      - "--port"
+      - "8080"
+      - "--memory"
+      - "2Gi"
+      - "--cpu"
+      - "2"
+      - "--timeout"
+      - "600"
+      - "--concurrency"
+      - "80"
+      - "--set-env-vars"
+      - "NODE_ENV=production,NEXT_PUBLIC_SITE_URL=${_SITE_URL},MONGODB_URI=${_MONGODB_URI}"
+      - "--set-secrets"
+      - "HUGGINGFACE_API_KEY=huggingface-api-key:latest,CRON_SECRET=cron-secret:latest,UNSPLASH_ACCESS_KEY=unsplash-access-key:latest,MONGODB_URI=mongodb-uri:latest,GOOGLE_OAUTH_CLIENT_ID=google-oauth-client-id:latest,GOOGLE_OAUTH_CLIENT_SECRET=google-oauth-client-secret:latest,BING_OAUTH_CLIENT_ID=bing-oauth-client-id:latest,BING_OAUTH_CLIENT_SECRET=bing-oauth-client-secret:latest,YANDEX_OAUTH_CLIENT_ID=yandex-oauth-client-id:latest,YANDEX_OAUTH_CLIENT_SECRET=yandex-oauth-client-secret:latest"
+    waitFor: ["push-latest"]
+
+images:
+  - "gcr.io/$PROJECT_ID/news-site:$SHORT_SHA"
+  - "gcr.io/$PROJECT_ID/news-site:latest"
+
+options:
+  machineType: "E2_HIGHCPU_8"
+
+timeout: "1200s"
+
+substitutions:
+  _SITE_URL: "https://stockmarketbullion.com"
+  _MONGODB_URI: ""

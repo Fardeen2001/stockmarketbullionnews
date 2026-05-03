@@ -5,10 +5,11 @@ import AdminScrapedTable from '@/components/admin/AdminScrapedTable';
 export default async function AdminScrapedPage({ searchParams }) {
   await requireAdmin();
 
-  const page = parseInt(searchParams.page || '1');
+  const params = await searchParams;
+  const page = parseInt(params.page || '1', 10);
   const limit = 50;
   const skip = (page - 1) * limit;
-  const filter = searchParams.filter || 'all';
+  const filter = params.filter || 'all';
 
   const collection = await getScrapedContentCollection();
   

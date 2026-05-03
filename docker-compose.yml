@@ -1,0 +1,75 @@
+# Docker Compose for Local Development
+# Usage: docker-compose up -d
+
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: news-site
+    ports:
+      - "3000:8080"
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://mongo:27017/stocknews
+      - HUGGINGFACE_API_KEY=${HUGGINGFACE_API_KEY}
+      - CRON_SECRET=${CRON_SECRET:-dev-secret-change-in-prod}
+      - NEXT_PUBLIC_SITE_URL=http://localhost:3000
+      - UNSPLASH_ACCESS_KEY=${UNSPLASH_ACCESS_KEY}
+      - GOOGLE_SEARCH_CONSOLE_API_KEY=${GOOGLE_SEARCH_CONSOLE_API_KEY}
+      - BING_WEBMASTER_API_KEY=${BING_WEBMASTER_API_KEY}
+      - YANDEX_WEBMASTER_TOKEN=${YANDEX_WEBMASTER_TOKEN}
+    depends_on:
+      mongo:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  mongo:
+    image: mongo:7
+    container_name: news-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # MongoDB Express for debugging (optional)
+  mongo-express:
+    image: mongo-express
+    container_name: news-mongo-express
+    ports:
+      - "8081:8081"
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=mongopass
+    depends_on:
+      mongo:
+        condition: service_healthy
+    restart: unless-stopped
+    profiles:
+      - debug
+
+volumes:
+  mongo_data:
+    driver: local
+
+networks:
+  default:
+    name: news-network
+    driver: bridge

@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import { TrendDetectionAgent } from '@/lib/ai/agents/trendDetectionAgent';
-import { verifyCronRequest } from '@/lib/utils/cronAuth';
+import { verifyGCPRequest } from '@/lib/cron/gcpAuth';
 import { logger } from '@/lib/utils/logger';
 
 export async function GET(request) {
-  const authResult = verifyCronRequest(request);
+  const authResult = await verifyGCPRequest(request);
   const timestamp = new Date().toISOString();
   
   logger.info('Cron job triggered: detect-trends', { 

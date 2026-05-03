@@ -1,32 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable instrumentation hook for root-level deprecation suppression
-  experimental: {
-    instrumentationHook: true,
-  },
-  
+  // Enable standalone output for Docker/Cloud Run
+  output: 'standalone',
+
   // Production optimizations
   compress: true,
   poweredByHeader: false,
-  
-  // CSS is handled automatically by Next.js with Tailwind
-  
-  // Turbopack configuration (Next.js 16+)
-  turbopack: {
-    // Turbopack handles most configurations automatically
-  },
-  
-  // Webpack configuration (for --webpack flag)
+
+  // Webpack configuration
   webpack: (config, { isServer }) => {
-    // Handle optional dependencies that might not be available
     config.resolve.fallback = {
       ...config.resolve.fallback,
       fs: false,
     };
-    
     return config;
   },
-  
+
   // Image optimization
   images: {
     remotePatterns: [
@@ -49,7 +38,7 @@ const nextConfig = {
     ],
     formats: ['image/avif', 'image/webp'],
   },
-  
+
   // Security headers
   async headers() {
     return [
@@ -84,7 +73,7 @@ const nextConfig = {
       },
     ];
   },
-  
+
   // Redirects
   async redirects() {
     return [

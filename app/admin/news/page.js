@@ -1,21 +1,25 @@
 import { requireAdmin } from '@/lib/middleware/adminMiddleware';
 import { getNewsCollection } from '@/lib/db';
+import { serializeNewsForClient } from '@/lib/admin/serializeNewsForClient';
 import AdminNewsTable from '@/components/admin/AdminNewsTable';
 
 export default async function AdminNewsPage({ searchParams }) {
   await requireAdmin();
 
-  const page = parseInt(searchParams.page || '1');
+  const params = await searchParams;
+  const page = parseInt(params.page || '1', 10);
   const limit = 20;
   const skip = (page - 1) * limit;
 
   const collection = await getNewsCollection();
-  const news = await collection
+  const rawNews = await collection
     .find({})
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit)
     .toArray();
+
+  const news = serializeNewsForClient(rawNews);
 
   const total = await collection.countDocuments();
 

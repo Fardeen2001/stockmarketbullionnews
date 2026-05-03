@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { verifyCronRequest } from '@/lib/utils/cronAuth';
+import { verifyGCPRequest } from '@/lib/cron/gcpAuth';
 import { logger } from '@/lib/utils/logger';
 import { runFullWorkflow } from '@/lib/workflow/runFullWorkflow';
 
@@ -9,9 +9,14 @@ import { runFullWorkflow } from '@/lib/workflow/runFullWorkflow';
  * 2. Detect trends (stocks, metals, sharia - separate analysis)
  * 3. Generate & publish articles
  * 4. Revalidate sitemap
+ *
+ * Compatible with:
+ * - GCP Cloud Scheduler (via x-cloudscheduler header)
+ * - Manual triggers (Bearer token)
+ * - Development mode (no auth)
  */
 export async function GET(request) {
-  const authResult = verifyCronRequest(request);
+  const authResult = await verifyGCPRequest(request);
   const timestamp = new Date().toISOString();
 
   logger.info('Cron job triggered: full-workflow', {

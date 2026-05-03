@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
 import { ScrapingAgent } from '@/lib/ai/agents/scrapingAgent';
 import { getWorkflowScrapeSources } from '@/lib/workflow/sources';
-import { verifyCronRequest } from '@/lib/utils/cronAuth';
+import { verifyGCPRequest } from '@/lib/cron/gcpAuth';
 import { logger } from '@/lib/utils/logger';
 
 export async function GET(request) {
-  const authResult = verifyCronRequest(request);
+  const authResult = await verifyGCPRequest(request);
   const timestamp = new Date().toISOString();
   
   logger.info('Cron job triggered: scrape-news-v2', { 

@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import { logger } from '@/lib/utils/logger';
-import { verifyCronRequest } from '@/lib/utils/cronAuth';
+import { verifyGCPRequest } from '@/lib/cron/gcpAuth';
 import { runArticleGeneration } from '@/lib/workflow/runArticleGeneration';
 
 export async function GET(request) {
-  const authResult = verifyCronRequest(request);
+  const authResult = await verifyGCPRequest(request);
   const timestamp = new Date().toISOString();
 
   logger.info('Cron job triggered: generate-articles-v2', {

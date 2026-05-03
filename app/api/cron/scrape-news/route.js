@@ -4,17 +4,7 @@ import { NewsScraper } from '@/lib/scrapers/newsScraper';
 import { WORKFLOW_SOURCES } from '@/lib/workflow/sources';
 import { EmbeddingGenerator } from '@/lib/ai/embeddings';
 import { getVectorDB } from '@/lib/vector/vectorDB';
-
-function verifyCronSecret(request) {
-  const authHeader = request.headers.get('authorization');
-  const cronSecret = process.env.CRON_SECRET;
-  
-  if (!cronSecret) return true;
-  if (authHeader === `Bearer ${cronSecret}`) return true;
-  if (request.headers.get('x-vercel-cron') === 'true') return true;
-  
-  return false;
-}
+import { verifyGCPRequest } from '@/lib/cron/gcpAuth';
 
 async function addEmbeddingForScrapedItem(embeddingGenerator, vectorDB, insertedId, item) {
   if (!embeddingGenerator || !vectorDB) return;
@@ -44,7 +34,8 @@ async function addEmbeddingForScrapedItem(embeddingGenerator, vectorDB, inserted
 
 export async function GET(request) {
   try {
-    if (!verifyCronSecret(request)) {
+    const authResult = await verifyGCPRequest(request);
+    if (!authResult.authorized) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

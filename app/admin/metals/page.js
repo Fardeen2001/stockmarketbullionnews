@@ -15,7 +15,7 @@ export default async function AdminMetalsPage() {
   return (
     <div className="p-8">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-accent">Metals Management</h1>
+        <h1 className="text-3xl font-bold text-white">Metals Management</h1>
         <div className="text-sm text-accent/80">
           Total: {total} metals
         </div>

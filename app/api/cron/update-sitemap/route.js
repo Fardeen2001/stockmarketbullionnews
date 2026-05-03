@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
-import { verifyCronRequest } from '@/lib/utils/cronAuth';
+import { verifyGCPRequest } from '@/lib/cron/gcpAuth';
 import { logger } from '@/lib/utils/logger';
 
 /**
@@ -8,7 +8,7 @@ import { logger } from '@/lib/utils/logger';
  * Call this after article generation to ensure search engines index new content promptly.
  */
 export async function GET(request) {
-  const authResult = verifyCronRequest(request);
+  const authResult = await verifyGCPRequest(request);
   const timestamp = new Date().toISOString();
 
   logger.info('Cron job triggered: update-sitemap', {

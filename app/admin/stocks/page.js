@@ -5,7 +5,8 @@ import AdminStocksTable from '@/components/admin/AdminStocksTable';
 export default async function AdminStocksPage({ searchParams }) {
   await requireAdmin();
 
-  const page = parseInt(searchParams.page || '1');
+  const params = await searchParams;
+  const page = parseInt(params.page || '1', 10);
   const limit = 50;
   const skip = (page - 1) * limit;
 

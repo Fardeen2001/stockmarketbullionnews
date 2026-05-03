@@ -1,46 +1,17 @@
 /**
  * Next.js Instrumentation Hook
- * This runs before any other code, ensuring deprecation warnings are suppressed
- * at the application root level - true root cause implementation
+ *
+ * This file must stay Edge-safe: Turbopack analyzes it for the Edge runtime.
+ * Node-only logic (process.stderr, emitWarning overrides) lives in
+ * instrumentation.node.js and is loaded only on the Node server runtime.
  */
 
-// Suppress deprecation warnings from dependencies (yahoo-finance2, etc.) — Node.js only; skipped in Edge Runtime
-const isEdgeRuntime =
-  typeof globalThis.EdgeRuntime === 'string' ||
-  (typeof process !== 'undefined' && process.env.NEXT_RUNTIME === 'edge');
-
-if (typeof process !== 'undefined' && !isEdgeRuntime) {
-  // Method 1: Override process.emitWarning (primary method)
-  if (process.emitWarning) {
-    const originalEmitWarning = process.emitWarning;
-    process.emitWarning = function(warning, type, code, ...args) {
-      // Suppress DEP0169 (url.parse deprecation) warnings
-      if (code === 'DEP0169' || 
-          (typeof warning === 'string' && warning.includes('url.parse()')) ||
-          (typeof warning === 'string' && warning.includes('DEP0169'))) {
-        return;
-      }
-      // Call original emitWarning for other warnings
-      return originalEmitWarning.call(this, warning, type, code, ...args);
-    };
-  }
-
-  // Method 2: Override process.stderr.write (Node-only; not supported in Edge Runtime)
-  if (process.stderr && typeof process.stderr.write === 'function') {
-    const originalStderrWrite = process.stderr.write.bind(process.stderr);
-    process.stderr.write = function(chunk, encoding, callback) {
-      if (typeof chunk === 'string' && 
-          (chunk.includes('DEP0169') || chunk.includes('url.parse()'))) {
-        return true; // Suppress the warning
-      }
-      return originalStderrWrite(chunk, encoding, callback);
-    };
-  }
-}
-
 export async function register() {
-  // This function runs when the instrumentation is loaded
-  // Suppression is already set up above, this is just for logging
+  if (typeof process === 'undefined') return;
+  if (process.env.NEXT_RUNTIME === 'edge') return;
+
+  await import('./instrumentation.node.js');
+
   if (process.env.NODE_ENV === 'development') {
     console.log('[Instrumentation] Deprecation warning suppression enabled');
   }

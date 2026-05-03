@@ -39,3 +39,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# GCP (never commit keys — use GitHub secret GCP_SA_KEY)
+gcp-*.json
+service-account*.json
+*-key.json
+rankpulse-*.json
+
+# GitHub Actions workflow dispatch (if needed)
+# .github/workflows/*.yml

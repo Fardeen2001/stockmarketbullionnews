@@ -51,12 +51,12 @@ export default function AdminStats({ stats }) {
       {statCards.map((stat) => (
         <div
           key={stat.title}
-          className="bg-white rounded-lg shadow p-6"
+          className="bg-[#1e293b] rounded-lg shadow-lg p-6 border border-[#334155] hover:border-emerald-500/50 transition-all duration-300"
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-accent/80">{stat.title}</p>
-              <p className="text-3xl font-bold text-accent mt-2">{stat.value.toLocaleString()}</p>
+              <p className="text-sm font-medium text-slate-400">{stat.title}</p>
+              <p className="text-3xl font-bold text-white mt-2">{stat.value.toLocaleString()}</p>
             </div>
             <div className={`${colorClasses[stat.color]} p-3 rounded-lg`}>
               <span className="text-2xl">{stat.icon}</span>

@@ -3,21 +3,17 @@ import { getStocksCollection } from '@/lib/db';
 import { YahooFinanceAPI, AlphaVantageAPI, getAllStocks } from '@/lib/api/stockAPI';
 import { UnsplashAPI } from '@/lib/api/imageAPI';
 import { logger } from '@/lib/utils/logger';
-import { verifyCronRequest } from '@/lib/utils/cronAuth';
-import { getVerifiedHalalSymbols, getShariaFieldsForStock } from '@/lib/utils/shariaCompliance';
+import { verifyGCPRequest } from '@/lib/cron/gcpAuth';
+import { getMultiSourceHalalSymbols, screenStockForSharia } from '@/lib/utils/shariaCompliance';
 
 export async function GET(request) {
-  const authResult = verifyCronRequest(request);
+  const authResult = await verifyGCPRequest(request);
   const timestamp = new Date().toISOString();
-  
+
   // Log cron job trigger
-  logger.info('Cron job triggered: update-stocks', { 
+  logger.info('Cron job triggered: update-stocks', {
     source: authResult.source,
     timestamp,
-    headers: {
-      'x-vercel-cron': request.headers.get('x-vercel-cron'),
-      'authorization': request.headers.get('authorization') ? 'present' : 'missing'
-    }
   });
   
   try {
@@ -30,9 +26,9 @@ export async function GET(request) {
     const collection = await getStocksCollection();
 
     // Fetch verified Sharia list once so we set isShariaCompliant at creation time (100% accurate)
-    logger.info('Fetching verified Sharia-compliant symbols from halalstock.in...');
-    const verifiedHalalSet = await getVerifiedHalalSymbols();
-    logger.info(`Verified halal list: ${verifiedHalalSet.size} symbols`);
+    logger.info('Fetching verified Sharia-compliant symbols from multi-source screening...');
+    const verifiedHalalSet = await getMultiSourceHalalSymbols();
+    logger.info(`Multi-source Sharia screening: ${verifiedHalalSet.size} verified halal symbols`);
 
     // Use Yahoo Finance for Indian stocks, Alpha Vantage for global stocks
     const yahooAPI = new YahooFinanceAPI();
@@ -119,8 +115,8 @@ export async function GET(request) {
           }
         }
 
-        // Sharia: set at creation time from verified halalstock.in list only (strict, 100% accurate)
-        const { isShariaCompliant, shariaComplianceData } = getShariaFieldsForStock(stock.symbol, verifiedHalalSet);
+        // Sharia: strict multi-source screening at creation time (explicit list + financial ratios)
+        const { isShariaCompliant, shariaComplianceData } = await screenStockForSharia(stock.symbol, stock.exchange);
 
         const stockData = {
           symbol: stock.symbol,

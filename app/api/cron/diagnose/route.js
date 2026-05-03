@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import { verifyCronRequest } from '@/lib/utils/cronAuth';
-import { 
-  getScrapedContentCollection, 
-  getNewsCollection, 
-  getTrendingTopicsCollection 
+import { verifyGCPRequest } from '@/lib/cron/gcpAuth';
+import {
+  getScrapedContentCollection,
+  getNewsCollection,
+  getTrendingTopicsCollection
 } from '@/lib/db';
 import { logger } from '@/lib/utils/logger';
 
@@ -12,10 +12,10 @@ import { logger } from '@/lib/utils/logger';
  * Helps identify why articles aren't being generated
  */
 export async function GET(request) {
-  const authResult = verifyCronRequest(request);
+  const authResult = await verifyGCPRequest(request);
   const timestamp = new Date().toISOString();
-  
-  logger.info('Diagnostic check triggered', { 
+
+  logger.info('Diagnostic check triggered', {
     source: authResult.source,
     timestamp 
   });
@@ -64,7 +64,7 @@ export async function GET(request) {
     // Check environment configuration
     const config = {
       hasHuggingFaceKey: !!process.env.HUGGINGFACE_API_KEY,
-      hasMongoDB: !!process.env.MONGODB_URI,
+      hasMongoDB: !!(process.env.MONGODB_URI || process.env.MONGODB_URL),
       nodeEnv: process.env.NODE_ENV,
       vercelEnv: process.env.VERCEL_ENV,
     };

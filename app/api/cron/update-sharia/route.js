@@ -1,16 +1,16 @@
 import { NextResponse } from 'next/server';
 import { getStocksCollection } from '@/lib/db';
-import { verifyCronRequest } from '@/lib/utils/cronAuth';
+import { verifyGCPRequest } from '@/lib/cron/gcpAuth';
 import { logger } from '@/lib/utils/logger';
-import { getVerifiedHalalSymbols, getShariaFieldsForStock, normalizeSymbol } from '@/lib/utils/shariaCompliance';
+import { getMultiSourceHalalSymbols, screenStockForSharia, normalizeSymbol } from '@/lib/utils/shariaCompliance';
 
 export async function GET(request) {
-  const authResult = verifyCronRequest(request);
+  const authResult = await verifyGCPRequest(request);
   const timestamp = new Date().toISOString();
-  
-  logger.info('Cron job triggered: update-sharia', { 
+
+  logger.info('Cron job triggered: update-sharia', {
     source: authResult.source,
-    timestamp 
+    timestamp
   });
   
   try {
@@ -21,13 +21,13 @@ export async function GET(request) {
 
     const collection = await getStocksCollection();
 
-    // Same source of truth as update-stocks: halalstock.in via shared utility
-    const verifiedHalalSet = await getVerifiedHalalSymbols();
+    // Multi-source Sharia screening at bulk re-check time
+    const verifiedHalalSet = await getMultiSourceHalalSymbols();
 
     if (verifiedHalalSet.size === 0) {
       return NextResponse.json({
         success: true,
-        message: 'No verified Sharia list available (halalstock.in unreachable or empty)',
+        message: 'No verified Sharia list available (sources unreachable or empty)',
         updated: 0,
         verifiedCompliant: 0,
         removedFalsePositives: 0,
@@ -53,7 +53,7 @@ export async function GET(request) {
                 verified: true,
                 complianceStatus: 'non-compliant',
                 lastChecked: new Date(),
-                removedReason: 'Not found in verified sharia compliant list',
+                removedReason: 'Not found in multi-source verified sharia compliant list',
               },
             },
           }
@@ -68,7 +68,8 @@ export async function GET(request) {
       const normalized = normalizeSymbol(stock.symbol);
       if (!verifiedHalalSet.has(normalized)) continue;
 
-      const { isShariaCompliant, shariaComplianceData } = getShariaFieldsForStock(stock.symbol, verifiedHalalSet);
+      // Strict multi-source screening for each stock
+      const { isShariaCompliant, shariaComplianceData } = await screenStockForSharia(stock.symbol, stock.exchange || 'NSE');
       await collection.updateOne(
         { symbol: stock.symbol },
         { $set: { isShariaCompliant, shariaComplianceData } }
@@ -77,11 +78,10 @@ export async function GET(request) {
       updated++;
     }
 
-    // Final cleanup: only allow compliant if verified + source + status all match
+    // Strict cleanup: only allow compliant if verified + compliant status match
     const allCompliantStocks = await collection.find({ isShariaCompliant: true }).toArray();
     for (const stock of allCompliantStocks) {
       const hasVerifiedData = stock.shariaComplianceData?.verified === true &&
-                             stock.shariaComplianceData?.source === 'halalstock.in' &&
                              stock.shariaComplianceData?.complianceStatus === 'compliant';
       
       if (!hasVerifiedData) {

@@ -33,12 +33,11 @@ export async function GET(request) {
 
     const collection = await getStocksCollection();
 
-    // STRICT: Only return stocks where isShariaCompliant was set at creation from halalstock.in verified list.
-    // All four conditions required - no stock appears without verified compliance data.
+    // STRICT: Only return stocks where isShariaCompliant is true from any verified screening source.
+    // Both multi-source (new) and halalstock.in (legacy) source values accepted.
     const query = {
       isShariaCompliant: true,
       'shariaComplianceData.verified': true,
-      'shariaComplianceData.source': 'halalstock.in',
       'shariaComplianceData.complianceStatus': 'compliant',
     };
 

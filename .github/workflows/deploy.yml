@@ -1,0 +1,197 @@
+name: Deploy to Google Cloud Run
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+concurrency:
+  group: deploy-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  REGION: asia-southeast1
+  SERVICE_NAME: news-site
+  ARTIFACT_REPO: cloud-run-images
+
+jobs:
+  validate:
+    name: Lint & build check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run lint:webmaster
+      - name: Docker build (PR smoke test; no push)
+        if: github.event_name == 'pull_request'
+        env:
+          NEXT_PUBLIC_SITE_URL: https://example.com
+          NEXT_PUBLIC_ADSENSE_CLIENT_ID: ""
+        run: |
+          docker build \
+            --build-arg NEXT_PUBLIC_SITE_URL="$NEXT_PUBLIC_SITE_URL" \
+            --build-arg NEXT_PUBLIC_ADSENSE_CLIENT_ID="$NEXT_PUBLIC_ADSENSE_CLIENT_ID" \
+            -t app:test .
+
+  build-and-deploy:
+    name: Build & deploy Cloud Run
+    runs-on: ubuntu-latest
+    needs: validate
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    outputs:
+      service_url: ${{ steps.deploy-url.outputs.service_url }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - name: Enable APIs & Artifact Registry repo
+        run: |
+          gcloud config set project "${{ secrets.GCP_PROJECT_ID }}"
+          gcloud services enable artifactregistry.googleapis.com run.googleapis.com cloudscheduler.googleapis.com iam.googleapis.com --quiet
+          if ! gcloud artifacts repositories describe "${{ env.ARTIFACT_REPO }}" --location="${{ env.REGION }}" &>/dev/null; then
+            gcloud artifacts repositories create "${{ env.ARTIFACT_REPO }}" \
+              --repository-format=docker \
+              --location="${{ env.REGION }}" \
+              --description="Docker images for Cloud Run"
+          fi
+
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker "${{ env.REGION }}-docker.pkg.dev" --quiet
+
+      - name: Build and push image
+        env:
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
+          NEXT_PUBLIC_ADSENSE_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_ADSENSE_CLIENT_ID }}
+        run: |
+          IMAGE="${{ env.REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/${{ env.SERVICE_NAME }}"
+          docker build \
+            --build-arg NEXT_PUBLIC_SITE_URL="${NEXT_PUBLIC_SITE_URL}" \
+            --build-arg NEXT_PUBLIC_ADSENSE_CLIENT_ID="${NEXT_PUBLIC_ADSENSE_CLIENT_ID}" \
+            --tag "${IMAGE}:${{ github.sha }}" \
+            --tag "${IMAGE}:latest" \
+            .
+          docker push "${IMAGE}:${{ github.sha }}"
+          docker push "${IMAGE}:latest"
+
+      - name: Write runtime env file (from GitHub secrets)
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          MONGODB_URL: ${{ secrets.MONGODB_URL }}
+          MONGODB_DB_NAME: ${{ secrets.MONGODB_DB_NAME }}
+          HUGGINGFACE_API_KEY: ${{ secrets.HUGGINGFACE_API_KEY }}
+          HUGGINGFACE_EMBEDDING_MODEL: ${{ secrets.HUGGINGFACE_EMBEDDING_MODEL }}
+          HUGGINGFACE_TEXT_GENERATION_MODEL: ${{ secrets.HUGGINGFACE_TEXT_GENERATION_MODEL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+          ALPHA_VANTAGE_API_KEY: ${{ secrets.ALPHA_VANTAGE_API_KEY }}
+          METALPRICE_API_KEY: ${{ secrets.METALPRICE_API_KEY }}
+          GOLD_API_KEY: ${{ secrets.GOLD_API_KEY }}
+          HUMANIZER_API_KEY: ${{ secrets.HUMANIZER_API_KEY }}
+          HUMANIZER_PROVIDER: ${{ secrets.HUMANIZER_PROVIDER }}
+          ADMIN_SECRET_KEY: ${{ secrets.ADMIN_SECRET_KEY }}
+          ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+          GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
+          BING_OAUTH_CLIENT_ID: ${{ secrets.BING_OAUTH_CLIENT_ID }}
+          BING_OAUTH_CLIENT_SECRET: ${{ secrets.BING_OAUTH_CLIENT_SECRET }}
+          YANDEX_OAUTH_CLIENT_ID: ${{ secrets.YANDEX_OAUTH_CLIENT_ID }}
+          YANDEX_OAUTH_CLIENT_SECRET: ${{ secrets.YANDEX_OAUTH_CLIENT_SECRET }}
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
+          GOOGLE_SEARCH_CONSOLE_API_KEY: ${{ secrets.GOOGLE_SEARCH_CONSOLE_API_KEY }}
+          GOOGLE_SEARCH_CONSOLE_SITE_URL: ${{ secrets.GOOGLE_SEARCH_CONSOLE_SITE_URL }}
+          BING_WEBMASTER_API_KEY: ${{ secrets.BING_WEBMASTER_API_KEY }}
+          YANDEX_WEBMASTER_TOKEN: ${{ secrets.YANDEX_WEBMASTER_TOKEN }}
+          GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+          WEBMASTER_OAUTH_STATE_SECRET: ${{ secrets.WEBMASTER_OAUTH_STATE_SECRET }}
+          LOG_LEVEL: ${{ secrets.LOG_LEVEL }}
+          INDEX_URL_BATCH_LIMIT: ${{ secrets.INDEX_URL_BATCH_LIMIT }}
+          ENABLE_PLAYWRIGHT: ${{ secrets.ENABLE_PLAYWRIGHT }}
+        run: node scripts/write-cloud-run-env-yaml.cjs /tmp/cloud-run-env.yaml
+
+      - name: Deploy to Cloud Run
+        run: |
+          IMAGE="${{ env.REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/${{ env.SERVICE_NAME }}:${{ github.sha }}"
+          gcloud run deploy "${{ env.SERVICE_NAME }}" \
+            --image "$IMAGE" \
+            --region "${{ env.REGION }}" \
+            --platform managed \
+            --allow-unauthenticated \
+            --port 8080 \
+            --memory 2Gi \
+            --cpu 2 \
+            --timeout 900 \
+            --concurrency 40 \
+            --min-instances 0 \
+            --max-instances 10 \
+            --env-vars-file /tmp/cloud-run-env.yaml \
+            --quiet
+
+      - name: Capture service URL and set OIDC audience
+        id: deploy-url
+        run: |
+          URL=$(gcloud run services describe "${{ env.SERVICE_NAME }}" --region "${{ env.REGION }}" --format 'value(status.url)')
+          echo "service_url=$URL" >> "$GITHUB_OUTPUT"
+          echo "Deployed: $URL"
+          gcloud run services update "${{ env.SERVICE_NAME }}" \
+            --region="${{ env.REGION }}" \
+            --update-env-vars="CLOUD_RUN_AUDIENCE=${URL}" \
+            --quiet
+
+      - name: Ensure scheduler service account
+        run: |
+          PROJECT="${{ secrets.GCP_PROJECT_ID }}"
+          SA="news-pipeline@${PROJECT}.iam.gserviceaccount.com"
+          if ! gcloud iam service-accounts describe "$SA" &>/dev/null; then
+            gcloud iam service-accounts create news-pipeline \
+              --display-name="Cloud Scheduler HTTP OIDC"
+          fi
+
+      - name: Grant Cloud Run invoker to scheduler SA
+        run: |
+          gcloud run services add-iam-policy-binding "${{ env.SERVICE_NAME }}" \
+            --region="${{ env.REGION }}" \
+            --member="serviceAccount:news-pipeline@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com" \
+            --role="roles/run.invoker" \
+            --quiet
+
+  setup-scheduler:
+    name: Cloud Scheduler jobs
+    needs: build-and-deploy
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    runs-on: ubuntu-latest
+    env:
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      SERVICE_URL: ${{ needs.build-and-deploy.outputs.service_url }}
+      SERVICE_ACCOUNT_EMAIL: news-pipeline@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com
+    steps:
+      - uses: actions/checkout@v4
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - uses: google-github-actions/setup-gcloud@v2
+      - name: Apply scheduler definitions
+        run: |
+          chmod +x scripts/setup-cloud-scheduler.sh
+          ./scripts/setup-cloud-scheduler.sh
+      - name: List scheduler jobs
+        run: gcloud scheduler jobs list --location="${{ env.REGION }}" --format="table(name,schedule,state)"

@@ -2,7 +2,15 @@
   "permissions": {
     "allow": [
       "mcp__plugin_playwright_playwright__browser_navigate",
-      "mcp__plugin_playwright_playwright__browser_snapshot"
+      "mcp__plugin_playwright_playwright__browser_snapshot",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(node -e \"require\\('./lib/utils/contentQuality.js'\\)\")",
+      "Bash(node -e \"require\\('./lib/utils/humanizer.js'\\)\")",
+      "Bash(node -e \"require\\('./lib/utils/humanizer.js'\\); console.log\\('humanizer.js OK'\\)\")",
+      "Bash(node --check lib/utils/shariaCompliance.js)",
+      "Bash(node --check app/api/cron/update-stocks/route.js)",
+      "Bash(node --check app/api/cron/update-sharia/route.js)",
+      "Bash(node --check app/api/sharia/stocks/route.js)"
     ]
   }
 }

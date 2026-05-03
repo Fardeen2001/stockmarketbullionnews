@@ -3,15 +3,15 @@ import { getMetalsCollection } from '@/lib/db';
 import { YahooFinanceMetalsAPI, MetalpriceAPI, GoldAPI, getAllMetals } from '@/lib/api/metalsAPI';
 import { UnsplashAPI } from '@/lib/api/imageAPI';
 import { logger } from '@/lib/utils/logger';
-import { verifyCronRequest } from '@/lib/utils/cronAuth';
+import { verifyGCPRequest } from '@/lib/cron/gcpAuth';
 
 export async function GET(request) {
-  const authResult = verifyCronRequest(request);
+  const authResult = await verifyGCPRequest(request);
   const timestamp = new Date().toISOString();
-  
-  logger.info('Cron job triggered: update-metals', { 
+
+  logger.info('Cron job triggered: update-metals', {
     source: authResult.source,
-    timestamp 
+    timestamp
   });
   
   try {
