@@ -61,16 +61,29 @@ jobs:
 
       - uses: google-github-actions/setup-gcloud@v2
 
-      - name: Enable APIs & Artifact Registry repo
+      # Do not call `gcloud services enable` here: it needs Service Usage / Resource Manager
+      # permissions most deploy keys do not have. Enable APIs once as a project Owner (Console
+      # or `scripts/setup-gcp.sh` with `gcloud auth login`), then CI only uses the deploy SA.
+      - name: Configure project and Artifact Registry repo
         run: |
+          set -euo pipefail
           gcloud config set project "${{ secrets.GCP_PROJECT_ID }}"
-          gcloud services enable artifactregistry.googleapis.com run.googleapis.com cloudscheduler.googleapis.com iam.googleapis.com --quiet
-          if ! gcloud artifacts repositories describe "${{ env.ARTIFACT_REPO }}" --location="${{ env.REGION }}" &>/dev/null; then
-            gcloud artifacts repositories create "${{ env.ARTIFACT_REPO }}" \
-              --repository-format=docker \
-              --location="${{ env.REGION }}" \
-              --description="Docker images for Cloud Run"
+          REPO="${{ env.ARTIFACT_REPO }}"
+          LOC="${{ env.REGION }}"
+          if gcloud artifacts repositories describe "$REPO" --location="$LOC" &>/dev/null; then
+            echo "Artifact Registry repo OK: $LOC/$REPO"
+            exit 0
           fi
+          echo "Creating Artifact Registry repo $REPO in $LOC ..."
+          if gcloud artifacts repositories create "$REPO" \
+            --repository-format=docker \
+            --location="$LOC" \
+            --description="Docker images for Cloud Run" \
+            --quiet; then
+            exit 0
+          fi
+          echo "::error::Could not use or create Artifact Registry. As project Owner: (1) Enable Cloud Resource Manager + Service Usage + Artifact Registry + Cloud Run + Cloud Scheduler + IAM APIs. (2) Create repo: gcloud artifacts repositories create $REPO --repository-format=docker --location=$LOC. Or run ./scripts/setup-gcp.sh locally after gcloud auth login. Grant this SA at least roles/artifactregistry.writer + roles/run.admin + roles/iam.serviceAccountUser on the deploy/runtime accounts you use."
+          exit 1
 
       - name: Configure Docker for Artifact Registry
         run: gcloud auth configure-docker "${{ env.REGION }}-docker.pkg.dev" --quiet

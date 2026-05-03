@@ -22,9 +22,11 @@ fi
 # Set project
 gcloud config set project "$PROJECT_ID"
 
-# Enable required APIs
+# Enable required APIs (run while authenticated as a project Owner)
 echo "Enabling GCP APIs..."
 gcloud services enable \
+    cloudresourcemanager.googleapis.com \
+    serviceusage.googleapis.com \
     run.googleapis.com \
     cloudscheduler.googleapis.com \
     cloudbuild.googleapis.com \
