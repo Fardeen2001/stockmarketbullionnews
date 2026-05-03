@@ -70,6 +70,13 @@ gcloud projects add-iam-policy-binding "$PROJECT_ID" \
     --member="serviceAccount:$GHA_SA_EMAIL" \
     --role="roles/artifactregistry.writer"
 
+# Cloud Scheduler OIDC uses this same SA; creating jobs requires actAs on that identity.
+gcloud iam service-accounts add-iam-policy-binding "$GHA_SA_EMAIL" \
+    --project="$PROJECT_ID" \
+    --member="serviceAccount:${GHA_SA_EMAIL}" \
+    --role="roles/iam.serviceAccountUser" \
+    --quiet
+
 echo "GitHub Actions SA created: $GHA_SA_EMAIL"
 
 # Create JSON key for GitHub Actions

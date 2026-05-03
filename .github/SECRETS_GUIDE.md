@@ -103,4 +103,21 @@ git push origin main
 
 ### Cloud Scheduler / `gcloud`: Cloud Resource Manager API disabled
 
-If logs mention `cloudresourcemanager.googleapis.com` / `SERVICE_DISABLED`, a project **Owner** must enable [Cloud Resource Manager API](https://console.developers.google.com/apis/api/cloudresourcemanager.googleapis.com/overview) for that project once.
+If logs mention `cloudresourcemanager.googleapis.com` / `SERVICE_DISABLED`, a project **Owner** must enable [Cloud Resource Manager API](https://console.developers.google.com/apis/api/cloudresourcemanager.googleapis.com/overview) for that project once (often required before other IAM calls succeed).
+
+### Cloud Scheduler: `iam.serviceAccounts.actAs` / `PERMISSION_DENIED`
+
+Jobs are created with OIDC using the **same** email as `GCP_SA_KEY`’s `client_email`. Google requires that principal to be allowed to **act as** itself when Scheduler mints tokens.
+
+As **Owner**, run once (replace `SA_EMAIL` with your key’s `client_email`, and `PROJECT` with `GCP_PROJECT_ID`):
+
+```bash
+SA_EMAIL="rankpulse@YOUR_PROJECT.iam.gserviceaccount.com"
+PROJECT="YOUR_PROJECT"
+gcloud iam service-accounts add-iam-policy-binding "$SA_EMAIL" \
+  --project="$PROJECT" \
+  --member="serviceAccount:${SA_EMAIL}" \
+  --role="roles/iam.serviceAccountUser"
+```
+
+If you use `./scripts/setup-gcp.sh` with the default `github-actions@…` account, that script now applies this binding for that account automatically.

@@ -67,6 +67,21 @@ jobs:
           printf '%s' "$EMAIL" > .scheduler-oidc-email
           echo "Scheduler OIDC identity: ${EMAIL}"
 
+      - name: Grant deploy SA Service Account User on itself (Scheduler OIDC actAs)
+        env:
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+        run: |
+          SA="$(cat .scheduler-oidc-email)"
+          if gcloud iam service-accounts add-iam-policy-binding "$SA" \
+            --project="${GCP_PROJECT_ID}" \
+            --member="serviceAccount:${SA}" \
+            --role="roles/iam.serviceAccountUser" \
+            --quiet; then
+            echo "Granted roles/iam.serviceAccountUser on ${SA}"
+          else
+            echo "::warning::Could not grant actAs self-binding. Owner: gcloud iam service-accounts add-iam-policy-binding ${SA} --project=${GCP_PROJECT_ID} --member=serviceAccount:${SA} --role=roles/iam.serviceAccountUser"
+          fi
+
       - name: Grant Cloud Run invoker to scheduler OIDC identity
         env:
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}

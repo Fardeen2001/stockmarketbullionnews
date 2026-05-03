@@ -95,7 +95,20 @@ echo -n "your-yandex-client-secret" | \
 
 ## Step 3: Create Service Account
 
-**GitHub Actions deploy (this repo):** Cloud Scheduler HTTP jobs use **OIDC with the same service account as `GCP_SA_KEY`** (`client_email`). You do **not** need a separate `news-pipeline` account for CI. The workflow grants that identity `roles/run.invoker` on Cloud Run and sets `CLOUD_SCHEDULER_OIDC_SA` on the service so cron auth only accepts that principal.
+**GitHub Actions deploy (this repo):** Cloud Scheduler HTTP jobs use **OIDC with the same service account as `GCP_SA_KEY`** (`client_email`). You do **not** need a separate `news-pipeline` account for CI. The workflow grants that identity `roles/run.invoker` on Cloud Run (when IAM allows) and sets `CLOUD_SCHEDULER_OIDC_SA` on the service so cron auth only accepts that principal.
+
+**One-time Owner step for OIDC:** Creating scheduler jobs requires **`iam.serviceAccounts.actAs`** on that service account. Grant the deploy key identity permission to use itself:
+
+```bash
+SA="rankpulse@YOUR_PROJECT_ID.iam.gserviceaccount.com"   # client_email from GCP_SA_KEY
+PROJECT="YOUR_PROJECT_ID"
+gcloud iam service-accounts add-iam-policy-binding "$SA" \
+  --project="$PROJECT" \
+  --member="serviceAccount:${SA}" \
+  --role="roles/iam.serviceAccountUser"
+```
+
+Also enable the **Cloud Resource Manager API** for the project if `gcloud` reports `SERVICE_DISABLED` for `cloudresourcemanager.googleapis.com`.
 
 **Manual / legacy setups** can still create a dedicated scheduler SA:
 
