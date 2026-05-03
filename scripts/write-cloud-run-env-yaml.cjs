@@ -45,15 +45,23 @@ const KEYS = [
 
 const outPath = process.argv[2] || '/tmp/cloud-run-env.yaml';
 
-if (!process.env.MONGODB_URI && process.env.MONGODB_URL) {
-  process.env.MONGODB_URI = process.env.MONGODB_URL;
+function trimEnv(value) {
+  if (value === undefined || value === null) return value;
+  return String(value).trim();
 }
+
+let mongoUri = trimEnv(process.env.MONGODB_URI);
+const mongoUrl = trimEnv(process.env.MONGODB_URL);
+if (!mongoUri && mongoUrl) {
+  mongoUri = mongoUrl;
+}
+if (mongoUri) process.env.MONGODB_URI = mongoUri;
 
 const lines = ['NODE_ENV: production'];
 for (const k of KEYS) {
-  const v = process.env[k];
-  if (v !== undefined && String(v).length > 0) {
-    lines.push(`${k}: ${JSON.stringify(String(v))}`);
+  const v = trimEnv(process.env[k]);
+  if (v !== undefined && v.length > 0) {
+    lines.push(`${k}: ${JSON.stringify(v)}`);
   }
 }
 

@@ -5,6 +5,8 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
+  # Re-apply GitHub Actions secrets to Cloud Run without a code change (secrets are not synced from GitHub to GCP automatically).
+  workflow_dispatch:
 
 concurrency:
   group: deploy-${{ github.workflow }}-${{ github.ref }}
@@ -43,7 +45,7 @@ jobs:
     name: Build & deploy Cloud Run
     runs-on: ubuntu-latest
     needs: validate
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     outputs:
       service_url: ${{ steps.deploy-url.outputs.service_url }}
 
@@ -185,6 +187,22 @@ jobs:
           export CLOUD_SCHEDULER_OIDC_SA="$(cat .scheduler-oidc-email)"
           node scripts/write-cloud-run-env-yaml.cjs /tmp/cloud-run-env.yaml
 
+      - name: Verify runtime env (MongoDB required for API / cron)
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          MONGODB_URL: ${{ secrets.MONGODB_URL }}
+        run: |
+          set -euo pipefail
+          if [ -z "${MONGODB_URI:-}" ] && [ -z "${MONGODB_URL:-}" ]; then
+            echo "::error::Set repository secret MONGODB_URI or MONGODB_URL (Actions → Secrets). Without it, Cloud Run cannot read/write the database and the site will show empty data."
+            exit 1
+          fi
+          if ! grep -q '^MONGODB_URI:' /tmp/cloud-run-env.yaml; then
+            echo "::error::Expected MONGODB_URI in /tmp/cloud-run-env.yaml after write-cloud-run-env-yaml (check secret values are non-empty)."
+            exit 1
+          fi
+          echo "Runtime env file has $(grep -c '^[A-Z]' /tmp/cloud-run-env.yaml || true) variable line(s) (incl. NODE_ENV)."
+
       - name: Deploy to Cloud Run
         run: |
           IMAGE="${{ env.REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.ARTIFACT_REPO }}/${{ env.SERVICE_NAME }}:${{ github.sha }}"
@@ -252,7 +270,7 @@ jobs:
   setup-scheduler:
     name: Cloud Scheduler jobs
     needs: build-and-deploy
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     runs-on: ubuntu-latest
     env:
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}

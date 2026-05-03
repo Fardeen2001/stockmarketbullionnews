@@ -1,5 +1,7 @@
-# Cloud Build CI/CD Pipeline for GCP Cloud Run
-# Triggered on push to main branch
+# Cloud Build: deploys from GCP triggers (Console / Cloud Build), NOT from GitHub Actions secrets.
+# Repository secrets (Settings → Secrets → Actions) are ONLY injected by .github/workflows/deploy.yml.
+# If you use this file: store values in GCP Secret Manager and map them below, or disable this trigger
+# and deploy only via GitHub Actions (push to main/master or "Run workflow" on Deploy to Google Cloud Run).
 
 steps:
   # Step 1: Build the container image
@@ -58,7 +60,7 @@ steps:
       - "--concurrency"
       - "80"
       - "--set-env-vars"
-      - "NODE_ENV=production,NEXT_PUBLIC_SITE_URL=${_SITE_URL},MONGODB_URI=${_MONGODB_URI}"
+      - "NODE_ENV=production,NEXT_PUBLIC_SITE_URL=${_SITE_URL}"
       - "--set-secrets"
       - "HUGGINGFACE_API_KEY=huggingface-api-key:latest,CRON_SECRET=cron-secret:latest,UNSPLASH_ACCESS_KEY=unsplash-access-key:latest,MONGODB_URI=mongodb-uri:latest,GOOGLE_OAUTH_CLIENT_ID=google-oauth-client-id:latest,GOOGLE_OAUTH_CLIENT_SECRET=google-oauth-client-secret:latest,BING_OAUTH_CLIENT_ID=bing-oauth-client-id:latest,BING_OAUTH_CLIENT_SECRET=bing-oauth-client-secret:latest,YANDEX_OAUTH_CLIENT_ID=yandex-oauth-client-id:latest,YANDEX_OAUTH_CLIENT_SECRET=yandex-oauth-client-secret:latest"
     waitFor: ["push-latest"]
@@ -74,4 +76,3 @@ timeout: "1200s"
 
 substitutions:
   _SITE_URL: "https://stockmarketbullion.com"
-  _MONGODB_URI: ""
