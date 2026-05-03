@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
 import { TrendDetectionAgent } from '@/lib/ai/agents/trendDetectionAgent';
 import { verifyGCPRequest } from '@/lib/cron/gcpAuth';
+import { bindSchedulerHttpMethods } from '@/lib/cron/scheduleHttp';
 import { logger } from '@/lib/utils/logger';
 
-export async function GET(request) {
+async function handleCron(request) {
   const authResult = await verifyGCPRequest(request);
   const timestamp = new Date().toISOString();
   
@@ -48,3 +49,5 @@ export async function GET(request) {
     );
   }
 }
+
+export const { GET, POST } = bindSchedulerHttpMethods(handleCron);

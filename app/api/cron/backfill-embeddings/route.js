@@ -7,12 +7,13 @@ import {
 import { EmbeddingGenerator } from '@/lib/ai/embeddings';
 import { getVectorDB } from '@/lib/vector/vectorDB';
 import { verifyGCPRequest } from '@/lib/cron/gcpAuth';
+import { bindSchedulerHttpMethods } from '@/lib/cron/scheduleHttp';
 
 /**
  * Backfill missing embeddings so all research data is stored with embedding.
  * Run periodically or once after switching embedding model.
  */
-export async function GET(request) {
+async function handleCron(request) {
   try {
     const authResult = await verifyGCPRequest(request);
     if (!authResult.authorized) {
@@ -164,3 +165,5 @@ export async function GET(request) {
     );
   }
 }
+
+export const { GET, POST } = bindSchedulerHttpMethods(handleCron);

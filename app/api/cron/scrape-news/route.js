@@ -5,6 +5,7 @@ import { WORKFLOW_SOURCES } from '@/lib/workflow/sources';
 import { EmbeddingGenerator } from '@/lib/ai/embeddings';
 import { getVectorDB } from '@/lib/vector/vectorDB';
 import { verifyGCPRequest } from '@/lib/cron/gcpAuth';
+import { bindSchedulerHttpMethods } from '@/lib/cron/scheduleHttp';
 
 async function addEmbeddingForScrapedItem(embeddingGenerator, vectorDB, insertedId, item) {
   if (!embeddingGenerator || !vectorDB) return;
@@ -32,7 +33,7 @@ async function addEmbeddingForScrapedItem(embeddingGenerator, vectorDB, inserted
   }
 }
 
-export async function GET(request) {
+async function handleCron(request) {
   try {
     const authResult = await verifyGCPRequest(request);
     if (!authResult.authorized) {
@@ -150,3 +151,5 @@ export async function GET(request) {
     );
   }
 }
+
+export const { GET, POST } = bindSchedulerHttpMethods(handleCron);

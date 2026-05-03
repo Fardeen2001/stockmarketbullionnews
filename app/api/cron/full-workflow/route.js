@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { verifyGCPRequest } from '@/lib/cron/gcpAuth';
+import { bindSchedulerHttpMethods } from '@/lib/cron/scheduleHttp';
 import { logger } from '@/lib/utils/logger';
 import { runFullWorkflow } from '@/lib/workflow/runFullWorkflow';
 
@@ -15,7 +16,7 @@ import { runFullWorkflow } from '@/lib/workflow/runFullWorkflow';
  * - Manual triggers (Bearer token)
  * - Development mode (no auth)
  */
-export async function GET(request) {
+async function handleCron(request) {
   const authResult = await verifyGCPRequest(request);
   const timestamp = new Date().toISOString();
 
@@ -47,3 +48,5 @@ export async function GET(request) {
     );
   }
 }
+
+export const { GET, POST } = bindSchedulerHttpMethods(handleCron);

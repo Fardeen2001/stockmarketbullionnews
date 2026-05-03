@@ -6,8 +6,9 @@ import { getVectorDB } from '@/lib/vector/vectorDB';
 import { UnsplashAPI } from '@/lib/api/imageAPI';
 import { createSlug } from '@/lib/utils/slugify';
 import { verifyGCPRequest } from '@/lib/cron/gcpAuth';
+import { bindSchedulerHttpMethods } from '@/lib/cron/scheduleHttp';
 
-export async function GET(request) {
+async function handleCron(request) {
   try {
     const authResult = await verifyGCPRequest(request);
     if (!authResult.authorized) {
@@ -269,3 +270,5 @@ export async function GET(request) {
     );
   }
 }
+
+export const { GET, POST } = bindSchedulerHttpMethods(handleCron);

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { verifyGCPRequest } from '@/lib/cron/gcpAuth';
+import { bindSchedulerHttpMethods } from '@/lib/cron/scheduleHttp';
 
 /**
  * Test endpoint to verify Cloud Scheduler job configuration
@@ -8,7 +9,7 @@ import { verifyGCPRequest } from '@/lib/cron/gcpAuth';
  * - Authentication status
  * - Environment variables (masked)
  */
-export async function GET(request) {
+async function handleCron(request) {
   const authResult = await verifyGCPRequest(request);
   const timestamp = new Date().toISOString();
 
@@ -42,3 +43,5 @@ export async function GET(request) {
     },
   });
 }
+
+export const { GET, POST } = bindSchedulerHttpMethods(handleCron);

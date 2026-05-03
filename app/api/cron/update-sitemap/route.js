@@ -1,13 +1,14 @@
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { verifyGCPRequest } from '@/lib/cron/gcpAuth';
+import { bindSchedulerHttpMethods } from '@/lib/cron/scheduleHttp';
 import { logger } from '@/lib/utils/logger';
 
 /**
  * Revalidates the news sitemap and main sitemap to include newly published articles.
  * Call this after article generation to ensure search engines index new content promptly.
  */
-export async function GET(request) {
+async function handleCron(request) {
   const authResult = await verifyGCPRequest(request);
   const timestamp = new Date().toISOString();
 
@@ -64,3 +65,5 @@ export async function GET(request) {
     );
   }
 }
+
+export const { GET, POST } = bindSchedulerHttpMethods(handleCron);

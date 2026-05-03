@@ -4,9 +4,10 @@ import { YahooFinanceAPI, AlphaVantageAPI, getAllStocks } from '@/lib/api/stockA
 import { UnsplashAPI } from '@/lib/api/imageAPI';
 import { logger } from '@/lib/utils/logger';
 import { verifyGCPRequest } from '@/lib/cron/gcpAuth';
+import { bindSchedulerHttpMethods } from '@/lib/cron/scheduleHttp';
 import { getMultiSourceHalalSymbols, screenStockForSharia } from '@/lib/utils/shariaCompliance';
 
-export async function GET(request) {
+async function handleCron(request) {
   const authResult = await verifyGCPRequest(request);
   const timestamp = new Date().toISOString();
 
@@ -196,3 +197,5 @@ export async function GET(request) {
     );
   }
 }
+
+export const { GET, POST } = bindSchedulerHttpMethods(handleCron);

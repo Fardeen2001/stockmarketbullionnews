@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { verifyGCPRequest } from '@/lib/cron/gcpAuth';
+import { bindSchedulerHttpMethods } from '@/lib/cron/scheduleHttp';
 import { logger } from '@/lib/utils/logger';
 
 /**
@@ -8,7 +9,7 @@ import { logger } from '@/lib/utils/logger';
  * 
  * This is the primary endpoint triggered by Cloud Scheduler every 6 hours
  */
-export async function GET(request) {
+async function handleCron(request) {
   const authResult = await verifyGCPRequest(request);
   const timestamp = new Date().toISOString();
 
@@ -51,7 +52,4 @@ export async function GET(request) {
   }
 }
 
-// Also support POST for manual triggers with body
-export async function POST(request) {
-  return GET(request);
-}
+export const { GET, POST } = bindSchedulerHttpMethods(handleCron);

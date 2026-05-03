@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
 import { getStocksCollection } from '@/lib/db';
 import { verifyGCPRequest } from '@/lib/cron/gcpAuth';
+import { bindSchedulerHttpMethods } from '@/lib/cron/scheduleHttp';
 import { logger } from '@/lib/utils/logger';
 import { getMultiSourceHalalSymbols, screenStockForSharia, normalizeSymbol } from '@/lib/utils/shariaCompliance';
 
-export async function GET(request) {
+async function handleCron(request) {
   const authResult = await verifyGCPRequest(request);
   const timestamp = new Date().toISOString();
 
@@ -120,3 +121,5 @@ export async function GET(request) {
     );
   }
 }
+
+export const { GET, POST } = bindSchedulerHttpMethods(handleCron);

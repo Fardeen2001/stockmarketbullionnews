@@ -86,6 +86,7 @@ create_or_update_job() {
     local URI=$3
     local DESCRIPTION=$4
     local TIMEZONE=$5
+    # Scheduler HTTP jobs default to POST; these Next.js routes only implement GET.
 
     local -a tz_args=()
     if [ -n "${TIMEZONE}" ]; then
@@ -100,6 +101,7 @@ create_or_update_job() {
             --location="${REGION}" \
             --schedule="${SCHEDULE}" \
             "${tz_args[@]}" \
+            --http-method=GET \
             --uri="${URI}" \
             --oidc-service-account-email="${SA_EMAIL}" \
             --oidc-token-audience="${SERVICE_URL}" \
@@ -112,6 +114,7 @@ create_or_update_job() {
             --location="${REGION}" \
             --schedule="${SCHEDULE}" \
             "${tz_args[@]}" \
+            --http-method=GET \
             --uri="${URI}" \
             --oidc-service-account-email="${SA_EMAIL}" \
             --oidc-token-audience="${SERVICE_URL}" \
