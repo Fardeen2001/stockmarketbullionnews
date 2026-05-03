@@ -188,12 +188,22 @@ jobs:
             --quiet
 
       - name: Grant Cloud Run invoker to scheduler OIDC identity
+        env:
+          INVOKER_SA: ${{ steps.scheduler_oidc.outputs.email }}
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
         run: |
-          gcloud run services add-iam-policy-binding "${{ env.SERVICE_NAME }}" \
+          set -euo pipefail
+          if gcloud run services add-iam-policy-binding "${{ env.SERVICE_NAME }}" \
             --region="${{ env.REGION }}" \
-            --member="serviceAccount:${{ steps.scheduler_oidc.outputs.email }}" \
+            --member="serviceAccount:${INVOKER_SA}" \
             --role="roles/run.invoker" \
-            --quiet
+            --quiet; then
+            echo "Granted roles/run.invoker on ${{ env.SERVICE_NAME }} to ${INVOKER_SA}"
+          else
+            echo "::warning::Deploy SA lacks run.services.setIamPolicy on this service. Cloud Run is deployed; Scheduler OIDC may get HTTP 403 until a project Owner runs once (same identity as GCP_SA_KEY):"
+            echo "::warning::gcloud run services add-iam-policy-binding ${{ env.SERVICE_NAME }} --region=${{ env.REGION }} --project=${GCP_PROJECT_ID} --member=serviceAccount:${INVOKER_SA} --role=roles/run.invoker"
+            echo "::warning::Alternatively grant the deploy SA a role that includes setIamPolicy (e.g. roles/run.admin on the project)."
+          fi
 
   setup-scheduler:
     name: Cloud Scheduler jobs

@@ -42,13 +42,22 @@ jobs:
           echo "Scheduler OIDC identity: ${EMAIL}"
 
       - name: Grant Cloud Run invoker to scheduler OIDC identity
+        env:
+          INVOKER_SA: ${{ steps.scheduler_oidc.outputs.email }}
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
         run: |
-          gcloud config set project "${{ secrets.GCP_PROJECT_ID }}"
-          gcloud run services add-iam-policy-binding "${{ env.SERVICE_NAME }}" \
+          set -euo pipefail
+          gcloud config set project "${GCP_PROJECT_ID}"
+          if gcloud run services add-iam-policy-binding "${{ env.SERVICE_NAME }}" \
             --region="${{ env.REGION }}" \
-            --member="serviceAccount:${{ steps.scheduler_oidc.outputs.email }}" \
+            --member="serviceAccount:${INVOKER_SA}" \
             --role="roles/run.invoker" \
-            --quiet
+            --quiet; then
+            echo "Granted roles/run.invoker on ${{ env.SERVICE_NAME }} to ${INVOKER_SA}"
+          else
+            echo "::warning::Could not set IAM on Cloud Run (need run.services.setIamPolicy). Run as Owner:"
+            echo "::warning::gcloud run services add-iam-policy-binding ${{ env.SERVICE_NAME }} --region=${{ env.REGION }} --project=${GCP_PROJECT_ID} --member=serviceAccount:${INVOKER_SA} --role=roles/run.invoker"
+          fi
 
       - name: Setup scheduler jobs
         env:
