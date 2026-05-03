@@ -1,7 +1,11 @@
 #!/bin/bash
 
 # Complete Cloud Scheduler Setup for StockMarket Bullion News
-# Creates all scheduled jobs for the news pipeline
+# Creates all scheduled jobs for the news pipeline.
+#
+# OIDC identity: set SERVICE_ACCOUNT_EMAIL to the SA that should mint tokens (GitHub Actions:
+# same as GCP_SA_KEY client_email). If SERVICE_ACCOUNT_EMAIL is unset, the script falls back to
+# creating/using legacy news-pipeline@... (owner gcloud only).
 
 set -e
 

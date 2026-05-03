@@ -8,6 +8,8 @@ const fs = require('fs');
 const KEYS = [
   'MONGODB_URI',
   'MONGODB_DB_NAME',
+  /** When set, cron OIDC must match this SA email (set by CI from GCP_SA_KEY client_email). */
+  'CLOUD_SCHEDULER_OIDC_SA',
   'HUGGINGFACE_API_KEY',
   'HUGGINGFACE_EMBEDDING_MODEL',
   'HUGGINGFACE_TEXT_GENERATION_MODEL',

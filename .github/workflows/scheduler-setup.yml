@@ -11,13 +11,12 @@ on:
 env:
   GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   REGION: asia-southeast1
+  SERVICE_NAME: news-site
 
 jobs:
   setup-scheduler:
     name: Configure Cloud Scheduler
     runs-on: ubuntu-latest
-    env:
-      SA_EMAIL: news-pipeline@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com
 
     steps:
       - uses: actions/checkout@v4
@@ -28,22 +27,33 @@ jobs:
 
       - uses: google-github-actions/setup-gcloud@v2
 
-      - name: Verify scheduler service account exists
+      - name: Resolve OIDC identity for Cloud Scheduler
+        id: scheduler_oidc
         run: |
           set -euo pipefail
-          gcloud config set project "${{ secrets.GCP_PROJECT_ID }}"
-          SA="${{ env.SA_EMAIL }}"
-          if gcloud iam service-accounts describe "$SA" --quiet &>/dev/null; then
-            echo "Scheduler SA OK: $SA"
-            exit 0
+          printf '%s' '${{ secrets.GCP_SA_KEY }}' > .gha-sa-key.json
+          EMAIL=$(jq -r .client_email .gha-sa-key.json)
+          rm -f .gha-sa-key.json
+          if [ -z "$EMAIL" ] || [ "$EMAIL" = "null" ]; then
+            echo "::error::GCP_SA_KEY has no client_email"
+            exit 1
           fi
-          echo "::error::Missing service account $SA. Create it once as Owner: gcloud iam service-accounts create news-pipeline --project=\"${{ secrets.GCP_PROJECT_ID }}\" --display-name=\"Cloud Scheduler -> Cloud Run\". See docs/GCP_DEPLOYMENT.md."
-          exit 1
+          echo "email=${EMAIL}" >> "$GITHUB_OUTPUT"
+          echo "Scheduler OIDC identity: ${EMAIL}"
+
+      - name: Grant Cloud Run invoker to scheduler OIDC identity
+        run: |
+          gcloud config set project "${{ secrets.GCP_PROJECT_ID }}"
+          gcloud run services add-iam-policy-binding "${{ env.SERVICE_NAME }}" \
+            --region="${{ env.REGION }}" \
+            --member="serviceAccount:${{ steps.scheduler_oidc.outputs.email }}" \
+            --role="roles/run.invoker" \
+            --quiet
 
       - name: Setup scheduler jobs
         env:
           SERVICE_URL: ${{ github.event.inputs.service_url }}
-          SERVICE_ACCOUNT_EMAIL: ${{ env.SA_EMAIL }}
+          SERVICE_ACCOUNT_EMAIL: ${{ steps.scheduler_oidc.outputs.email }}
         run: |
           chmod +x scripts/setup-cloud-scheduler.sh
           ./scripts/setup-cloud-scheduler.sh

@@ -95,6 +95,10 @@ echo -n "your-yandex-client-secret" | \
 
 ## Step 3: Create Service Account
 
+**GitHub Actions deploy (this repo):** Cloud Scheduler HTTP jobs use **OIDC with the same service account as `GCP_SA_KEY`** (`client_email`). You do **not** need a separate `news-pipeline` account for CI. The workflow grants that identity `roles/run.invoker` on Cloud Run and sets `CLOUD_SCHEDULER_OIDC_SA` on the service so cron auth only accepts that principal.
+
+**Manual / legacy setups** can still create a dedicated scheduler SA:
+
 ```bash
 # Create service account
 gcloud iam service-accounts create news-pipeline \

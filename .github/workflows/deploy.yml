@@ -45,7 +45,7 @@ jobs:
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     outputs:
       service_url: ${{ steps.deploy-url.outputs.service_url }}
-      scheduler_sa_ready: ${{ steps.scheduler_sa.outputs.ready }}
+      scheduler_oidc_sa: ${{ steps.scheduler_oidc.outputs.email }}
 
     steps:
       - uses: actions/checkout@v4
@@ -61,6 +61,21 @@ jobs:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
       - uses: google-github-actions/setup-gcloud@v2
+
+      # Cloud Scheduler OIDC uses the same SA as this workflow key (no separate news-pipeline).
+      - name: Resolve OIDC identity for Cloud Scheduler
+        id: scheduler_oidc
+        run: |
+          set -euo pipefail
+          printf '%s' '${{ secrets.GCP_SA_KEY }}' > .gha-sa-key.json
+          EMAIL=$(jq -r .client_email .gha-sa-key.json)
+          rm -f .gha-sa-key.json
+          if [ -z "$EMAIL" ] || [ "$EMAIL" = "null" ]; then
+            echo "::error::GCP_SA_KEY has no client_email"
+            exit 1
+          fi
+          echo "email=${EMAIL}" >> "$GITHUB_OUTPUT"
+          echo "Scheduler OIDC / Run invoker identity: ${EMAIL}"
 
       # Do not call `gcloud services enable` here: it needs Service Usage / Resource Manager
       # permissions most deploy keys do not have. Enable APIs once as a project Owner (Console
@@ -106,6 +121,7 @@ jobs:
 
       - name: Write runtime env file (from GitHub secrets)
         env:
+          CLOUD_SCHEDULER_OIDC_SA: ${{ steps.scheduler_oidc.outputs.email }}
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
           MONGODB_URL: ${{ secrets.MONGODB_URL }}
           MONGODB_DB_NAME: ${{ secrets.MONGODB_DB_NAME }}
@@ -171,38 +187,23 @@ jobs:
             --update-env-vars="CLOUD_RUN_AUDIENCE=${URL}" \
             --quiet
 
-      - name: Verify scheduler service account exists
-        id: scheduler_sa
-        run: |
-          set -euo pipefail
-          PROJECT="${{ secrets.GCP_PROJECT_ID }}"
-          SA="news-pipeline@${PROJECT}.iam.gserviceaccount.com"
-          if gcloud iam service-accounts describe "$SA" --quiet &>/dev/null; then
-            echo "Scheduler SA OK: $SA"
-            echo "ready=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "::warning::Cloud Run is live, but $SA is missing. Skipping Run invoker for the scheduler and the Cloud Scheduler job until an Owner creates it (see docs/GCP_DEPLOYMENT.md): gcloud iam service-accounts create news-pipeline --project=\"$PROJECT\" --display-name=\"Cloud Scheduler HTTP OIDC\""
-            echo "ready=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Grant Cloud Run invoker to scheduler SA
-        if: steps.scheduler_sa.outputs.ready == 'true'
+      - name: Grant Cloud Run invoker to scheduler OIDC identity
         run: |
           gcloud run services add-iam-policy-binding "${{ env.SERVICE_NAME }}" \
             --region="${{ env.REGION }}" \
-            --member="serviceAccount:news-pipeline@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com" \
+            --member="serviceAccount:${{ steps.scheduler_oidc.outputs.email }}" \
             --role="roles/run.invoker" \
             --quiet
 
   setup-scheduler:
     name: Cloud Scheduler jobs
     needs: build-and-deploy
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && needs.build-and-deploy.outputs.scheduler_sa_ready == 'true'
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     runs-on: ubuntu-latest
     env:
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
       SERVICE_URL: ${{ needs.build-and-deploy.outputs.service_url }}
-      SERVICE_ACCOUNT_EMAIL: news-pipeline@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com
+      SERVICE_ACCOUNT_EMAIL: ${{ needs.build-and-deploy.outputs.scheduler_oidc_sa }}
     steps:
       - uses: actions/checkout@v4
       - uses: google-github-actions/auth@v2
