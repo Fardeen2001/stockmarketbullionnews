@@ -50,3 +50,5 @@ logs
 *.pem
 key.json
 service-account.json
+.scheduler-oidc-email
+.gha-sa-key.json

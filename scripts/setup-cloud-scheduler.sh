@@ -14,6 +14,11 @@ REGION="${REGION:-asia-southeast1}"
 SERVICE_URL="${SERVICE_URL:-https://your-service-url.run.app}"
 SA_EMAIL="${SERVICE_ACCOUNT_EMAIL}"
 
+if [ -z "$SA_EMAIL" ] && [ "${GITHUB_ACTIONS:-}" = "true" ]; then
+    echo "Error: SERVICE_ACCOUNT_EMAIL is empty. In GitHub Actions this must be the deploy key client_email (see deploy workflow resolve step). GitHub often strips this value from cross-job outputs when it matches a secret."
+    exit 1
+fi
+
 echo "=========================================="
 echo "Complete Cloud Scheduler Setup"
 echo "=========================================="

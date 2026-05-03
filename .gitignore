@@ -45,6 +45,8 @@ gcp-*.json
 service-account*.json
 *-key.json
 rankpulse-*.json
+.scheduler-oidc-email
+.gha-sa-key.json
 
 # GitHub Actions workflow dispatch (if needed)
 # .github/workflows/*.yml

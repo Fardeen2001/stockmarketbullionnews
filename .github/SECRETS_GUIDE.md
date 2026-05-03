@@ -27,15 +27,15 @@ Go to your GitHub repository → **Settings** → **Secrets and variables** → 
 
 | Secret Name            | Description              | How to Get                                       |
 | ---------------------- | ------------------------ | ------------------------------------------------ |
-| `GCP_SA_KEY`           | Service account JSON key | Paste entire content of `gcp-sa-key.json` file   |
-| `GCP_PROJECT_ID`       | GCP Project ID           | From Google Cloud Console                        |
-| `GCP_SA_EMAIL`         | Service account email    | `github-actions@project.iam.gserviceaccount.com` |
+| `GCP_SA_KEY`           | Service account JSON key | Paste the **entire** JSON. Name must be exactly **`GCP_SA_KEY`**. |
+| `GCP_PROJECT_ID`     | GCP project ID           | Must match the JSON field **`project_id`** (same string as in `GCP_SA_KEY`). |
 | `NEXT_PUBLIC_SITE_URL` | Your site URL            | `https://your-domain.com`                        |
 
 ### Optional Secrets (for full functionality):
 
 | Secret Name           | Description   | How to Get                          |
 | --------------------- | ------------- | ----------------------------------- |
+| `REGION`              | GCP region    | e.g. `asia-southeast1`. If unset, workflows default to `asia-southeast1`. |
 | `MONGODB_URI`         | MongoDB Atlas | Copy from Atlas dashboard           |
 | `HUGGINGFACE_API_KEY` | HuggingFace   | From huggingface.co/settings/tokens |
 | `UNSPLASH_ACCESS_KEY` | Unsplash      | From unsplash.com/developers        |

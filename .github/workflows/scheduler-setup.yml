@@ -10,7 +10,7 @@ on:
 
 env:
   GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  REGION: asia-southeast1
+  REGION: ${{ secrets.REGION || 'asia-southeast1' }}
   SERVICE_NAME: news-site
 
 jobs:
@@ -21,6 +21,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Require GCP_SA_KEY secret
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+        run: |
+          if [ -z "${GCP_SA_KEY}" ]; then
+            echo "::error::Repository secret GCP_SA_KEY is missing or empty."
+            exit 1
+          fi
+
+      - name: Require GCP_PROJECT_ID secret
+        env:
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+        run: |
+          if [ -z "${GCP_PROJECT_ID}" ]; then
+            echo "::error::Repository secret GCP_PROJECT_ID is missing or empty."
+            exit 1
+          fi
+
       - uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
@@ -29,24 +47,32 @@ jobs:
 
       - name: Resolve OIDC identity for Cloud Scheduler
         id: scheduler_oidc
+        env:
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
         run: |
           set -euo pipefail
           printf '%s' '${{ secrets.GCP_SA_KEY }}' > .gha-sa-key.json
+          KEY_PROJECT=$(jq -r .project_id .gha-sa-key.json)
           EMAIL=$(jq -r .client_email .gha-sa-key.json)
           rm -f .gha-sa-key.json
-          if [ -z "$EMAIL" ] || [ "$EMAIL" = "null" ]; then
-            echo "::error::GCP_SA_KEY has no client_email"
+          if [ -z "$EMAIL" ] || [ "$EMAIL" = "null" ] || [ "$KEY_PROJECT" = "null" ] || [ -z "$KEY_PROJECT" ]; then
+            echo "::error::GCP_SA_KEY must be valid service account JSON with project_id and client_email."
+            exit 1
+          fi
+          if [ "${GCP_PROJECT_ID}" != "${KEY_PROJECT}" ]; then
+            echo "::error::GCP_PROJECT_ID secret (${GCP_PROJECT_ID}) does not match project_id inside GCP_SA_KEY (${KEY_PROJECT})."
             exit 1
           fi
           echo "email=${EMAIL}" >> "$GITHUB_OUTPUT"
+          printf '%s' "$EMAIL" > .scheduler-oidc-email
           echo "Scheduler OIDC identity: ${EMAIL}"
 
       - name: Grant Cloud Run invoker to scheduler OIDC identity
         env:
-          INVOKER_SA: ${{ steps.scheduler_oidc.outputs.email }}
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
         run: |
           set -euo pipefail
+          INVOKER_SA="$(cat .scheduler-oidc-email)"
           gcloud config set project "${GCP_PROJECT_ID}"
           if gcloud run services add-iam-policy-binding "${{ env.SERVICE_NAME }}" \
             --region="${{ env.REGION }}" \
@@ -62,8 +88,9 @@ jobs:
       - name: Setup scheduler jobs
         env:
           SERVICE_URL: ${{ github.event.inputs.service_url }}
-          SERVICE_ACCOUNT_EMAIL: ${{ steps.scheduler_oidc.outputs.email }}
         run: |
+          export SERVICE_ACCOUNT_EMAIL="$(cat .scheduler-oidc-email)"
+          rm -f .scheduler-oidc-email
           chmod +x scripts/setup-cloud-scheduler.sh
           ./scripts/setup-cloud-scheduler.sh
 
